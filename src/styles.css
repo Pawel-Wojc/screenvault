@@ -1,1 +1,19 @@
-/* You can add global styles to this file, and also import other style files */
+body {
+  color: white;
+  margin: 0;
+  padding: 0;
+  font-family: proxima-nova, Helvetica, Arial, sans-serif;
+  font-style: normal;
+  font-weight: 100;
+}
+
+/* 
+
+#000814
+#001D3D
+#003566
+#FFC300
+#FFD60A
+
+
+*/
