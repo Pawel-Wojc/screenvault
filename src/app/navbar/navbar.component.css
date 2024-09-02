@@ -1,9 +1,8 @@
 :host {
   width: 100%;
   display: fixed;
-  background-color: #001d3d;
   position: fixed;
-  height: 38px;
+  background-color: #001d3d;
   padding-inline: 5px;
   padding-top: 13px;
   padding-bottom: 13px;
