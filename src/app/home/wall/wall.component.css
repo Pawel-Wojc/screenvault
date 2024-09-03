@@ -1,0 +1,12 @@
+.wall {
+  min-height: calc(100vh - 64px);
+  width: 100%;
+  padding-top: 74px;
+  background-color: #000814;
+}
+
+.grid-container {
+  justify-content: center;
+  display: flex;
+  flex-wrap: wrap;
+}

@@ -1,1 +1,32 @@
-<p>signup works!</p>
+<div class="signup">
+  <div class="signup-container">
+    <div class="logo">
+      <a routerLink="/">
+        <p>ScreenVault</p>
+      </a>
+    </div>
+    <div class="form">
+      <div><p>Register</p></div>
+
+      <form action="">
+        <input type="text" placeholder="Username" />
+        <input type="text" placeholder="Email" style="margin-top: 10px" />
+        <input
+          type="password"
+          style="margin-top: 10px"
+          placeholder="Password"
+        />
+        <input
+          type="password"
+          style="margin-top: 10px"
+          placeholder="Retype Password"
+        />
+        <button>Sign up</button>
+      </form>
+    </div>
+    <a routerLink="/login" class="login-redirect"
+      ><p>Alredy have an acount?</p></a
+    >
+    <button routerLink="/login" class="signupButton">Sign in</button>
+  </div>
+</div>
