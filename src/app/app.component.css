@@ -1,7 +1,3 @@
-main {
-  width: 100%;
-  height: 100%;
-  padding: 0;
-  box-sizing: inherit;
-  position: relative;
+.main {
+  min-height: 100vh;
 }
