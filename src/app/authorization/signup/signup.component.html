@@ -8,25 +8,41 @@
     <div class="form">
       <div><p>Register</p></div>
 
-      <form action="">
-        <input type="text" placeholder="Username" />
-        <input type="text" placeholder="Email" style="margin-top: 10px" />
+      <form action="" [formGroup]="singUpForm" (ngSubmit)="submitSingUpForm()">
+        <input 
+          type="text" 
+          placeholder="Username" 
+          formControlName="userName" />
+        <input 
+          type="text" 
+          placeholder="Email"  
+          formControlName="email"/>
+        
         <input
           type="password"
-          style="margin-top: 10px"
           placeholder="Password"
+          formControlName="password1"
+          maxlength="16"
         />
+        @if(passwordInvalid){
+        <div id="passwordErr" >Entered diffrent passwords!</div>
+        }
         <input
           type="password"
-          style="margin-top: 10px"
           placeholder="Retype Password"
+          formControlName="password2"
+          maxlength="16"
         />
-        <button>Sign up</button>
+        <button type="submit" [disabled]="!singUpForm.valid">Sign up</button>
       </form>
+      
+      <span>Password: 8-16 characters, with a lowercase, uppercase, number, and special character.</span>
     </div>
+    <br>
+      
     <a routerLink="/login" class="login-redirect"
       ><p>Alredy have an acount?</p></a
     >
-    <button routerLink="/login" class="signupButton">Sign in</button>
+    <button routerLink="/login" class="signipButton">Sign in</button>
   </div>
 </div>
