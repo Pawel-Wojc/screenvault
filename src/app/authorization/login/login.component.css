@@ -35,6 +35,10 @@ input {
   margin-inline: auto;
 }
 
+input+input{
+  margin-top: 10px;
+}
+
 button {
   cursor: pointer;
   color: #000814;
@@ -48,6 +52,21 @@ button {
   right: 20px;
   bottom: 22px;
 }
+
+button:disabled {
+  cursor: pointer;
+  color: #000814;
+
+  border: 0;
+  border-radius: 3px;
+  background-color: #5f541d;
+  height: 30px;
+  width: 80px;
+  position: absolute;
+  right: 20px;
+  bottom: 22px;
+}
+
 .signupButton {
   height: 30px;
   width: 80px;

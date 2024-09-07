@@ -9,16 +9,21 @@
     <div class="form">
       <div><p>Login</p></div>
 
-      <form action="">
-        <input type="text" placeholder="Email" />
+      <form action="" [formGroup]="logInForm" (ngSubmit)="submitLogIn()">
+        <input 
+          type="text" 
+          placeholder="Email" 
+          formControlName="email"
+          />
 
         <input
           type="password"
-          style="margin-top: 10px"
           placeholder="Password"
+          formControlName="password"
+          maxlength="16"
         />
 
-        <button>Sign in</button>
+        <button type="submit" [disabled]="!logInForm.valid">Sign in</button>
       </form>
     </div>
     <a routerLink="/signup"><p>Need an acount?</p></a>

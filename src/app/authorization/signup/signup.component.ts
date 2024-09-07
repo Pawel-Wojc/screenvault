@@ -25,17 +25,6 @@ export class SignupComponent {
 
   }
   
-validatePassword(control: AbstractControl){
-    const password1 = this.singUpForm.get('password1')?.value as string;
-    const password2 = control.value as string;
-    
-    if('password1' !== password2){
-      return {passwordMissMatch: true}
-    }
-
-    return null;
-  };
-
   submitSingUpForm(){
     if(this.singUpForm.value.password1 === this.singUpForm.value.password2)
     {
