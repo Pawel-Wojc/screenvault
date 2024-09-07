@@ -40,6 +40,11 @@ validatePassword(control: AbstractControl){
     if(this.singUpForm.value.password1 === this.singUpForm.value.password2)
     {
       this.passwordInvalid = false;
+      
+      this.newUser.email = this.singUpForm.value.email;
+      this.newUser.userName = this.singUpForm.value.userName;
+      this.newUser.password = this.singUpForm.value.password;
+
       console.log( this.singUpForm.value);
     }
     else{
