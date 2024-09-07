@@ -50,7 +50,7 @@ button {
   background-color: #ffd60a;
   position: absolute;
   right: 20px;
-  bottom: 68px;
+  bottom: 75px;
 }
 button:disabled{
   height: 30px;
@@ -62,7 +62,7 @@ button:disabled{
   background-color: #5f541d;
   position: absolute;
   right: 20px;
-  bottom: 68px;
+  bottom: 75px;
 }
 .signipButton {
   height: 30px;
@@ -84,6 +84,3 @@ span{
   font-size: small;
 }
 
-#passwordErr{
-  color: Red;
-}

@@ -6,7 +6,7 @@
       </a>
     </div>
     <div class="form">
-      <div><p>Register</p></div>
+      <div><p class="text-xl" >Register</p></div>
 
       <form action="" [formGroup]="singUpForm" (ngSubmit)="submitSingUpForm()">
         <input 
@@ -25,7 +25,7 @@
           maxlength="16"
         />
         @if(passwordInvalid){
-        <div id="passwordErr" >Entered diffrent passwords!</div>
+        <div class="text-red-600" >Entered diffrent passwords!</div>
         }
         <input
           type="password"
