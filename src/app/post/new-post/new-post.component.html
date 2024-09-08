@@ -2,15 +2,13 @@
   <div class="new-post-container">
     <form action="">
       <div class="drop">
-        <input type="file" />
-        <label for="file"
-          ><strong>Choose a file</strong
-          ><span class="box__dragndrop"> or drag it here</span>.</label
-        >
-        <div class="drop-here"><p>Drop here</p></div>
+          <label for="file" id="drop-area">
+            <input type="file" id="file" accept="image/*" hidden/>
+            
+            <span id="drop-text">Choose a file or drag it here.</span>
+          </label>     
       </div>
 
-      <div></div>
     </form>
   </div>
 </div>

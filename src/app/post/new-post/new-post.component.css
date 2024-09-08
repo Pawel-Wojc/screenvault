@@ -3,7 +3,6 @@
   width: 100vw;
   height: 100vh;
   display: flex;
-  text-align: center;
   justify-content: center;
   align-items: center;
 }
@@ -33,4 +32,21 @@
   align-items: center;
   outline: 2px dashed white;
   outline-offset: -10px;
+}
+
+form{
+  width: 100%;
+  height: 30%;
+}
+
+#drop-area{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#drop-text{
+  display: block;
 }
