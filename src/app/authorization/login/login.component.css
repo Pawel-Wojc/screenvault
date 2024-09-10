@@ -42,7 +42,6 @@ input+input{
 button {
   cursor: pointer;
   color: #000814;
-
   border: 0;
   border-radius: 3px;
   background-color: #ffd60a;
@@ -54,17 +53,8 @@ button {
 }
 
 button:disabled {
-  cursor: pointer;
-  color: #000814;
-
-  border: 0;
-  border-radius: 3px;
+  cursor: auto;
   background-color: #5f541d;
-  height: 30px;
-  width: 80px;
-  position: absolute;
-  right: 20px;
-  bottom: 22px;
 }
 
 .signupButton {
