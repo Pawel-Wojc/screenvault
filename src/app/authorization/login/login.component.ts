@@ -1,8 +1,15 @@
-import { Component } from '@angular/core';
-import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
+import { Component, inject } from '@angular/core';
+import {
+  ReactiveFormsModule,
+  FormBuilder,
+  FormGroup,
+  Validators,
+  AbstractControl,
+} from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import { logInUser } from '../../interfaces/logInUser'
+import { logInUser } from '../../interfaces/logInUser';
 import { AuthService } from '../../services/auth.service';
+import { LoginService } from './login.service';
 
 @Component({
   selector: 'app-login',
@@ -16,15 +23,38 @@ export class LoginComponent {
   logInForm!: FormGroup;
   logInUser!: logInUser;
 
-  constructor(private formBuilder: FormBuilder){
-    this.logInForm= this.formBuilder.group({
-      email: ['', [Validators.required,Validators.email /*pattern(/^[\w]+@([\w-]+\.)+[\w]{2,4}$/)*/]],
-      password: ['', [Validators.required, Validators.pattern(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W)(?!.* ).{8,16}$/)]],
-    })
+  private loginService = inject(LoginService);
+
+  constructor(private formBuilder: FormBuilder) {
+    this.logInForm = this.formBuilder.group({
+      email: [
+        '',
+        [
+          Validators.required,
+          Validators.email /*pattern(/^[\w]+@([\w-]+\.)+[\w]{2,4}$/)*/,
+        ],
+      ],
+      password: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern(
+            /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W)(?!.* ).{8,16}$/
+          ),
+        ],
+      ],
+    });
   }
 
-  submitLogIn(){
-    this.logInUser.email = this.logInForm.value.email;
-    this.logInUser.password = this.logInForm.value.password;
+  submitLogIn() {
+    this.logInUser = {
+      email: this.logInForm.value.email,
+      password: this.logInForm.value.password,
+    };
+    this.loginService.loginUser(this.logInUser);
+    this.logInUser = {
+      email: '',
+      password: '',
+    };
   }
 }
