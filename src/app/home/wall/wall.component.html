@@ -1,18 +1,9 @@
 <div class="wall">
   <div class="grid-container">
-    <app-wall-item class="cell" style="height: 300px"></app-wall-item>
-    <app-wall-item class="cell" style="height: 390px"></app-wall-item>
-    <app-wall-item class="cell" style="height: 270px"></app-wall-item>
-    <app-wall-item class="cell" style="height: 290px"></app-wall-item>
-    <app-wall-item class="cell" style="height: 320px"></app-wall-item>
-    <app-wall-item class="cell" style="height: 250px"></app-wall-item>
-    <app-wall-item class="cell" style="height: 220px"></app-wall-item>
-    <app-wall-item class="cell" style="height: 350px"></app-wall-item>
-    <app-wall-item class="cell" style="height: 270px"></app-wall-item>
-    <app-wall-item class="cell" style="height: 270px"></app-wall-item>
-    <app-wall-item class="cell" style="height: 270px"></app-wall-item>
-    <app-wall-item class="cell" style="height: 270px"></app-wall-item>
-    <app-wall-item class="cell" style="height: 270px"></app-wall-item>
-    <app-wall-item class="cell" style="height: 270px"></app-wall-item>
+    <app-wall-item
+      *ngFor="let item of [].constructor(18); let i = index"
+      class="cell"
+      [id]="i"
+    ></app-wall-item>
   </div>
 </div>

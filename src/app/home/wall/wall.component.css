@@ -1,8 +1,8 @@
 .wall {
-  min-height: calc(100vh - 64px);
+  min-height: calc(100vh);
   width: 100%;
   padding-top: 74px;
-  background-color: #000814;
+  background-color: #0c3f8c;
 }
 
 .grid-container {

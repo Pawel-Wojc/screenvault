@@ -1,5 +1,27 @@
-<div class="wall-item glossy-background">
-  Lorem ipsum dolor sit amet consectetur, adipisicing elit. Consequuntur quo
-  deserunt rem optio animi cum, dolores dolorem autem iste distinctio sequi
-  tempore deleniti facere reprehenderit suscipit nemo delectus officiis ea.
+<div class="glossy-background flex flex-col w-[350px] shadow-2xl rounded-t-md">
+  <div class="w-full">
+    <img [src]="imageUrl()" alt="idk" class="w-full rounded-t-md" />
+  </div>
+  <div class="h-[30px] text-center p-1">
+    <p>title</p>
+  </div>
+  <div class="h-[30px] flex flex-row">
+    <div class="flex basis-1/3 justify-center" id="likes">
+      <img src="icons/arrow_up.svg" alt="up" class="w-5" />
+      <img src="icons/arrow_down.svg" alt="down" class="w-5" />
+
+      <span class="text-sm m-1 ml-2">234</span>
+    </div>
+    <div class="flex basis-1/3 justify-center" id="comment">
+      <img src="icons/comment.svg" alt="comment" class="w-5" />
+
+      <span class="text-sm m-1 ml-2">5</span>
+    </div>
+    <div class="flex basis-1/3 justify-center" id="views">
+      <img src="icons/view.svg" alt="views" class="w-5" />
+      <span class="text-sm text-center m-1 ml-2">45234</span>
+    </div>
+  </div>
 </div>
+
+<!-- icons https://iconsvg.xyz/ -->
