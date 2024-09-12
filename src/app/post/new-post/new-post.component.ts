@@ -1,16 +1,20 @@
 import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { RouterLink, Router, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-new-post',
   standalone: true,
-  imports: [RouterLink],
+  imports: [RouterLink, RouterOutlet],
   templateUrl: './new-post.component.html',
   styleUrl: './new-post.component.css'
 })
 export class NewPostComponent {
   //for css use
   dragging = false;
+
+ constructor(private router: Router){
+
+ }
 
   // Enter drop zone event
   onDragOver(event: DragEvent) {
@@ -43,5 +47,6 @@ export class NewPostComponent {
 
   handleFiles(files: FileList){
     console.log(files);
+    this.router.navigate(['/','post']);
   }
 }
