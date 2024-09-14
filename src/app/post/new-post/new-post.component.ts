@@ -1,10 +1,12 @@
 import { Component } from '@angular/core';
 import { RouterLink, Router, RouterOutlet } from '@angular/router';
+import { ImagesService } from '../../services/images.service';
 
 @Component({
   selector: 'app-new-post',
   standalone: true,
   imports: [RouterLink, RouterOutlet],
+  providers: [ImagesService],
   templateUrl: './new-post.component.html',
   styleUrl: './new-post.component.css'
 })
@@ -12,7 +14,7 @@ export class NewPostComponent {
   //for css use
   dragging = false;
 
- constructor(private router: Router){
+ constructor(private router: Router, private imgService : ImagesService ){
 
  }
 
@@ -45,6 +47,7 @@ export class NewPostComponent {
     }
   }
 
+  //handles submited files
   handleFiles(files: FileList){
     console.log(files);
     this.router.navigate(['/','post']);

@@ -15,15 +15,15 @@ export const routes: Routes = [
     path: 'new-post',
     component: NewPostComponent,
   },
-  {
-    path: '**',
-    title: '404 - Not found',
-    component: NotFoundComponent,
-  },
+  
   {
     path: 'post',
     component: PostComponent,
     
   },
-
+  {
+    path: '**',
+    title: '404 - Not found',
+    component: NotFoundComponent,
+  },
 ];
