@@ -6,7 +6,6 @@ import { ImagesService } from '../../services/images.service';
   selector: 'app-new-post',
   standalone: true,
   imports: [RouterLink, RouterOutlet],
-  providers: [ImagesService],
   templateUrl: './new-post.component.html',
   styleUrl: './new-post.component.css'
 })
@@ -49,7 +48,7 @@ export class NewPostComponent {
 
   //handles submited files
   handleFiles(files: FileList){
-    console.log(files);
+    this.imgService.subFiles(files);;
     this.router.navigate(['/','post']);
   }
 }
