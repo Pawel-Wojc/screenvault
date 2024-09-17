@@ -1,0 +1,26 @@
+<div class="bg-slate-700 w-screen h-screen">
+  <div *ngIf="file" class="w-3/6">
+    <h2>Image Preview:</h2>
+    <img
+      class="w-3/6"
+      [src]="imageUrl"
+      *ngIf="imageUrl"
+      alt="Preview of the uploaded image"
+    />
+  </div>
+  <div>
+    <button>Publish Post</button>
+    <button>Edit before publish</button>
+  </div>
+
+  <div>
+    Your link
+
+    <input type="text" disabled placeholder="Publish first" />
+    <button>Copy</button>
+  </div>
+
+  <div *ngIf="!file" class="">
+    <p>No file to display. Please upload an image first.</p>
+  </div>
+</div>
