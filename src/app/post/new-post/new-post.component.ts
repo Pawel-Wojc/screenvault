@@ -52,6 +52,8 @@ export class NewPostComponent {
   //handles submited files
   handleFiles(files: FileList) {
     //check extension
+    //check size
+    //save file to LocalStorage?? Issue: file disappear after refresh
     this.fileTransfer.setFile(files[0]);
     //this.imgService.subFiles(files);
     // this.router.navigate(['/','post']); //ja bym tu przekierowac do nowego componentu, create-new-post, post to bardziej juz do wyswietlenia samego postu
