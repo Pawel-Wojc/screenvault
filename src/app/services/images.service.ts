@@ -1,20 +1,20 @@
 import { Injectable } from '@angular/core';
-import { Observable, of  } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ImagesService {
- proxyFile: File | null = null;
+  proxyFile: File | null = null;
 
- //method for submitting files 
- subFiles(fileList: FileList){
-   this.proxyFile = fileList[0]; 
- }
+  //method for submitting files
+  subFiles(fileList: FileList) {
+    this.proxyFile = fileList[0];
+  }
 
- getFileToEdit(): File | null {
+  getFileToEdit(): File | null {
     return this.proxyFile as File;
- }
+  }
 
-  constructor() { }
+  constructor() {}
 }
