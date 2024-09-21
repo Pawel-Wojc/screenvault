@@ -7,7 +7,7 @@ import {
   AbstractControl,
 } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import { logInUser } from '../../interfaces/logInUser';
+import { logInUser } from '../interfaces/logInUser';
 import { LoginService } from './login.service';
 
 @Component({

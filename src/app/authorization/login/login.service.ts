@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { logInUser } from '../../interfaces/logInUser';
+import { logInUser } from '../interfaces/logInUser';
 import { HttpClient } from '@angular/common/http';
 import * as myGlobals from '../../global';
 
@@ -22,7 +22,7 @@ export class LoginService {
   }
 
   sendLoginRequest(user: logInUser) {
-    const apiLink = myGlobals.apiLink + '/login';
-    return this.httpClient.post<any>(apiLink, user);
+    const url = myGlobals.apiLink + '/login';
+    return this.httpClient.post<any>(url, user);
   }
 }

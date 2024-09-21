@@ -1,21 +1,24 @@
 import { Component } from '@angular/core';
 import { RouterLink, Router, RouterOutlet } from '@angular/router';
 import { ImagesService } from '../../services/images.service';
+import { FileTransferService } from '../file-transport.service/file-transfer.service';
 
 @Component({
   selector: 'app-new-post',
   standalone: true,
   imports: [RouterLink, RouterOutlet],
   templateUrl: './new-post.component.html',
-  styleUrl: './new-post.component.css'
+  styleUrl: './new-post.component.css',
 })
 export class NewPostComponent {
   //for css use
   dragging = false;
 
- constructor(private router: Router, private imgService : ImagesService ){
-
- }
+  constructor(
+    private router: Router,
+    private imgService: ImagesService,
+    private fileTransfer: FileTransferService
+  ) {}
 
   // Enter drop zone event
   onDragOver(event: DragEvent) {
@@ -39,16 +42,21 @@ export class NewPostComponent {
   }
 
   // action when file selected manualy
-  onFileSelected(event: Event){
+  onFileSelected(event: Event) {
     const target = event.target as HTMLInputElement;
-    if(target.files){
+    if (target.files) {
       this.handleFiles(target.files);
     }
   }
 
   //handles submited files
-  handleFiles(files: FileList){
-    this.imgService.subFiles(files);;
-    this.router.navigate(['/','post']);
+  handleFiles(files: FileList) {
+    //check extension
+    //check size
+    //save file to LocalStorage?? Issue: file disappear after refresh
+    this.fileTransfer.setFile(files[0]);
+    //this.imgService.subFiles(files);
+    // this.router.navigate(['/','post']); //ja bym tu przekierowac do nowego componentu, create-new-post, post to bardziej juz do wyswietlenia samego postu
+    this.router.navigate(['/create-new-post']);
   }
 }

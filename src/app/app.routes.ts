@@ -5,6 +5,7 @@ import { SignupComponent } from './authorization/signup/signup.component';
 import { NewPostComponent } from './post/new-post/new-post.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { PostComponent } from './post/post/post.component';
+import { CreateAnonymousPostComponent } from './post/anonymous-post/create-anonymous-post/create-anonymous-post.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent, title: 'ScreenVault' },
@@ -15,11 +16,14 @@ export const routes: Routes = [
     path: 'new-post',
     component: NewPostComponent,
   },
-  
+
   {
     path: 'post',
     component: PostComponent,
-    
+  },
+  {
+    path: 'create-anonymous-post',
+    component: CreateAnonymousPostComponent,
   },
   {
     path: '**',
