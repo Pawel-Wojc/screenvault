@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FileTransferService } from '../file-transport.service/file-transfer.service';
+import { FileTransferService } from '../../file-transport.service/file-transfer.service';
 import { CommonModule } from '@angular/common';
-import { ImagesService } from '../../services/images.service';
+import { ImagesService } from '../../../services/images.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CreateAnonymousPostService } from './create-anonymous-post.service';
