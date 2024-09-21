@@ -8,13 +8,13 @@ import { CreateAnonymousPostService } from './create-anonymous-post.service';
 import { ClipboardModule } from '@angular/cdk/clipboard';
 
 @Component({
-  selector: 'app-create-new-post',
+  selector: 'app-create-anonymous-post',
   standalone: true,
   imports: [CommonModule, FormsModule, ClipboardModule],
-  templateUrl: './create-new-post.component.html',
-  styleUrl: './create-new-post.component.css',
+  templateUrl: './create-anonymous-post.component.html',
+  styleUrl: './create-anonymous-post.component.css',
 })
-export class CreateNewPostComponent implements OnInit {
+export class CreateAnonymousPostComponent implements OnInit {
   file: File | null = null;
   title: string = '';
   imageUrl: string | undefined = undefined;
@@ -23,7 +23,6 @@ export class CreateNewPostComponent implements OnInit {
     this.urlObject.origin.replace(/^https?:\/\//, '') + '/'; // URL to display the image
 
   constructor(
-    private activatedRoute: ActivatedRoute,
     private router: Router,
     private fileTransferService: FileTransferService,
     private createAnonymousPostService: CreateAnonymousPostService
@@ -44,7 +43,6 @@ export class CreateNewPostComponent implements OnInit {
     //this.fileTransferService.clearFile();
   }
   onPublish() {
-    console.log(this.title);
     if (this.file) {
       this.createAnonymousPostService
         .createAnonymousPost(this.file, this.title)
