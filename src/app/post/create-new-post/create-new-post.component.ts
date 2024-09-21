@@ -2,22 +2,31 @@ import { Component, OnInit } from '@angular/core';
 import { FileTransferService } from '../file-transport.service/file-transfer.service';
 import { CommonModule } from '@angular/common';
 import { ImagesService } from '../../services/images.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { CreateAnonymousPostService } from './create-anonymous-post.service';
+import { ClipboardModule } from '@angular/cdk/clipboard';
 
 @Component({
   selector: 'app-create-new-post',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule, ClipboardModule],
   templateUrl: './create-new-post.component.html',
   styleUrl: './create-new-post.component.css',
 })
 export class CreateNewPostComponent implements OnInit {
   file: File | null = null;
-  imageUrl: string | null = null; // URL to display the image
+  title: string = '';
+  imageUrl: string | undefined = undefined;
+  urlObject = new URL(window.location.href);
+  imageToShareUrl: string =
+    this.urlObject.origin.replace(/^https?:\/\//, '') + '/'; // URL to display the image
 
   constructor(
+    private activatedRoute: ActivatedRoute,
     private router: Router,
-    private fileTransferService: FileTransferService
+    private fileTransferService: FileTransferService,
+    private createAnonymousPostService: CreateAnonymousPostService
   ) {}
 
   ngOnInit() {
@@ -33,6 +42,19 @@ export class CreateNewPostComponent implements OnInit {
 
     // Optionally clear the file from the service after usage
     //this.fileTransferService.clearFile();
+  }
+  onPublish() {
+    console.log(this.title);
+    if (this.file) {
+      this.createAnonymousPostService
+        .createAnonymousPost(this.file, this.title)
+        .subscribe({
+          next: (res: any) => {
+            this.imageToShareUrl += res.linkId;
+            console.log(this.imageToShareUrl);
+          },
+        });
+    }
   }
 
   // Cleanup the URL object when component is destroyed to prevent memory leaks
