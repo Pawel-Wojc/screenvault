@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterLink, Router, RouterOutlet } from '@angular/router';
 import { ImagesService } from '../../services/images.service';
-import { FileTransferService } from '../file-transport.service/file-transfer.service';
 
 @Component({
   selector: 'app-new-post',
@@ -17,7 +16,6 @@ export class NewPostComponent {
   constructor(
     private router: Router,
     private imgService: ImagesService,
-    private fileTransfer: FileTransferService
   ) {}
 
   // Enter drop zone event
@@ -54,8 +52,8 @@ export class NewPostComponent {
     //check extension
     //check size
     //save file to LocalStorage?? Issue: file disappear after refresh
-    this.fileTransfer.setFile(files[0]);
-    //this.imgService.subFiles(files);
+    //this.fileTransfer.setFile(files[0]);
+    this.imgService.setFile(files[0]);
     // this.router.navigate(['/','post']); //ja bym tu przekierowac do nowego componentu, create-new-post, post to bardziej juz do wyswietlenia samego postu
     this.router.navigate(['/create-new-post']);
   }

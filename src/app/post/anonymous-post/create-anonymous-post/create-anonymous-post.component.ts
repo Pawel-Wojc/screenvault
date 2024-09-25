@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { FileTransferService } from '../../file-transport.service/file-transfer.service';
 import { CommonModule } from '@angular/common';
 import { ImagesService } from '../../../services/images.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -24,13 +23,13 @@ export class CreateAnonymousPostComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private fileTransferService: FileTransferService,
+    private imagesService: ImagesService,
     private createAnonymousPostService: CreateAnonymousPostService
   ) {}
 
   ngOnInit() {
     // Retrieve the file from the service
-    this.file = this.fileTransferService.getFile();
+    this.file = this.imagesService.getFile();
 
     if (this.file) {
       // Generate a URL for the image file to display it in the template
