@@ -5,12 +5,18 @@
     display: flex;
     justify-content: center;
     align-items: center;
-  }
+}
 
-  #img-wrapper{
-    width: 70vw;
-    height: 70vh;
-  }
+#img-wrapper{
+  width: 80vw;
+  height: 80vh;
+   
+}
+
+#editor-container{
+  width: 80vw;
+  height: 80vh;
+}  
 
  
   

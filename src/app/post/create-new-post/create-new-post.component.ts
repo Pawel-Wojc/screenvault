@@ -30,20 +30,21 @@ export class CreateNewPostComponent {
     const container = document.getElementById('editor-container');
     const filerobotImageEditor = new FilerobotImageEditor(container as HTMLElement, {
       source: this.fileUrl, // You can provide an image URL here
+      //source: "https://scaleflex.airstore.io/demo/stephen-walker-unsplash.jpg",
       //tools: ['adjust', 'effects', 'filters', 'resize', 'crop', 'rotate'],
         
       annotationsCommon: {
         fill: '#ff0000',
       },
-      Text: { text: 'Filerobot...' },
+      Text: { text: 'Text' },
       Rotate: { angle: 90, componentType: 'slider' },
-      translations: {
+      /*translations: {
         profile: 'Profile',
         coverPhoto: 'Cover photo',
         facebook: 'Facebook',
         socialMedia: 'Social Media',
-        fbProfileSize: '180x180px',
-        fbCoverPhotoSize: '820x312px',
+       // fbProfileSize: '180x180px',
+       // fbCoverPhotoSize: '820x312px',
         
       },
       Crop: {
@@ -86,10 +87,10 @@ export class CreateNewPostComponent {
             ],
           },
         ],
-      },
-      tabsIds: [], // or ['Adjust', 'Annotate', 'Watermark']
-      defaultTabId: TABS.ANNOTATE, // or 'Annotate'
-      defaultToolId: TOOLS.TEXT,
+      },*/
+      tabsIds: [TABS.ADJUST, TABS.ANNOTATE, TABS.FINETUNE, TABS.FILTERS ] as string[], // or ['Adjust', 'Annotate', 'Watermark']
+      defaultTabId: TABS.ADJUST, // or 'Annotate'
+      //defaultToolId: TOOLS.TEXT,
   
     } as FilerobotImageEditorConfig);
 
