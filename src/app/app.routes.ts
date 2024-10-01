@@ -6,7 +6,11 @@ import { NewPostComponent } from './post/new-post/new-post.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { PostComponent } from './post/post/post.component';
 import { CreateAnonymousPostComponent } from './post/anonymous-post/create-anonymous-post/create-anonymous-post.component';
+<<<<<<< Updated upstream
 import { CreateNewPostComponent } from './post/create-new-post/create-new-post.component';
+=======
+import { GetAnonymousPostComponent } from './post/anonymous-post/get-anonymous-post/get-anonymous-post.component';
+>>>>>>> Stashed changes
 
 export const routes: Routes = [
   { path: '', component: HomeComponent, title: 'ScreenVault' },
@@ -29,6 +33,11 @@ export const routes: Routes = [
     path: 'create-anonymous-post',
     component: CreateAnonymousPostComponent,
   },
+  {
+    path: 'a/:linkId',
+    component: GetAnonymousPostComponent,
+  },
+
   {
     path: '**',
     title: '404 - Not found',

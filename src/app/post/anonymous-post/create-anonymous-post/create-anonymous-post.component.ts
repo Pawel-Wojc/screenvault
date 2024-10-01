@@ -19,7 +19,7 @@ export class CreateAnonymousPostComponent implements OnInit {
   imageUrl: string | undefined = undefined;
   urlObject = new URL(window.location.href);
   imageToShareUrl: string =
-    this.urlObject.origin.replace(/^https?:\/\//, '') + '/'; // URL to display the image
+    this.urlObject.origin.replace(/^https?:\/\//, '') + '/a/'; // URL to display the image
 
   constructor(
     private router: Router,
