@@ -32,7 +32,6 @@ export class CreateNewPostComponent {
       source: this.fileUrl, // You can provide an image URL here
       //source: "https://scaleflex.airstore.io/demo/stephen-walker-unsplash.jpg",
       onSave: (editedImageObject, designState) =>{
-        alert('owo shy')
       },
       annotationsCommon: {
         fill: '#ff0000',
@@ -41,6 +40,7 @@ export class CreateNewPostComponent {
       defaultSavedImageQuality: 1,
       defaultSavedImageType: this.file?.type,
       closeAfterSave: true,
+      showBackButton: false,
       Text: { text: 'Text' },
       Rotate: { angle: 90, componentType: 'slider' },
       tabsIds: [TABS.ADJUST, TABS.ANNOTATE, TABS.FINETUNE, TABS.FILTERS ] as string[], 
@@ -49,8 +49,8 @@ export class CreateNewPostComponent {
     } as FilerobotImageEditorConfig);
 
     filerobotImageEditor.render({
-      onClose: () => {
-        filerobotImageEditor.terminate();
+      onClose: (closingReason: any) => {
+        filerobotImageEditor.terminate();   
       } ,
     } as any );
   }
