@@ -1,11 +1,5 @@
 import { Component, inject } from '@angular/core';
-import {
-  ReactiveFormsModule,
-  FormBuilder,
-  FormGroup,
-  Validators,
-  AbstractControl,
-} from '@angular/forms';
+import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { logInUser } from '../interfaces/logInUser';
 import { LoginService } from './login.service';
@@ -18,6 +12,9 @@ import { LoginService } from './login.service';
   styleUrl: './login.component.css',
 })
 export class LoginComponent {
+  checkPassword() {
+    throw new Error('Method not implemented.');
+  }
   logInForm!: FormGroup;
   logInUser!: logInUser;
 
@@ -25,21 +22,10 @@ export class LoginComponent {
 
   constructor(private formBuilder: FormBuilder) {
     this.logInForm = this.formBuilder.group({
-      email: [
-        '',
-        [
-          Validators.required,
-          Validators.email /*pattern(/^[\w]+@([\w-]+\.)+[\w]{2,4}$/)*/,
-        ],
-      ],
+      email: ['', [Validators.required, Validators.email /*pattern(/^[\w]+@([\w-]+\.)+[\w]{2,4}$/)*/]],
       password: [
         '',
-        [
-          Validators.required,
-          Validators.pattern(
-            /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W)(?!.* ).{8,16}$/
-          ),
-        ],
+        [Validators.required, Validators.pattern(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W)(?!.* ).{8,16}$/)],
       ],
     });
   }

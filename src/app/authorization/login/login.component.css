@@ -35,7 +35,7 @@ input {
   margin-inline: auto;
 }
 
-input+input{
+input + input {
   margin-top: 10px;
 }
 
@@ -47,20 +47,12 @@ button {
   background-color: #ffd60a;
   height: 30px;
   width: 80px;
-  position: absolute;
-  right: 20px;
-  bottom: 22px;
+  position: relative;
 }
 
 button:disabled {
   cursor: auto;
   background-color: #5f541d;
-}
-
-.signupButton {
-  height: 30px;
-  width: 80px;
-  bottom: -8px;
 }
 
 a {

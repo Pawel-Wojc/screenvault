@@ -6,40 +6,39 @@
       </a>
     </div>
     <div class="form">
-      <div><p class="text-xl" >Register</p></div>
+      <div><p class="text-xl">Register</p></div>
 
       <form action="" [formGroup]="singUpForm" (ngSubmit)="submitSingUpForm()">
-        <input 
-          type="text" 
-          placeholder="Username" 
-          formControlName="userName" />
-        <input 
-          type="text" 
-          placeholder="Email"  
-          formControlName="email"/>
-        
+        <input type="text" placeholder="Username" formControlName="userName" />
+        <input type="text" placeholder="Email" formControlName="email" />
+
         <input
           type="password"
           placeholder="Password"
-          formControlName="password1"
+          formControlName="password"
           maxlength="16"
         />
-        @if(passwordInvalid){
-        <div class="text-red-600" >Entered diffrent passwords!</div>
+        @if(!passwordValid){
+        <div class="text-red-600">Entered diffrent passwords!</div>
         }
         <input
+          (focus)="passwordValid = true"
+          (focusout)="checkPasswordMatch()"
           type="password"
           placeholder="Retype Password"
-          formControlName="password2"
+          formControlName="confirmPassword"
           maxlength="16"
         />
         <button type="submit" [disabled]="!singUpForm.valid">Sign up</button>
       </form>
-      
-      <span>Password: 8-16 characters, with a lowercase, uppercase, number, and special character.</span>
+
+      <span
+        >Password: 8-16 characters, with a lowercase, uppercase, number, and
+        special character.</span
+      >
     </div>
-    <br>
-      
+    <br />
+
     <a routerLink="/login" class="login-redirect"
       ><p>Alredy have an acount?</p></a
     >
