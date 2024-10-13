@@ -8,7 +8,7 @@ import { PostComponent } from './post/post/post.component';
 import { CreateAnonymousPostComponent } from './post/anonymous-post/create-anonymous-post/create-anonymous-post.component';
 
 import { CreateNewPostComponent } from './post/create-new-post/create-new-post.component';
-
+import { PublicPostComponent } from './post/public-post/public-post.component';
 import { GetAnonymousPostComponent } from './post/anonymous-post/get-anonymous-post/get-anonymous-post.component';
 
 export const routes: Routes = [
@@ -27,6 +27,10 @@ export const routes: Routes = [
   {
     path: 'post',
     component: PostComponent,
+  },
+  {
+    path: 'public-post',
+    component: PublicPostComponent,
   },
   {
     path: 'create-anonymous-post',

@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 export class ImagesService {
   private file: File | null = null;
 
-  setFile(file: File) {
+  setFile(file: File | null) {
     this.file = file;
   }
 
