@@ -19,7 +19,11 @@ import { SignupService } from './signup.service';
 export class SignupComponent {
   private registerService = inject(SignupService);
 
-  newUser!: newUser;
+  newUser: newUser = {
+    userName: '',
+    email: '',
+    password: '',
+  };
   singUpForm!: FormGroup;
   passwordValid = true;
 
@@ -73,7 +77,17 @@ export class SignupComponent {
     this.newUser.email = this.singUpForm.value.email;
     this.newUser.userName = this.singUpForm.value.userName;
     this.newUser.password = this.singUpForm.value.password;
-
-    this.registerService.registerUser(this.newUser);
+    this.registerService.registerUser(this.newUser).subscribe({
+      next: (response) => {
+        console.log(response.status == 200);
+      },
+      error: (error) => {
+        if (error.error.errors.DuplicateUserName) {
+          console.log('Duplicate user name');
+        } else {
+          console.log('Something went wrong');
+        }
+      },
+    });
   }
 }
