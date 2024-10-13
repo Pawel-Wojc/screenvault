@@ -5,9 +5,10 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { newUser } from '../interfaces/newUser';
 import { SignupService } from './signup.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-signup',
@@ -18,6 +19,8 @@ import { SignupService } from './signup.service';
 })
 export class SignupComponent {
   private registerService = inject(SignupService);
+  private snackBar = inject(MatSnackBar);
+  private router = inject(Router);
 
   newUser: newUser = {
     userName: '',
@@ -73,19 +76,31 @@ export class SignupComponent {
     }
   }
 
+  openSnackBar(message: string) {
+    this.snackBar.open(message, 'Close', {
+      duration: 3000,
+      horizontalPosition: 'center',
+      verticalPosition: 'top',
+    });
+  }
   submitSingUpForm() {
     this.newUser.email = this.singUpForm.value.email;
     this.newUser.userName = this.singUpForm.value.userName;
     this.newUser.password = this.singUpForm.value.password;
     this.registerService.registerUser(this.newUser).subscribe({
       next: (response) => {
-        console.log(response.status == 200);
+        if (response.status == 200) {
+          this.openSnackBar('User created successfully');
+          setTimeout(() => {
+            this.router.navigate(['/login']);
+          }, 2000);
+        }
       },
       error: (error) => {
         if (error.error.errors.DuplicateUserName) {
-          console.log('Duplicate user name');
+          this.openSnackBar('Email already exists');
         } else {
-          console.log('Something went wrong');
+          this.openSnackBar('Something went wrong, try again later');
         }
       },
     });
