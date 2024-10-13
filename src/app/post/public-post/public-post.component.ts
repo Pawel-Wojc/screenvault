@@ -14,11 +14,17 @@ export class PublicPostComponent {
   image!: File | null;
   imageURL!: string;
 
-  constructor(private imageService : ImagesService){}
+  constructor(private imageService: ImagesService, private router: Router ){}
 
   ngOnInit(){
     this.image = this.imageService.getFile();
-    this.imageURL = URL.createObjectURL(this.image as File);
+    if(this.image){
+      this.imageURL = URL.createObjectURL(this.image as File);
+    }
+    else{
+      this.router.navigate(['/new-post']);
+    }
+    
     
     console.log('img public post');
     console.log(this.image);
