@@ -1,7 +1,14 @@
-import { Component } from '@angular/core';
-import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Component, inject } from '@angular/core';
+import {
+  ReactiveFormsModule,
+  FormBuilder,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
+import { Router, RouterLink } from '@angular/router';
 import { newUser } from '../interfaces/newUser';
+import { SignupService } from './signup.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-signup',
@@ -11,7 +18,15 @@ import { newUser } from '../interfaces/newUser';
   styleUrl: './signup.component.css',
 })
 export class SignupComponent {
-  newUser!: newUser;
+  private registerService = inject(SignupService);
+  private snackBar = inject(MatSnackBar);
+  private router = inject(Router);
+
+  newUser: newUser = {
+    userName: '',
+    email: '',
+    password: '',
+  };
   singUpForm!: FormGroup;
   passwordValid = true;
 
@@ -19,10 +34,21 @@ export class SignupComponent {
     this.singUpForm = this.formBuilder.group(
       {
         userName: ['', Validators.required],
-        email: ['', [Validators.required, Validators.email /*pattern(/^[\w]+@([\w-]+\.)+[\w]{2,4}$/)*/]],
+        email: [
+          '',
+          [
+            Validators.required,
+            Validators.email /*pattern(/^[\w]+@([\w-]+\.)+[\w]{2,4}$/)*/,
+          ],
+        ],
         password: [
           '',
-          [Validators.required, Validators.pattern(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W)(?!.* ).{8,16}$/)],
+          [
+            Validators.required,
+            Validators.pattern(
+              /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W)(?!.* ).{8,16}$/
+            ),
+          ],
         ],
         confirmPassword: ['', [Validators.required]],
       },
@@ -36,19 +62,47 @@ export class SignupComponent {
   passwordMatchValidator(formGroup: FormGroup) {
     const password = formGroup.get('password');
     const confirmPassword = formGroup.get('confirmPassword');
-    return password && confirmPassword && password.value === confirmPassword.value ? null : { mismatch: true };
+    return password &&
+      confirmPassword &&
+      password.value === confirmPassword.value
+      ? null
+      : { mismatch: true };
+  }
+  checkPasswordMatch() {
+    if (
+      this.singUpForm.value.password != this.singUpForm.value.confirmPassword
+    ) {
+      this.passwordValid = false;
+    }
   }
 
+  openSnackBar(message: string) {
+    this.snackBar.open(message, 'Close', {
+      duration: 3000,
+      horizontalPosition: 'center',
+      verticalPosition: 'top',
+    });
+  }
   submitSingUpForm() {
     this.newUser.email = this.singUpForm.value.email;
     this.newUser.userName = this.singUpForm.value.userName;
     this.newUser.password = this.singUpForm.value.password;
-    console.log(this.singUpForm.value);
-  }
-
-  checkPasswordMatch() {
-    if (this.singUpForm.value.password != this.singUpForm.value.confirmPassword) {
-      this.passwordValid = false;
-    }
+    this.registerService.registerUser(this.newUser).subscribe({
+      next: (response) => {
+        if (response.status == 200) {
+          this.openSnackBar('User created successfully');
+          setTimeout(() => {
+            this.router.navigate(['/login']);
+          }, 2000);
+        }
+      },
+      error: (error) => {
+        if (error.error.errors.DuplicateUserName) {
+          this.openSnackBar('Email already exists');
+        } else {
+          this.openSnackBar('Something went wrong, try again later');
+        }
+      },
+    });
   }
 }
