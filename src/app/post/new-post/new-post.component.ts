@@ -41,6 +41,7 @@ export class NewPostComponent {
 
   // action when file selected manualy
   onFileSelected(event: Event) {
+    
     const target = event.target as HTMLInputElement;
     if (target.files) {
       this.handleFiles(target.files);
@@ -49,12 +50,20 @@ export class NewPostComponent {
 
   //handles submited files
   handleFiles(files: FileList) {
-    //check extension
-    //check size
-    //save file to LocalStorage?? Issue: file disappear after refresh
-    //this.fileTransfer.setFile(files[0]);
-    this.imgService.setFile(files[0]);
-    // this.router.navigate(['/','post']); //ja bym tu przekierowac do nowego componentu, create-new-post, post to bardziej juz do wyswietlenia samego postu
-    this.router.navigate(['/create-new-post']);
+    
+
+    if(this.imgService.validateFile(files[0])){
+      this.imgService.setFile(files[0]);
+      this.router.navigate(['/create-new-post']);
+    }
+    else{
+     // alert('nig');
+     const errorElement = document.getElementById('error');
+     errorElement!.classList.remove('fade-out');
+     errorElement!.offsetWidth;
+     errorElement!.classList.add('fade-out');
+      
+    }
+    
   }
 }

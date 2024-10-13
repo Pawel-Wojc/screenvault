@@ -69,3 +69,30 @@ a{
   cursor: pointer;
 }
 
+#error{
+  position: absolute;
+  bottom: 0px;
+  padding: 2vh;
+  left: 0px;
+  background: #FF4B4B;
+  width: 20vw;
+  height: 15vh;
+  border-radius: 2.5%;
+  text-align: center;
+  opacity: 0;
+  /*
+  line-height: 3.75vh;
+  */
+  font-size: 2vh; 
+  
+}
+
+.fade-out{
+  animation-name: fade-out;
+  animation-duration: 5s;
+}
+
+@keyframes fade-out {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
