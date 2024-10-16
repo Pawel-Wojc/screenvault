@@ -24,7 +24,7 @@ export class CreateNewPostComponent {
       this.fileUrl= URL.createObjectURL(this.file as File);
     }
     else{
-      this.router.navigate(['/new-post']);
+      this.router.navigate(['/upload-image']);
     }
 
     const container = document.getElementById('editor-container');

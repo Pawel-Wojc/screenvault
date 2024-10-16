@@ -3,13 +3,13 @@ import { RouterLink, Router, RouterOutlet } from '@angular/router';
 import { ImagesService } from '../../services/images.service';
 
 @Component({
-  selector: 'app-new-post',
+  selector: 'app-upload-image',
   standalone: true,
   imports: [RouterLink, RouterOutlet],
-  templateUrl: './new-post.component.html',
-  styleUrl: './new-post.component.css',
+  templateUrl: './upload-image.component.html',
+  styleUrl: './upload-image.component.css',
 })
-export class NewPostComponent {
+export class UploadImageComponent {
   //for css use
   dragging = false;
 
