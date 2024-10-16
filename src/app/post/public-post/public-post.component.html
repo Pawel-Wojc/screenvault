@@ -1,6 +1,23 @@
-<div id="public-post">
+<div id="public-post" class="flex">
 
-    <p>public-post works!</p>
-    <img [(src)]="imageURL">
+    <div id="img-wrapper" class="flex">
+        <img id="user-image" [(src)]="imageURL">
+    </div>
+
+    <div id="panel" class="flex">
+        <label id="title-label">Title of your post</label>
+        
+        <input id="title" class="flex">
+           
+        <div id="buttons">
+            <button id="button-global">Share publicly</button>
+
+            <button id="button-private">Share privately</button>
+        </div>
+
+        <span id="link">lorem ipsum dos nwm co dalej</span>
+
+        <button id="save">Save</button> 
+    </div>
 
 </div>

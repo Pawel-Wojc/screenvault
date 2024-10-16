@@ -2,7 +2,86 @@
     background-color: #001d3d;
     width: 100vw;
     height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
   }
+
+#user-image{
+  max-height: 70vh;
+  max-width: 40vw;
+}
+
+#panel{
+  margin-left: 10vw;
+  min-width: 40vw;
+  min-height: 70vh;
+  background: green;
+  margin-right: 5vw;
+  flex-direction: column;
+  
+}
+
+#img-wrapper{
+  min-width: 40vw;
+  min-height: 70vh;
+  background: red;
+  margin-left: 5vw;
+}
+
+#title-label{
+  margin-bottom: 2vh;
+  font-size: 3vw ;
+}
+
+#title{
+  padding: 1.5%;
+  height: 4vh;
+  width: 20vw;
+}
+
+#save{
+  margin-top: 7.5vh;
+  width: 12vw;
+  height: 5vh;
+  font-size: 2vw;
+  background-color: black;
+  padding: 1.5%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#button-global{
+  width: 12vw;
+  font-size: 1.5vw;
+  background-color: aqua;
+}
+
+#button-private{
+  width: 12vw;
+  font-size: 1.5vw;
+  background-color: aqua;
+}
+
+#link{
+  font-size: 100%;
+  width: 80%;
+  height: 2.5%;
+  display: flex;
+  padding: 2%;
+  align-items: center;
+  background-color: red;
+}
+
+#buttons{
+  width: 100%;
+  height: 7%;
+  justify-content: space-around;
+  display: flex;
+  margin-top: 10vh;
+  margin-bottom: 4vh;
+}
+
+.flex{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

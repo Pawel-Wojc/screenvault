@@ -22,7 +22,7 @@ export class PublicPostComponent {
       this.imageURL = URL.createObjectURL(this.image as File);
     }
     else{
-      this.router.navigate(['/new-post']);
+     // this.router.navigate(['/new-post']);
     }
     
     

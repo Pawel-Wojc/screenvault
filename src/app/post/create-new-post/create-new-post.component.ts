@@ -15,7 +15,6 @@ export class CreateNewPostComponent {
   //file that wil be edited
   file: File | null = null;
   fileUrl!: string | null; 
-  
   constructor(private router: Router, private imgService : ImagesService){}
 
   ngOnInit(){
