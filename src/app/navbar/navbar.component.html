@@ -12,7 +12,9 @@
     </div>
   </div>
   <div class="right">
-    <a routerLink="/login"><button class="signin">Sign in</button></a>
-    <a routerLink="/signup"><button class="signup">Sign up</button></a>
+    <a *ngIf="(isLoggedIn$ | async)" routerLink="/not-implemented"><button>Posts</button></a>
+    <a *ngIf="(isLoggedIn$ | async)" routerLink="/user-profile"><button class="px-2">Your profile</button></a>
+    <a *ngIf="!(isLoggedIn$ | async)" routerLink="/login"><button class="signin">Sign in</button></a>
+    <a *ngIf="!(isLoggedIn$ | async)" routerLink="/signup"><button class="signup">Sign up</button></a>
   </div>
 </div>
