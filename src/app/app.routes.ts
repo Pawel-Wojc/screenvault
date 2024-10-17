@@ -10,6 +10,7 @@ import { CreateAnonymousPostComponent } from './post/anonymous-post/create-anony
 import { CreateNewPostComponent } from './post/create-new-post/create-new-post.component';
 import { PublicPostComponent } from './post/public-post/public-post.component';
 import { GetAnonymousPostComponent } from './post/anonymous-post/get-anonymous-post/get-anonymous-post.component';
+import { UserProfileComponent } from './user/user-profile/user-profile.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent, title: 'ScreenVault' },
@@ -39,6 +40,10 @@ export const routes: Routes = [
   {
     path: 'a/:linkId',
     component: GetAnonymousPostComponent,
+  },
+  {
+    path: 'user-profile',
+    component: UserProfileComponent,
   },
 
   {
