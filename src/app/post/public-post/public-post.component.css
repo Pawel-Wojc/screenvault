@@ -1,43 +1,51 @@
-#public-post {
+#PublicPost {
     background-color: #001d3d;
     width: 100vw;
     height: 100vh;
   }
 
-#user-image{
+#UserImage{
   max-height: 70vh;
   max-width: 40vw;
 }
 
-#panel{
+#Panel{
   margin-left: 10vw;
   min-width: 40vw;
   min-height: 70vh;
-  background: green;
+  background: rgb(20, 97, 128);
   margin-right: 5vw;
   flex-direction: column;
-  
+  border-radius: 5px;
 }
 
-#img-wrapper{
+#ImgWrapper{
   min-width: 40vw;
   min-height: 70vh;
-  background: red;
+  background-color: darkgrey;
   margin-left: 5vw;
+  border-radius: 5px;
 }
 
-#title-label{
+#TitleLabel{
   margin-bottom: 2vh;
   font-size: 3vw ;
 }
 
-#title{
+#Title{
   padding: 1.5%;
   height: 4vh;
   width: 20vw;
+  background-color: rgb(219, 219, 219);
+  color: black;
+  border-radius: 5px;
 }
 
-#save{
+#Title:hover{
+ opacity: 0.75;
+}
+
+#Save{
   margin-top: 7.5vh;
   width: 12vw;
   height: 5vh;
@@ -49,19 +57,21 @@
   justify-content: center;
 }
 
-#button-global{
+.ButtonShare{
   width: 12vw;
   font-size: 1.5vw;
-  background-color: aqua;
+  padding: 6px;
+  background-color: rgb(12, 119, 12);
+  border-radius: 5px;
+  opacity: 0.6;
 }
 
-#button-private{
-  width: 12vw;
-  font-size: 1.5vw;
-  background-color: aqua;
+.ButtonShare:hover{
+  opacity: 1;
 }
 
-#link{
+
+#Link{
   font-size: 100%;
   width: 80%;
   height: 2.5%;
@@ -71,7 +81,7 @@
   background-color: red;
 }
 
-#buttons{
+#Buttons{
   width: 100%;
   height: 7%;
   justify-content: space-around;
@@ -80,7 +90,7 @@
   margin-bottom: 4vh;
 }
 
-.flex{
+.Flex{
   display: flex;
   justify-content: center;
   align-items: center;

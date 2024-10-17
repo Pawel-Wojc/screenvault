@@ -25,8 +25,5 @@ export class PublicPostComponent {
      // this.router.navigate(['/upload-image']);
     }
     
-    
-    console.log('img public post');
-    console.log(this.image);
   }
 }
