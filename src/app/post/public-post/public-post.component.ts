@@ -14,9 +14,20 @@ export class PublicPostComponent {
   image!: File | null;
   imageURL!: string;
 
+  sharePublicly!: HTMLElement | null;
+   
+  sharePrivately!: HTMLElement | null;
+
+  sharePubliclySelected: boolean = false;
+  sharePrivatelySelected: boolean = false;
+
   constructor(private imageService: ImagesService, private router: Router ){}
 
   ngOnInit(){
+    this.sharePublicly = document.getElementById("ButtonPublic");
+   
+    this.sharePrivately = document.getElementById("ButtonPrivate");
+
     this.image = this.imageService.getFile();
     if(this.image){
       this.imageURL = URL.createObjectURL(this.image as File);
@@ -25,5 +36,22 @@ export class PublicPostComponent {
      // this.router.navigate(['/upload-image']);
     }
     
+  }
+
+  selectPublicMode(){
+    
+    this.sharePublicly!.classList.add("ButtonSelected");
+
+    this.sharePrivately!.classList.remove("ButtonSelected");
+
+    //todo 1. add link handling
+  }
+
+  selectPrivateMode(){
+    this.sharePrivately!.classList.add("ButtonSelected");
+
+    this.sharePublicly!.classList.remove("ButtonSelected");
+
+    //todo 1. add link handling
   }
 }

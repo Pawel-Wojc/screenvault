@@ -9,13 +9,19 @@
         
         <input id="Title" placeholder="Title" class="Flex">
            
-        <div id="Buttons">
-            <button id="ButtonGlobal" class="ButtonShare">Share publicly</button>
+        <div id="ButtonsWrapper">
+            <button id="ButtonPublic" class="ButtonShare" (click)="selectPublicMode()">Share publicly</button>
 
-            <button id="ButtonGlobal" class="ButtonShare">Share privately</button>
+            <button id="ButtonPrivate" class="ButtonShare" (click)="selectPrivateMode()">Share privately</button>
         </div>
 
-        <span id="Link">lorem ipsum dos nwm co dalej</span>
+        <div id="LinkWrapper" class="Flex">
+        <span id="Link">https://lorem ipsum dos nwm co dalej</span>
+
+        <button id="Copy">
+            <img src="icons/copy-icon-white.svg">
+        </button>
+        </div>
 
         <button id="Save">Save</button> 
     </div>
