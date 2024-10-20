@@ -7,7 +7,7 @@ import * as myGlobals from '../../global';
 export class LoginService {
   private httpClient = inject(HttpClient);
 
-  loginUser(user: logInUser) {
+  loginUser(user: logInUser): boolean {
     this.sendLoginRequest(user).subscribe({
       next: (resData: any) => {
         sessionStorage.setItem('accessToken', resData.accessToken);
@@ -17,8 +17,11 @@ export class LoginService {
       },
       error(err) {
         console.log('Error with login');
+        return false;
       },
     });
+    
+    return true;
   }
 
   sendLoginRequest(user: logInUser) {

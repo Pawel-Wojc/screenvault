@@ -1,32 +1,34 @@
 <div id="PublicPost" class="Flex">
 
     <div id="ImgWrapper" class="Flex">
-        <img id="UserImage" [(src)]="imageURL">
+        <img id="UserImage" [src]="imageURL">
     </div>
 
     <div id="Panel" class="Flex">
-        <label id="TitleLabel">Title of your post:</label>
+
+        <form action="" [formGroup]="titleForm" (ngSubmit)="savePost()" class="Flex">
+            <label id="TitleLabel">Title of your post:</label>
         
-        <input id="Title" class="Flex">
-           
-        <div id="ButtonsWrapper">
-            <button id="ButtonPublic" class="ButtonShare" (click)="selectPublicMode()">Share publicly</button>
+            <input type="text" id="Title" class="Flex" formControlName="title">
+        
 
-            <button id="ButtonPrivate" class="ButtonShare ButtonSelected" (click)="selectPrivateMode()">Share privately</button>
-        </div>
+             <div id="ButtonsWrapper">
+                <button id="ButtonPublic" class="ButtonShare" (click)="selectPublicMode()" #ButtonPublic>Share publicly</button>
 
-        <div id="LinkWrapper" class="Flex">
-        <span id="Link">https://lorem ipsum dos nwm co dalej</span>
+               <button id="ButtonPrivate" class="ButtonShare ButtonSelected" (click)="selectPrivateMode()" #ButtonPrivate>Share privately</button>
+            </div>
 
-        <button id="Copy" (click)="copyLink()">
-            <img src="icons/copy-icon-white.svg">
-        </button>
-        </div>
+            <div id="LinkWrapper" class="Flex">
+            <span id="Link" >{{linkToPost}}</span>
 
-        <button id="Save" (click)="savePost()">Save</button> 
+            <button id="Copy" (click)="copyLink()">
+                <img src="icons/copy-icon-white.svg">
+            </button>
+            </div>
+
+            <button id="Save"  type="submit" [disabled]="!titleForm.valid">Save</button> 
+
+        </form>
     </div>
 
-    <div id="error" class="Flex">
-        You have to add a title to your post 
-    </div>
 </div>

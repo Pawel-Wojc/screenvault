@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, ElementRef, inject, ViewChild } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { logInUser } from '../interfaces/logInUser';
@@ -15,6 +15,9 @@ export class LoginComponent {
   checkPassword() {
     throw new Error('Method not implemented.');
   }
+
+  @ViewChild('errorBaner',{static: true}) errorBaner?: ElementRef;
+
   logInForm!: FormGroup;
   logInUser!: logInUser;
 
@@ -35,7 +38,11 @@ export class LoginComponent {
       email: this.logInForm.value.email,
       password: this.logInForm.value.password,
     };
-    this.loginService.loginUser(this.logInUser);
+
+    if(this.loginService.loginUser(this.logInUser)){
+      this.errorBaner?.nativeElement.classList.add("removeOpacity")
+    }
+
     this.logInUser = {
       email: '',
       password: '',

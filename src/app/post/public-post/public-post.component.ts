@@ -1,12 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { ImagesService } from '../../services/images.service';
 import { Router, RouterOutlet, RouterLink } from '@angular/router';
 import { PostToPublic } from '../interfaces/post-to-public';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-public-post',
   standalone: true,
-  imports: [RouterLink, RouterOutlet],
+  imports: [RouterLink, RouterOutlet, ReactiveFormsModule],
   templateUrl: './public-post.component.html',
   styleUrl: './public-post.component.css'
 })
@@ -14,32 +15,29 @@ export class PublicPostComponent {
  
   image!: File | null;
   imageURL!: string;
+  linkToPost?: string;
+  titleForm: FormGroup;
 
-  sharePublicly!: HTMLElement | null;
-  sharePrivately!: HTMLElement | null;
-  linkContainer!: HTMLElement | null;
-  titleInput!: HTMLInputElement | null;
-  errorBaner!: HTMLElement | null;
-
+  @ViewChild('ButtonPublic', {static: true}) sharePublicly?: ElementRef;
+  @ViewChild('ButtonPrivate', {static: true}) sharePrivately?: ElementRef;
+  
   sharePubliclySelected: boolean = false;
   sharePrivatelySelected: boolean = false;
 
-  constructor(private imageService: ImagesService, private router: Router ){}
+  constructor(private imageService: ImagesService, private router: Router, private formBuilder: FormBuilder ){
+    this.titleForm = this.formBuilder.group({
+      title: ['',Validators.required],
+    });
+  }
 
   ngOnInit(){
-    this.sharePublicly = document.getElementById("ButtonPublic");
-    this.sharePrivately = document.getElementById("ButtonPrivate");
-    this.linkContainer = document.getElementById("Link");
-    this.titleInput = document.getElementById("Title") as HTMLInputElement;
-    this.errorBaner = document.getElementById("error");
-
-    this.linkContainer!.textContent = "add proper endpoint";
-    console.log(this.titleInput);
+    this.linkToPost = "add proper endpoint"; //add endpoint to private 
+    
     this.image = this.imageService.getFile();
     if(this.image){
       this.imageURL = URL.createObjectURL(this.image as File);
-      console.log(this.image.name, "img name0");
-      this.titleInput!.value = this.image.name;
+      
+      this.titleForm.get('title')?.setValue(this.image.name);
     }
     else{
       this.router.navigate(['/upload-image']);
@@ -49,34 +47,25 @@ export class PublicPostComponent {
 
   selectPublicMode(){
     
-    this.sharePublicly!.classList.add("ButtonSelected");
+    this.sharePublicly?.nativeElement.classList.add("ButtonSelected");
 
-    this.sharePrivately!.classList.remove("ButtonSelected");
+    this.sharePrivately?.nativeElement.classList.remove("ButtonSelected");
 
-    this.linkContainer!.textContent = "add proper endpoint!!!!!!!!!!!!!!!!!"; //todo 1. add link handling
+    this.linkToPost = "add proper endpoint!!!!!!!!!!!!!!!!!"; //todo 1. add link handling
   }
 
   selectPrivateMode(){
-    this.sharePrivately!.classList.add("ButtonSelected");
+    this.sharePrivately?.nativeElement.classList.add("ButtonSelected");
 
-    this.sharePublicly!.classList.remove("ButtonSelected");
+    this.sharePublicly?.nativeElement.classList.remove("ButtonSelected");
 
-    this.linkContainer!.textContent = "add proper endpoint"; //todo 1. add link handling
+    this.linkToPost = "add proper endpoint"; //todo 1. add link handling
   }
 
   savePost(){
-    
-    this.errorBaner!.classList.remove('fade-out');
-    this.errorBaner!.offsetWidth;
-    
-    if(this.titleInput!.value.trim() === ''){
-     
-      this.errorBaner?.classList.add('fade-out');
-      return;
-    }
-    
+        
     const postToPublic: PostToPublic = {
-      title:  this.titleInput!.value.trim() as string,
+      title:  this.titleForm.value.title.trim() as string,
       file: this.image!,
     };
 
@@ -86,7 +75,7 @@ export class PublicPostComponent {
   }
 
   copyLink(){
-    navigator.clipboard.writeText(this.linkContainer!.textContent as string);
+    navigator.clipboard.writeText(this.linkToPost as string);
   }
 
 }

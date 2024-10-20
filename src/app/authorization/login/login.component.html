@@ -21,7 +21,7 @@
 
         <button class="ml-4" type="submit" [disabled]="!logInForm.valid">Sign in</button>
       </form>
-      <p class="text-red-600 pt-3">Wrong email or password</p>
+      <p class="text-red-600 pt-3" #errorBaner>Wrong email or password</p>
     </div>
     <div class="w-p[350] h-[40px] mt-4">
       <a class="relative left-[80px]" routerLink="/signup">Need an acount?</a>

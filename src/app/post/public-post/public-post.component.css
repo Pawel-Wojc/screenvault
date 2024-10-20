@@ -19,6 +19,10 @@
   border-radius: 5px;
 }
 
+form{
+  flex-direction: column;
+}
+
 #ImgWrapper{
   min-width: 40vw;
   min-height: 70vh;
@@ -62,9 +66,11 @@
   opacity: 0.9;
 }
 
-#Save:hover{
-  opacity: 0.8;
-}
+#Save:disabled{
+  opacity: 0.3;
+  }
+
+
 
 .ButtonShare{
   width: 12vw;
@@ -84,6 +90,8 @@
 .ButtonSelected{
   opacity: 1;
 }
+
+
 
 #Link{
   font-size: 1.25vw;
@@ -120,34 +128,6 @@
   margin-top: 10vh;
   margin-bottom: 4vh;
   
-}
-
-#error{
-  position: absolute;
-  bottom: 0px;
-  padding: 2vh;
-  left: 0px;
-  background: #FF4B4B;
-  width: 20vw;
-  height: 10vh;
-  border-radius: 2.5%;
-  text-align: center;
-  opacity: 0;
-  /*
-  line-height: 3.75vh;
-  */
-  font-size: 2vh; 
-  
-}
-
-.fade-out{
-  animation-name: fade-out;
-  animation-duration: 5s;
-}
-
-@keyframes fade-out {
-  from { opacity: 1; }
-  to { opacity: 0; }
 }
 
 .Flex{

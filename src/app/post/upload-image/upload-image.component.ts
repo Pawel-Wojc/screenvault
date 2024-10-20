@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { RouterLink, Router, RouterOutlet } from '@angular/router';
 import { ImagesService } from '../../services/images.service';
 
@@ -12,6 +12,8 @@ import { ImagesService } from '../../services/images.service';
 export class UploadImageComponent {
   //for css use
   dragging = false;
+  
+  @ViewChild('error', {static: true}) errorBaner?: ElementRef; 
 
   constructor(
     private router: Router,
@@ -57,11 +59,10 @@ export class UploadImageComponent {
       this.router.navigate(['/create-new-post']);
     }
     else{
-     // alert('nig');
-     const errorBaner = document.getElementById('error');
-     errorBaner!.classList.remove('fade-out');
-     errorBaner!.offsetWidth;
-     errorBaner!.classList.add('fade-out');
+    
+     this.errorBaner?.nativeElement.classList.remove('fade-out');
+     this.errorBaner?.nativeElement.offsetWidth;
+     this.errorBaner?.nativeElement.classList.add('fade-out');
       
     }
     
