@@ -58,10 +58,10 @@ export class UploadImageComponent {
     }
     else{
      // alert('nig');
-     const errorElement = document.getElementById('error');
-     errorElement!.classList.remove('fade-out');
-     errorElement!.offsetWidth;
-     errorElement!.classList.add('fade-out');
+     const errorBaner = document.getElementById('error');
+     errorBaner!.classList.remove('fade-out');
+     errorBaner!.offsetWidth;
+     errorBaner!.classList.add('fade-out');
       
     }
     

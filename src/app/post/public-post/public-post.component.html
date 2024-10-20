@@ -7,23 +7,26 @@
     <div id="Panel" class="Flex">
         <label id="TitleLabel">Title of your post:</label>
         
-        <input id="Title" placeholder="Title" class="Flex">
+        <input id="Title" class="Flex">
            
         <div id="ButtonsWrapper">
             <button id="ButtonPublic" class="ButtonShare" (click)="selectPublicMode()">Share publicly</button>
 
-            <button id="ButtonPrivate" class="ButtonShare" (click)="selectPrivateMode()">Share privately</button>
+            <button id="ButtonPrivate" class="ButtonShare ButtonSelected" (click)="selectPrivateMode()">Share privately</button>
         </div>
 
         <div id="LinkWrapper" class="Flex">
         <span id="Link">https://lorem ipsum dos nwm co dalej</span>
 
-        <button id="Copy">
+        <button id="Copy" (click)="copyLink()">
             <img src="icons/copy-icon-white.svg">
         </button>
         </div>
 
-        <button id="Save">Save</button> 
+        <button id="Save" (click)="savePost()">Save</button> 
     </div>
 
+    <div id="error" class="Flex">
+        You have to add a title to your post 
+    </div>
 </div>

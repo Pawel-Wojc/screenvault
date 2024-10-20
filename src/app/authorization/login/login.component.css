@@ -15,9 +15,12 @@
   font-size: 3.125rem;
   padding-bottom: 100px;
 }
-p {
+
+p{
   text-align: center;
+  opacity: 0;
 }
+
 .form {
   position: relative;
   padding: 10px 20px 20px 20px;
@@ -25,6 +28,7 @@ p {
   border-radius: 5px;
   box-shadow: 2px 2px 9px 3px rgba(0, 0, 0, 0.2);
 }
+
 input {
   padding-left: 3px;
   width: 200px;
@@ -58,4 +62,8 @@ button:disabled {
 a {
   color: white;
   text-decoration: none;
+}
+
+.removeOpacity{
+  opacity: 1;
 }
