@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, inject, ViewChild } from '@angular/core';
 import { ImagesService } from '../../services/images.service';
 import { Router, RouterOutlet, RouterLink } from '@angular/router';
 import { PostToPublic } from '../interfaces/post-to-public';
@@ -12,7 +12,10 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
   styleUrl: './public-post.component.css'
 })
 export class PublicPostComponent {
- 
+  private imageService = inject(ImagesService)
+  private router = inject(Router)
+  private formBuilder = inject(FormBuilder)
+  
   image!: File | null;
   imageURL!: string;
   linkToPost?: string;
@@ -24,7 +27,7 @@ export class PublicPostComponent {
   sharePubliclySelected: boolean = false;
   sharePrivatelySelected: boolean = false;
 
-  constructor(private imageService: ImagesService, private router: Router, private formBuilder: FormBuilder ){
+  constructor(){
     this.titleForm = this.formBuilder.group({
       title: ['',Validators.required],
     });

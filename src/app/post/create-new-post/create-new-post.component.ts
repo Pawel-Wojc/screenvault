@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterLink, Router, RouterOutlet } from '@angular/router';
 import { ImagesService } from '../../services/images.service';
 import FilerobotImageEditor from 'filerobot-image-editor';
@@ -12,10 +12,12 @@ import { FilerobotImageEditorConfig, TABS } from 'react-filerobot-image-editor';
   styleUrl: './create-new-post.component.css'
 })
 export class CreateNewPostComponent {
+  private router =  inject(Router)
+  private imgService = inject(ImagesService)
+ 
   //file that wil be edited
   file: File | null = null;
   fileUrl!: string | null; 
-  constructor(private router: Router, private imgService : ImagesService){}
 
   ngOnInit(){
     

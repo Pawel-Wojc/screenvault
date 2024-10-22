@@ -1,6 +1,7 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild, Inject, inject } from '@angular/core';
 import { RouterLink, Router, RouterOutlet } from '@angular/router';
 import { ImagesService } from '../../services/images.service';
+import { MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-upload-image',
@@ -12,13 +13,11 @@ import { ImagesService } from '../../services/images.service';
 export class UploadImageComponent {
   //for css use
   dragging = false;
+  private snackBar = inject(MatSnackBar);
+  private router = inject(Router);
+  private imgService = inject(ImagesService)
   
   @ViewChild('error', {static: true}) errorBaner?: ElementRef; 
-
-  constructor(
-    private router: Router,
-    private imgService: ImagesService,
-  ) {}
 
   // Enter drop zone event
   onDragOver(event: DragEvent) {
@@ -59,7 +58,11 @@ export class UploadImageComponent {
       this.router.navigate(['/create-new-post']);
     }
     else{
-    
+      this.snackBar.open('Max file size is 10 MB. Available extensions are: jpg, jpeg, svg, png, webp','', {
+        duration: 5000,
+        horizontalPosition: 'center',
+        verticalPosition: 'bottom',
+      });
      this.errorBaner?.nativeElement.classList.remove('fade-out');
      this.errorBaner?.nativeElement.offsetWidth;
      this.errorBaner?.nativeElement.classList.add('fade-out');
