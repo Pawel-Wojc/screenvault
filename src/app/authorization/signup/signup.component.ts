@@ -9,6 +9,7 @@ import { Router, RouterLink } from '@angular/router';
 import { newUser } from '../interfaces/newUser';
 import { SignupService } from './signup.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-signup',
@@ -21,6 +22,16 @@ export class SignupComponent {
   private registerService = inject(SignupService);
   private snackBar = inject(MatSnackBar);
   private router = inject(Router);
+  private authService = inject(AuthService);
+
+  ngOnInit() {
+    // Check if the user is already logged in
+    this.authService.isLoggedIn.subscribe((isLoggedIn) => {
+      if (isLoggedIn) {
+        this.router.navigate(['/']);
+      }
+    });
+  }
 
   newUser: newUser = {
     userName: '',

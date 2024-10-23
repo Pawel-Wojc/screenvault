@@ -15,8 +15,16 @@ import { UserProfileComponent } from './user/user-profile/user-profile.component
 export const routes: Routes = [
   { path: '', component: HomeComponent, title: 'ScreenVault' },
 
-  { path: 'login', component: LoginComponent },
-  { path: 'signup', component: SignupComponent },
+  {
+    path: 'login',
+    component: LoginComponent,
+    data: { roles: ['anonymous'] },
+  },
+  {
+    path: 'signup',
+    component: SignupComponent,
+    data: { roles: ['anonymous'] },
+  },
   {
     path: 'upload-image',
     component: UploadImageComponent,
@@ -28,6 +36,7 @@ export const routes: Routes = [
   {
     path: 'post',
     component: PostComponent,
+    data: { roles: ['anonymous', 'authenticated'] },
   },
   {
     path: 'public-post',

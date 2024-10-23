@@ -50,3 +50,20 @@ body {
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.close-button {
+  position: absolute;
+  top: -1vh;
+  right: -1vh;
+  height: 4vh;
+  width: 4vh;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 4vh;
+  font-size: 3vh;
+  z-index: 2;
+  background-color: darkgrey;
+  color:white;
+  box-shadow: 2px 2px 2px 2px black;
+  cursor: pointer;
+}
