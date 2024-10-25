@@ -11,6 +11,7 @@ import { CreateNewPostComponent } from './post/create-new-post/create-new-post.c
 import { PublicPostComponent } from './post/public-post/public-post.component';
 import { GetAnonymousPostComponent } from './post/anonymous-post/get-anonymous-post/get-anonymous-post.component';
 import { UserProfileComponent } from './user/user-profile/user-profile.component';
+import { authGuardService } from './authorization/auth-guard.service';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent, title: 'ScreenVault' },
@@ -44,6 +45,7 @@ export const routes: Routes = [
   {
     path: 'user-profile',
     component: UserProfileComponent,
+    canActivate: [authGuardService],
   },
 
   {
