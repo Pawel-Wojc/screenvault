@@ -64,17 +64,22 @@ a{
   position: absolute;
   top: -1vh;
   right: -1vh;
-  min-height: 37px;
-  min-width: 37px;
+  min-height: 4vh;
+  min-width: 4vh;
   border-radius: 50%;
-  text-align: center;
-  line-height: 4vh;
-  font-size:  2vw ;
   z-index: 2;
   background-color: darkgrey;
-  color:white;
   box-shadow: 2px 2px 2px 2px black;
   cursor: pointer;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+}
+
+#exit-icon{
+  height: 2vh;
+  position:relative;
+  margin: auto;
 }
 
 #error{
