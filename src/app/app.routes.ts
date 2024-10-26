@@ -13,6 +13,7 @@ import { GetAnonymousPostComponent } from './post/anonymous-post/get-anonymous-p
 import { UserProfileComponent } from './user/user-profile/user-profile.component';
 import { authGuardService } from './authorization/auth-guard.service';
 import { CommentSectionComponent } from './home/comment-section/comment-section.component';
+import { WallItemComponent } from './home/wall/wall-item/wall-item.component';
 
 
 export const routes: Routes = [
@@ -30,6 +31,12 @@ export const routes: Routes = [
       {
         path: '',
         component: WallComponent,
+        children: [
+          {
+          path: 'sd',
+          component: WallItemComponent,
+          }
+        ],
       },
       {
         path: 'commentSection/:id',

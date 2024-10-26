@@ -1,11 +1,16 @@
 :host {
   padding: 10px;
 }
-.wall-item {
+.wall-item{
   border-radius: 3px;
   color: white;
   display: flex;
   width: 350px;
+}
+
+button{
+  display: flex;
+  align-items: center;
 }
 
 .glossy-background {

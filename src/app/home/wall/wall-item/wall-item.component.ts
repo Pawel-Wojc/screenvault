@@ -1,4 +1,5 @@
-import { Component, input, signal } from '@angular/core';
+import { Component, inject, input, signal } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-wall-item',
@@ -9,6 +10,7 @@ import { Component, input, signal } from '@angular/core';
 })
 export class WallItemComponent {
   id = input<any>();
+  private router =  inject(Router)
 
   randomnumber = Math.floor(Math.random() * popularImageDimensions.length);
   imageWidth = popularImageDimensions[this.randomnumber].width;
@@ -22,6 +24,10 @@ export class WallItemComponent {
       }?random=${this.id()}`
     );
     console.log(this.imageUrl());
+  }
+
+  navigateToCommentsectionComponent(){
+    this.router.navigate(['/home/commentSection/replaceMEEE']);
   }
 }
 
