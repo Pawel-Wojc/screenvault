@@ -58,11 +58,7 @@ export class UploadImageComponent {
       this.router.navigate(['/create-new-post']);
     }
     else{
-      this.snackBar.open('Max file size is 10 MB. Available extensions are: jpg, jpeg, svg, png, webp','', {
-        duration: 5000,
-        horizontalPosition: 'center',
-        verticalPosition: 'bottom',
-      });
+      
      this.errorBaner?.nativeElement.classList.remove('fade-out');
      this.errorBaner?.nativeElement.offsetWidth;
      this.errorBaner?.nativeElement.classList.add('fade-out');
