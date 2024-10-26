@@ -1,6 +1,6 @@
 :host {
   width: 100%;
-
+  position: fixed;
   z-index: 101;
   background-color: #001d3d;
   padding-inline: 5px;
