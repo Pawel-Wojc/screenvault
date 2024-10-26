@@ -1,7 +1,7 @@
 .wall {
-  min-height: calc(100vh);
+  min-height: 100vh;
   width: 100%;
-  padding-top: 74px;
+  padding-top: 36px;
   background-color: #0c3f8c;
 }
 
