@@ -1,13 +1,49 @@
-import { Component, input, signal } from '@angular/core';
-
+import { Component, inject, input, Signal, signal } from '@angular/core';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { WallItemService } from './wall-item.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
   selector: 'app-wall-item',
   standalone: true,
-  imports: [],
+  imports: [MatTooltipModule],
   templateUrl: './wall-item.component.html',
   styleUrl: './wall-item.component.css',
 })
 export class WallItemComponent {
+  private wallItemService = inject(WallItemService);
+  private snackBar = inject(MatSnackBar);
+  svgMinus: string = 'icons/minus-red.svg';
+  svgPlus: string = 'icons/plus-green.svg';
+  disLikePost() {
+    this.wallItemService.dislikePost(this.id()).subscribe({
+      next: (response) => {
+        //if ok
+        if (this.svgMinus == 'icons/minus-red.svg') {
+          this.svgPlus = 'icons/plus-black.svg';
+        }
+      },
+      error: (error) => {
+        if (error.status == 401) {
+          this.openSnackBar('Hey! Sign in to perform this action');
+        }
+      },
+    });
+  }
+  likePost() {
+    this.wallItemService.likePost(this.id()).subscribe({
+      next: (response) => {
+        if (this.svgPlus == 'icons/plus-green.svg') {
+          this.svgMinus = 'icons/minus-black.svg';
+        }
+        console.log('Post liked successfully:', response.status);
+      },
+      error: (error) => {
+        if (error.status == 401) {
+          this.openSnackBar('Hey! Sign in to perform this action');
+        }
+      },
+    });
+  }
   id = input<any>();
 
   randomnumber = Math.floor(Math.random() * popularImageDimensions.length);
@@ -22,6 +58,14 @@ export class WallItemComponent {
       }?random=${this.id()}`
     );
     console.log(this.imageUrl());
+  }
+
+  openSnackBar(message: string) {
+    this.snackBar.open(message, 'Close', {
+      duration: 3000,
+      horizontalPosition: 'center',
+      verticalPosition: 'bottom',
+    });
   }
 }
 
