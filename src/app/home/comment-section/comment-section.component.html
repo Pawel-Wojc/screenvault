@@ -1,20 +1,23 @@
 <div id="wrapper">
-    
     <div id="backgroud">
         <a routerLink="" routerLinkActive="active"><img id="exit-icon" src="icons\close.png"></a>
         
         <div id="img-wrapper">
             <img [src]="imgSrc">
         </div>
+
         <div id="comment-wrapper">
             <span id="title">Comments</span>
             <div id="comments">
 
             </div>
             <div id="comment-creation">
-                <span></span>
+                <form action="" [formGroup]="addCommentForm" (ngSubmit)="saveComment()">
+                    <label>Add your comment</label>
+                    <input type="text" id="Title" formControlName="comment"/>
+                    <button id="Save"  type="submit" [disabled]="!addCommentForm.valid" [ngClass]="buttonActive">Submit comment</button>
+                </form>
             </div>
         </div>
-        
     </div>
 </div>

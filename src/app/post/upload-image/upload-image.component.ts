@@ -13,7 +13,6 @@ import { MatSnackBar} from '@angular/material/snack-bar';
 export class UploadImageComponent {
   //for css use
   dragging = false;
-  private snackBar = inject(MatSnackBar);
   private router = inject(Router);
   private imgService = inject(ImagesService)
   
