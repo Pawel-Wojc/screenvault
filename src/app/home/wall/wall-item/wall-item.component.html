@@ -13,23 +13,29 @@
     </div>
     <div class="h-[30px] flex flex-row">
       <div class="flex basis-1/3 justify-center" id="likes">
-        <img src="icons/arrow_up.svg" alt="up" class="w-5" />
-        <img src="icons/arrow_down.svg" alt="down" class="w-5" />
-
-        <span class="text-sm m-1 ml-2">234</span>
+        <button (click)="likePost()">
+          <img [src]="svgPlus" alt="up" class="w-5" />
+        </button>
+        <span class="text-base m-1">234</span>
+        <button
+          (click)="disLikePost()"
+          matTooltip="Click to dislike post"
+          [matTooltipShowDelay]="500"
+        >
+          <img [src]="svgMinus" alt="down" class="w-5" />
+        </button>
       </div>
-      <div class="flex basis-1/3 justify-center" id="comment" >
+      <div class="flex basis-1/3 justify-center" id="comment">
         <button (click)="navigateToCommentsectionComponent()">
-          <img src="icons/comment.svg" alt="comment" class="w-5"  />  
-           <span class="text-sm m-1 ml-2">5</span>
-        </button> 
+          <img src="icons/comment.svg" alt="comment" class="w-5" />
+          <span class="text-sm m-1 ml-2">5</span>
+        </button>
       </div>
-      
+
       <div class="flex basis-1/3 justify-center" id="views">
         <img src="icons/view.svg" alt="views" class="w-5" />
-        <span class="text-sm text-center m-1 ml-2">45234</span>
+        <span class="text-base text-center m-1 ml-2">45234</span>
       </div>
-
     </div>
   </div>
 </div>
