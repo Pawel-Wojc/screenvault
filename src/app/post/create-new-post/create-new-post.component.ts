@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { RouterLink, Router, RouterOutlet } from '@angular/router';
-import { ImagesService } from '../../services/images.service';
+import { ImagesService } from '../services/images.service';
 import FilerobotImageEditor from 'filerobot-image-editor';
 import { FilerobotImageEditorConfig, TABS } from 'react-filerobot-image-editor';
 

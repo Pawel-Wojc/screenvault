@@ -1,5 +1,5 @@
 import { Component, ElementRef, inject, ViewChild } from '@angular/core';
-import { ImagesService } from '../../services/images.service';
+import { ImagesService } from '../services/images.service';
 import { Router, RouterOutlet, RouterLink } from '@angular/router';
 import { PostToPublic } from '../interfaces/post-to-public';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
