@@ -8,9 +8,8 @@ describe('WallItemComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [WallItemComponent]
-    })
-    .compileComponents();
+      imports: [WallItemComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(WallItemComponent);
     component = fixture.componentInstance;

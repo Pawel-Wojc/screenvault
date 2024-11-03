@@ -26,6 +26,10 @@ export class WallItemComponent {
       error: (error) => {
         if (error.status == 401) {
           this.openSnackBar('Hey! Sign in to perform this action');
+        } else {
+          this.openSnackBar(
+            "Sorry, we can't perform this action right now. :("
+          );
         }
       },
     });
@@ -41,6 +45,10 @@ export class WallItemComponent {
       error: (error) => {
         if (error.status == 401) {
           this.openSnackBar('Hey! Sign in to perform this action');
+        } else {
+          this.openSnackBar(
+            "Sorry, we can't perform this action right now. :( "
+          );
         }
       },
     });
