@@ -1,12 +1,12 @@
 <div class="flex flex-col bg-[#0c3f8c] pt-16 h-screen">
   <div class="flex flex-row">
     <div
-      class="max-h-44 m-4 max-w-44 shadow-[0_10px_20px_-10px_rgba(0,0,0,0.3)] hover:shadow-[0_15px_50px_-15px_rgba(0,0,0,0.8)]"
+      class="relative max-h-44 m-4 max-w-44 shadow-[0_10px_20px_-10px_rgba(0,0,0,0.3)] hover:shadow-[0_15px_50px_-15px_rgba(0,0,0,0.8)]"
     >
       <img
         src="demo-avatar.png"
         alt="Your photo"
-        class="max-h-44 max-w-44 rounded-es-none rounded-md"
+        class="max-h-44 max-w-44 rounded-t-md"
       />
 
       <input type="file" class="hidden" id="file-input" />
@@ -18,13 +18,17 @@
           accept="image/png, image/jpeg"
         />
       </label>
-      <button>
-        <img src="icons/bin.svg" alt="Delete" class="w-6 relative left-5" />
+      <button (click)="deleteProfilePicture()">
+        <img
+          src="icons/bin.svg"
+          alt="Delete"
+          class="absolute w-6 right-[1px] bottom-[2px]"
+        />
       </button>
     </div>
     <div class="m-4">
-      <p class="text-3xl text-black">Username</p>
-      <p class="text-3xl text-black">Email</p>
+      <p class="text-3xl text-black">{{ Username }}</p>
+      <p class="text-3xl text-black">{{ Email }}</p>
     </div>
   </div>
   <div
@@ -36,7 +40,7 @@
           <img
             src="icons/folder.svg"
             alt="Colection"
-            class="max-w-36 drop-shadow-md hover:drop-shadow-[0_15px_15px_rgba(0,0,0,0.4)]"
+            class="max-w-36 drop-shadow-md cursor-pointer hover:drop-shadow-[0_15px_15px_rgba(0,0,0,0.4)]"
           />
         </div>
         <div class="flex-row">
@@ -45,4 +49,5 @@
       </div>
     </div>
   </div>
+  <div></div>
 </div>
