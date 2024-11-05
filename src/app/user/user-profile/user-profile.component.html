@@ -8,12 +8,18 @@
         alt="Your photo"
         class="max-h-44 max-w-44 rounded-es-none rounded-md"
       />
-      <button>
+
+      <input type="file" class="hidden" id="file-input" />
+      <label for="file-input" class="cursor-pointer">
         <img
           src="icons/pencil-square.svg"
           alt="edit"
-          class="w-10 relative bottom-10"
+          class="w-6 relative bottom-6"
+          accept="image/png, image/jpeg"
         />
+      </label>
+      <button>
+        <img src="icons/bin.svg" alt="Delete" class="w-6 relative left-5" />
       </button>
     </div>
     <div class="m-4">
