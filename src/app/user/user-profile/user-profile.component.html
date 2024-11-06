@@ -1,53 +1,52 @@
-<div class="flex flex-col bg-[#0c3f8c] pt-16 h-screen">
+<div class="flex flex-col bg-[#0c3f8c] pt-16 h-auto min-h-screen">
   <div class="flex flex-row">
     <div
       class="relative max-h-44 m-4 max-w-44 shadow-[0_10px_20px_-10px_rgba(0,0,0,0.3)] hover:shadow-[0_15px_50px_-15px_rgba(0,0,0,0.8)]"
     >
       <img
-        src="demo-avatar.png"
+        src="{{ userPhoto() }}"
         alt="Your photo"
         class="max-h-44 max-w-44 rounded-t-md"
       />
-
-      <input type="file" class="hidden" id="file-input" />
-      <label for="file-input" class="cursor-pointer">
-        <img
-          src="icons/pencil-square.svg"
-          alt="edit"
-          class="w-6 relative bottom-6"
-          accept="image/png, image/jpeg"
+      <div
+        class="bg-slate-50 relative w-8 h-8 left-[-10px] p-1 bottom-[15px] shadow-sm rounded-sm bg-opacity-70 cursor-pointer"
+      >
+        <input
+          #fileInput
+          type="file"
+          class="hidden"
+          id="file-input"
+          accept="image/png, image/jpeg, image/jpg"
+          (change)="changeUserProfilePicture($event)"
         />
-      </label>
-      <button (click)="deleteProfilePicture()">
+        <label for="file-input" class="">
+          <img
+            matTooltip="Change"
+            [matTooltipShowDelay]="300"
+            src="icons/pencil-square.svg"
+            alt="edit"
+            class="w-6 cursor-pointer"
+          />
+        </label>
+      </div>
+
+      <button
+        (click)="deleteProfilePicture($event)"
+        class="bg-slate-50 relative w-8 left-[151px] bottom-[50px] shadow-sm rounded-sm bg-opacity-70 cursor-pointer"
+      >
         <img
+          matTooltip="Delete"
+          [matTooltipShowDelay]="300"
           src="icons/bin.svg"
           alt="Delete"
-          class="absolute w-6 right-[1px] bottom-[2px]"
+          class="m-1"
         />
       </button>
     </div>
     <div class="m-4">
-      <p class="text-3xl text-black">{{ Username }}</p>
-      <p class="text-3xl text-black">{{ Email }}</p>
+      <p class="text-3xl text-black">{{ userName() }}</p>
+      <p class="text-3xl text-black">{{ userEmail() }}</p>
     </div>
   </div>
-  <div
-    class="m-4 flex bg-white/[.25] rounded-md flex-wrap max-w-[75%] shadow-md"
-  >
-    <div *ngFor="let number of numbers">
-      <div class="m-4 flex flex-col items-center rounded-md">
-        <div class="flex-row">
-          <img
-            src="icons/folder.svg"
-            alt="Colection"
-            class="max-w-36 drop-shadow-md cursor-pointer hover:drop-shadow-[0_15px_15px_rgba(0,0,0,0.4)]"
-          />
-        </div>
-        <div class="flex-row">
-          <p class="text-3xl text-black">Name {{ number }}</p>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div></div>
+  <app-collections />
 </div>
