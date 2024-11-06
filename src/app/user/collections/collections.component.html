@@ -1,0 +1,83 @@
+<div>
+  <div class="m-4 flex flex-row bg-white/[.25] rounded-md flex-wrap shadow-md">
+    <div *ngFor="let item of userCollections" class="flex flex-col">
+      <div class="m-4 flex flex-col items-center rounded-md">
+        <div class="relative">
+          <img
+            (click)="openFolder(item.id)"
+            src="icons/folder.svg"
+            alt="Colection"
+            class="max-w-36 drop-shadow-md cursor-pointer hover:drop-shadow-[0_15px_15px_rgba(0,0,0,0.4)]"
+          />
+          <button
+            (click)="deleteUserCollection(item.id)"
+            class="bg-slate-50 absolute w-8 left-[105px] bottom-[10px] shadow-sm rounded-sm bg-opacity-70 cursor-pointer z-10"
+          >
+            <img
+              matTooltip="Delete"
+              [matTooltipShowDelay]="300"
+              src="icons/bin.svg"
+              alt="Delete"
+              class="m-1"
+            />
+          </button>
+        </div>
+
+        <div
+          class="cursor-pointer"
+          matTooltip="Click to rename"
+          [matTooltipShowDelay]="300"
+          (click)="renameFolder(item.id)"
+        >
+          <p class="text-3xl text-black">{{ item.name }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="m-4 flex flex-col items-center rounded-md">
+      <div
+        class=""
+        (click)="addNewFolder()"
+        matTooltip="Click to add new folder"
+        [matTooltipShowDelay]="300"
+      >
+        <img
+          src="icons/folder.svg"
+          alt="Colection"
+          class="max-w-36 drop-shadow-md cursor-pointer hover:drop-shadow-[0_15px_15px_rgba(0,0,0,0.4)]"
+        />
+      </div>
+      <p class="text-3xl text-black">New folder</p>
+    </div>
+  </div>
+  <div
+    class="m-4 flex flex-row bg-white/[.25] rounded-md flex-wrap shadow-md relative"
+  >
+    <img
+      *ngIf="currentFolder() !== undefined"
+      src="icons/question-square-mark.svg"
+      alt="as"
+      class="w-7 absolute right-0 top-0"
+      matTooltip="Red - public, green - private"
+    />
+    <div
+      *ngFor="let item of currentFolder()"
+      class="items-center flex flex-col relative"
+    >
+      <div class="flex flex-row">
+        <img
+          [ngClass]="{
+            'border-red-400': item.status === 'public',
+            'border-green-400': item.status === 'private'
+          }"
+          src="{{ item.url }}"
+          alt="{{ item.name }}"
+          class="max-w-80 m-4 rounded-md border-2 border-solid"
+        />
+      </div>
+      <div class="flex flex-row">
+        <p class="text-2xl text-black m-2">{{ item.name }}</p>
+      </div>
+    </div>
+  </div>
+</div>

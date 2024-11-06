@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject, signal, Signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Observable } from 'rxjs';
-// import { AuthService } from '../authorization/auth.service';
+import { AuthService } from '../authorization/auth.service';
 import { AsyncPipe, CommonModule } from '@angular/common';
 
 @Component({
@@ -12,15 +12,20 @@ import { AsyncPipe, CommonModule } from '@angular/common';
   styleUrl: './navbar.component.css',
 })
 export class NavbarComponent {
-  isLoggedIn$!: Observable<boolean>;
-
- // constructor(private authService: AuthService) {}
-
+  authService: AuthService = inject(AuthService);
+  isLoggedIn = signal(false);
   ngOnInit() {
- //   this.isLoggedIn$ = this.authService.isLoggedIn;
+    //this.isLoggedIn.set(false);
+    this.isLoggedIn.set(this.authService.isLoggedIn());
   }
 
   logout() {
-//    this.authService.logout();
+    this.authService.isLoggedIn.set(false);
+    this.isLoggedIn.set(false);
+  }
+
+  login() {
+    this.authService.isLoggedIn.set(true);
+    this.isLoggedIn.set(true);
   }
 }

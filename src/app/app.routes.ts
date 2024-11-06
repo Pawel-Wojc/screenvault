@@ -15,43 +15,42 @@ import { authGuardService } from './authorization/auth-guard.service';
 import { CommentSectionComponent } from './home/comment-section/comment-section.component';
 import { WallItemComponent } from './home/wall/wall-item/wall-item.component';
 
-
 export const routes: Routes = [
-  { 
-    path: '', 
+  {
+    path: '',
     redirectTo: 'home',
     pathMatch: 'full',
-    title: 'ScreenVault' 
-  },
-  { 
-    path: 'home', 
-    component: HomeComponent, 
     title: 'ScreenVault',
-    children: [   
+  },
+  {
+    path: 'home',
+    component: HomeComponent,
+    title: 'ScreenVault',
+    children: [
       {
         path: '',
         component: WallComponent,
         children: [
           {
-          path: 'sd',
-          component: WallItemComponent,
-          }
+            path: 'sd',
+            component: WallItemComponent,
+          },
         ],
       },
       {
         path: 'commentSection/:id',
         component: CommentSectionComponent,
       },
-    ], 
+    ],
   },
-  
-  { 
-    path: 'login', 
-    component: LoginComponent 
+
+  {
+    path: 'login',
+    component: LoginComponent,
   },
-  { 
-    path: 'signup', 
-    component: SignupComponent 
+  {
+    path: 'signup',
+    component: SignupComponent,
   },
   {
     path: 'upload-image',
@@ -80,7 +79,7 @@ export const routes: Routes = [
   {
     path: 'user-profile',
     component: UserProfileComponent,
-    canActivate: [authGuardService],
+    // canActivate: [authGuardService],
   },
 
   {
