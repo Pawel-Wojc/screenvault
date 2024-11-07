@@ -73,7 +73,7 @@ export class PublicPostComponent {
     };
 
     //api call post postToPublic
-
+    
     this.router.navigate(['']);
   }
 
