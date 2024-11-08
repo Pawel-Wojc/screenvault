@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
+import { DragDropModule, transferArrayItem } from '@angular/cdk/drag-drop';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-drag-drop-test',
   standalone: true,
-  imports: [],
+  imports: [DragDropModule, CommonModule],
   templateUrl: './drag-drop-test.component.html',
   styleUrl: './drag-drop-test.component.css',
 })
@@ -15,18 +17,13 @@ export class DragDropTestComponent {
       name: 'Funny photos',
       photos: [
         {
-          name: 'first funny photo',
-          url: 'https://fastly.picsum.photos/id/658/1280/960.jpg?hmac=yDYqssxczLgZ7oguYI0Nsj6s0ZDHpvT5dgdTG0T6ZzI',
-          status: 'public',
-        },
-        {
           name: 'second funny photo',
-          url: 'https://fastly.picsum.photos/id/658/1280/960.jpg?hmac=yDYqssxczLgZ7oguYI0Nsj6s0ZDHpvT5dgdTG0T6ZzI',
+          url: 'https://fastly.picsum.photos/id/743/200/200.jpg?hmac=p4EqNQGnGvZo65W4_FlXvjPQG8g1ogR7bgvnrQCUnEs',
           status: 'private',
         },
         {
           name: 'third funny photo',
-          url: 'https://fastly.picsum.photos/id/658/1280/960.jpg?hmac=yDYqssxczLgZ7oguYI0Nsj6s0ZDHpvT5dgdTG0T6ZzI',
+          url: 'https://fastly.picsum.photos/id/774/200/200.jpg?hmac=kHZuEL0Tzh_9wUk4BnU9zxodilE2mGBdAAor2hKpA_w',
           status: 'public',
         },
       ],
@@ -35,24 +32,23 @@ export class DragDropTestComponent {
       id: 2,
       name: 'My favorite photos',
       photos: [
-        { name: 'first favorite photo', url: '', status: 'private' },
-        { name: 'second favorite photo', url: '', status: 'private' },
-        { name: 'third favorite photo', url: '', status: 'public' },
+        {
+          name: 'second favorite photo',
+          url: 'https://fastly.picsum.photos/id/841/200/200.jpg?hmac=jAPzaXgN_B37gVuIQvmtuRCmYEC0lJP86OZexH1yam4',
+          status: 'private',
+        },
+        {
+          name: 'third favorite photo',
+          url: 'https://fastly.picsum.photos/id/560/200/200.jpg?hmac=Dqou6QpKCTK2srRsCRhlIxLQHvFL7zz6UocOb3UkpwI',
+          status: 'public',
+        },
       ],
-    },
-    {
-      id: 3,
-      name: 'Other photos',
-      photos: [
-        { name: 'first other photo', url: '', status: 'private' },
-        { name: 'second other photo', url: '', status: 'private' },
-        { name: 'third other photo', url: '', status: 'private' },
-      ],
-    },
-    {
-      id: 4,
-      name: 'Memes',
-      photos: [],
     },
   ];
+  currentCollection = 1;
+  // TypeScript
+  onDrop(event: any, collection: any): void {
+    console.log(event.container.data);
+    console.log(event.previousContainer.data);
+  }
 }

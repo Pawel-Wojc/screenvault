@@ -13,6 +13,7 @@ import {
   moveItemInArray,
   transferArrayItem,
 } from '@angular/cdk/drag-drop';
+import { every } from 'rxjs';
 
 @Component({
   selector: 'app-collections',
@@ -22,6 +23,10 @@ import {
   styleUrl: './collections.component.css',
 })
 export class CollectionsComponent {
+  onDrop(event: CdkDragDrop<any, any, any>) {
+    console.log(event.container.data);
+    console.log(event.previousContainer.data);
+  }
   private snackBar = inject(MatSnackBar);
   private dialog = inject(MatDialog);
   private currentOpenedFolder = signal<number | undefined>(undefined);
@@ -75,7 +80,7 @@ export class CollectionsComponent {
       photos: [],
     },
   ];
-  asd :string[] = [{},];
+
   drop(event: CdkDragDrop<string[]>) {
     console.log(event.container);
     console.log(event.previousContainer);
