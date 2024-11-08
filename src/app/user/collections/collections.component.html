@@ -1,7 +1,15 @@
 <div>
-  <div class="m-4 flex flex-row bg-white/[.25] rounded-md flex-wrap shadow-md">
+  <div
+    class="m-4 flex flex-row bg-white/[.25] rounded-md flex-wrap shadow-md"
+    cdkDropListGroup
+  >
     <div *ngFor="let item of userCollections" class="flex flex-col">
-      <div class="m-4 flex flex-col items-center rounded-md">
+      <div
+        class="m-4 flex flex-col items-center rounded-md"
+        cdkDropList
+        [cdkDropListData]="item"
+        (cdkDropListDropped)="drop($event)"
+      >
         <div class="relative">
           <img
             (click)="openFolder(item.id)"
@@ -52,6 +60,7 @@
   </div>
   <div
     class="m-4 flex flex-row bg-white/[.25] rounded-md flex-wrap shadow-md relative"
+    x
   >
     <img
       *ngIf="currentFolder() !== undefined"
@@ -64,7 +73,7 @@
       *ngFor="let item of currentFolder()"
       class="items-center flex flex-col relative"
     >
-      <div class="flex flex-row">
+      <div class="flex flex-row" cdkDrag>
         <img
           [ngClass]="{
             'border-red-400': item.status === 'public',

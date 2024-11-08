@@ -1,14 +1,23 @@
-import { Component, inject, NgModule, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { InputDialog } from '../../shared/input-dialog/input-dialog';
 import { CommonModule } from '@angular/common';
 import { MatTooltip } from '@angular/material/tooltip';
+import {
+  DragDropModule,
+  CdkDragDrop,
+  CdkDrag,
+  CdkDropList,
+  CdkDropListGroup,
+  moveItemInArray,
+  transferArrayItem,
+} from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-collections',
   standalone: true,
-  imports: [CommonModule, MatTooltip],
+  imports: [DragDropModule, CommonModule, MatTooltip],
   templateUrl: './collections.component.html',
   styleUrl: './collections.component.css',
 })
@@ -66,6 +75,26 @@ export class CollectionsComponent {
       photos: [],
     },
   ];
+  asd :string[] = [{},];
+  drop(event: CdkDragDrop<string[]>) {
+    console.log(event.container);
+    console.log(event.previousContainer);
+    //api call to change image collection
+    if (event.previousContainer === event.container) {
+      moveItemInArray(
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex
+      );
+    } else {
+      transferArrayItem(
+        event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex
+      );
+    }
+  }
 
   deleteUserCollection(id: number) {
     ///API CALL
