@@ -31,7 +31,12 @@ export class CollectionsComponent {
   private dialog = inject(MatDialog);
   private currentOpenedFolder = signal<number | undefined>(undefined);
   currentFolder = signal<
-    { name: string; url: string; status: string }[] | undefined
+    | {
+        id: number;
+        name: string;
+        photos: { name: string; url: string; status: string }[];
+      }
+    | undefined
   >(undefined);
   userCollections = [
     //this data from api
@@ -114,9 +119,9 @@ export class CollectionsComponent {
       return;
     }
     this.currentFolder.set(
-      this.userCollections.find((folder) => folder.id === id)?.photos
+      this.userCollections.find((folder) => folder.id === id)
     );
-    if (this.currentFolder()?.length === 0) {
+    if (this.currentFolder()?.photos.length === 0) {
       this.currentFolder.set(undefined);
       this.snackBar.open('No photos in this folder', 'Close', {
         duration: 2000,

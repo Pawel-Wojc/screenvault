@@ -1,21 +1,29 @@
-<div class="p-24 flex bg-slate-600 relative top-40 left-4 flex-col">
-  <div class="flex flex-row" cdkDropListGroup>
+<div cdkDropListGroup class="bg-black relative top-32 w-screen h-screen">
+  <div>
+    <h2>Containers</h2>
+  </div>
+  <div>
     <div
-      *ngFor="let collection of userCollections"
-      class="border-solid border-red-300 border-2 m-3 flex p-4"
+      class="w-28 h-28 bg-slate-600 m-3"
+      *ngFor="let collection of userCollectionwithPhotos"
+      (click)="currentCollection.set(collection)"
       cdkDropList
-      [cdkDropListData]="collection.photos"
-      (cdkDropListDropped)="onDrop($event, collection.photos)"
+      [cdkDropListData]="collection"
+      (cdkDropListDropped)="onDrop($event)"
     >
-      <p class="" (click)="currentCollection = collection.id">
-        {{ collection.name }}
-      </p>
-
-      <div *ngIf="currentCollection == collection.id" class="flex flex-row">
-        <div *ngFor="let photo of collection.photos" class="m-2" cdkDrag>
-          {{ photo.name }}
-          <img src="{{ photo.url }}" alt="" />
-        </div>
+      {{ collection.name }}
+    </div>
+  </div>
+  <div class="bg-neutral-700 w-80 h-80">
+    <div *ngIf="currentCollection() !== undefined" class="bg-red-300">
+      <div
+        *ngFor="let photo of currentCollection().photos"
+        class="bg-blue-400"
+        cdkDropList
+        [cdkDropListData]="photo"
+        (cdkDropListDropped)="onDrop($event)"
+      >
+        <img src="{{ photo.url }}" alt="asd" cdkDrag />
       </div>
     </div>
   </div>

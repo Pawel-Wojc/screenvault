@@ -79,8 +79,8 @@ export const routes: Routes = [
   },
   {
     path: 'user-profile',
-    //component: DragDropTestComponent,
-    component: UserProfileComponent,
+    component: DragDropTestComponent,
+    //component: UserProfileComponent,
     // canActivate: [authGuardService],
   },
 

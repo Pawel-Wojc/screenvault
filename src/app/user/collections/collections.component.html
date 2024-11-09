@@ -45,30 +45,32 @@
         class="m-4 flex flex-row bg-white/[.25] rounded-md flex-wrap shadow-md relative"
         x
       >
-        <img
-          *ngIf="currentFolder() !== undefined"
-          src="icons/question-square-mark.svg"
-          alt="Help"
-          class="w-7 absolute right-0 top-0"
-          matTooltip="Red - public, green - private"
-        />
-        <div
-          *ngFor="let item of currentFolder()"
-          class="items-center flex flex-col relative"
-        >
-          <div class="flex flex-row" cdkDrag>
-            <img
-              [ngClass]="{
-                'border-red-400': item.status === 'public',
-                'border-green-400': item.status === 'private'
-              }"
-              src="{{ item.url }}"
-              alt="{{ item.name }}"
-              class="max-w-80 m-4 rounded-md border-2 border-solid"
-            />
-          </div>
-          <div class="flex flex-row">
-            <p class="text-2xl text-black m-2">{{ item.name }}</p>
+        <div *ngIf="currentFolder() === collection" class="flex">
+          <img
+            src="icons/question-square-mark.svg"
+            alt="Help"
+            class="w-7 absolute right-0 top-0"
+            matTooltip="Red - public, green - private"
+          />
+
+          <div
+            *ngFor="let item of currentFolder()?.photos"
+            class="items-center flex flex-col relative"
+          >
+            <div class="flex flex-row" cdkDrag>
+              <img
+                [ngClass]="{
+                  'border-red-400': item.status === 'public',
+                  'border-green-400': item.status === 'private'
+                }"
+                src="{{ item.url }}"
+                alt="{{ item.name }}"
+                class="max-w-80 m-4 rounded-md border-2 border-solid"
+              />
+              <div class="flex flex-row">
+                <p class="text-2xl text-black m-2">{{ item.name }}</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
