@@ -1,10 +1,12 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { MatButton } from '@angular/material/button';
 import {
   MAT_DIALOG_DATA,
   MatDialogActions,
   MatDialogClose,
   MatDialogContent,
+  MatDialogModule,
   MatDialogRef,
   MatDialogTitle,
 } from '@angular/material/dialog';
@@ -16,7 +18,9 @@ import { MatInputModule } from '@angular/material/input';
   templateUrl: './simple-dialog.html',
   standalone: true,
   imports: [
+    MatDialogModule,
     MatFormFieldModule,
+    FormsModule,
     MatInputModule,
     MatDialogActions,
     MatDialogClose,

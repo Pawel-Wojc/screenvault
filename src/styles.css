@@ -24,29 +24,35 @@ body {
 
 
 */
-.FIE_topbar-close-button{
+.FIE_topbar-close-button {
   visibility: hidden;
 }
 
-.FIE_save-extension-selector{
+.FIE_save-extension-selector {
   display: none;
 }
 
-.larLaw{
+.larLaw {
   display: none;
 }
 
-.FIE_save-resize-wrapper{
+.FIE_save-resize-wrapper {
   display: none;
 }
 
-.fubSat{
+.fubSat {
   visibility: hidden;
 }
 
-.FIE_save-quality-wrapper{
+.FIE_save-quality-wrapper {
   display: none;
 }
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+}

@@ -1,0 +1,29 @@
+<div cdkDropListGroup class="bg-black relative top-32 w-screen h-screen">
+  <div>
+    <h2>Containers</h2>
+  </div>
+  <div>
+    <div
+      class="w-28 h-28 bg-slate-600 m-3"
+      *ngFor="let collection of userCollectionwithPhotos"
+      (click)="currentCollection.set(collection)"
+      cdkDropList
+      (cdkDropListDropped)="onDrop($event)"
+      [cdkDropListData]="collection"
+    >
+      {{ collection.name }}
+    </div>
+  </div>
+  <div class="bg-neutral-700 w-80 h-80">
+    <div *ngIf="currentCollection() !== undefined" class="bg-red-300">
+      <div
+        *ngFor="let photo of currentCollection().photos"
+        class="bg-blue-400"
+        cdkDropList
+        [cdkDropListData]="photo"
+      >
+        <img src="{{ photo.url }}" alt="asd" cdkDrag />
+      </div>
+    </div>
+  </div>
+</div>
