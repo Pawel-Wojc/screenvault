@@ -8,8 +8,8 @@
       *ngFor="let collection of userCollectionwithPhotos"
       (click)="currentCollection.set(collection)"
       cdkDropList
-      [cdkDropListData]="collection"
       (cdkDropListDropped)="onDrop($event)"
+      [cdkDropListData]="collection"
     >
       {{ collection.name }}
     </div>
@@ -21,7 +21,6 @@
         class="bg-blue-400"
         cdkDropList
         [cdkDropListData]="photo"
-        (cdkDropListDropped)="onDrop($event)"
       >
         <img src="{{ photo.url }}" alt="asd" cdkDrag />
       </div>

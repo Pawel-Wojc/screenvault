@@ -26,7 +26,7 @@ export class DragDropTestComponent {
       photos: [
         {
           name: 'first funnty photo',
-          url: ' https://fastly.picsum.photos/id/743/200/200.jpg?hmac=p4EqNQGnGvZo65W4_FlXvjPQG8g1ogR7bgvnrQCUnEs',
+          url: ' https://picsum.photos/id/1/200/300',
           status: 'private',
         },
         {

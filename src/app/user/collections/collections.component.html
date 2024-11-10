@@ -1,33 +1,24 @@
 <div>
-  <div
-    class="m-4 flex flex-row bg-white/[.25] rounded-md flex-wrap shadow-md"
-    cdkDropListGroup
-  >
-    <div
-      *ngFor="let collection of userCollections"
-      class="flex flex-col"
-      cdkDropList
-      [cdkDropListData]="collection.photos"
-      (cdkDropListDropped)="onDrop($event)"
-    >
-      <div class="m-4 flex flex-col items-center rounded-md">
+  <div class="m-4 flex flex-row bg-white/[.25] rounded-md flex-wrap shadow-md">
+    <div *ngFor="let collection of userCollections" class="flex flex-col">
+      <div class="m-4 flex flex-col items-center rounded-md max-w-24">
         <div class="relative">
           <img
-            (click)="openFolder(collection.id)"
+            (click)="openFolder(collection)"
             src="icons/folder.svg"
             alt="Colection"
-            class="max-w-36 drop-shadow-md cursor-pointer hover:drop-shadow-[0_15px_15px_rgba(0,0,0,0.4)]"
+            class="drop-shadow-md cursor-pointer hover:drop-shadow-[0_15px_15px_rgba(0,0,0,0.4)]"
           />
           <button
             (click)="deleteUserCollection(collection.id)"
-            class="bg-slate-50 absolute w-8 left-[105px] bottom-[10px] shadow-sm rounded-sm bg-opacity-70 cursor-pointer z-10"
+            class="bg-slate-50 absolute w-5 left-[70px] bottom-[10px] shadow-sm rounded-sm bg-opacity-70 cursor-pointer z-10"
           >
             <img
               matTooltip="Delete"
               [matTooltipShowDelay]="300"
               src="icons/bin.svg"
               alt="Delete"
-              class="m-1"
+              class="m-[2px]"
             />
           </button>
         </div>
@@ -38,45 +29,12 @@
           [matTooltipShowDelay]="300"
           (click)="renameFolder(collection.id)"
         >
-          <p class="text-3xl text-black">{{ collection.name }}</p>
-        </div>
-      </div>
-      <div
-        class="m-4 flex flex-row bg-white/[.25] rounded-md flex-wrap shadow-md relative"
-        x
-      >
-        <div *ngIf="currentFolder() === collection" class="flex">
-          <img
-            src="icons/question-square-mark.svg"
-            alt="Help"
-            class="w-7 absolute right-0 top-0"
-            matTooltip="Red - public, green - private"
-          />
-
-          <div
-            *ngFor="let item of currentFolder()?.photos"
-            class="items-center flex flex-col relative"
-          >
-            <div class="flex flex-row" cdkDrag>
-              <img
-                [ngClass]="{
-                  'border-red-400': item.status === 'public',
-                  'border-green-400': item.status === 'private'
-                }"
-                src="{{ item.url }}"
-                alt="{{ item.name }}"
-                class="max-w-80 m-4 rounded-md border-2 border-solid"
-              />
-              <div class="flex flex-row">
-                <p class="text-2xl text-black m-2">{{ item.name }}</p>
-              </div>
-            </div>
-          </div>
+          <p class="text-xl text-black text-center">{{ collection.name }}</p>
         </div>
       </div>
     </div>
 
-    <div class="m-4 flex flex-col items-center rounded-md">
+    <div class="m-4 flex flex-col items-center rounded-md max-w-24">
       <div
         class=""
         (click)="addNewFolder()"
@@ -86,10 +44,49 @@
         <img
           src="icons/folder.svg"
           alt="Colection"
-          class="max-w-36 drop-shadow-md cursor-pointer hover:drop-shadow-[0_15px_15px_rgba(0,0,0,0.4)]"
+          class="drop-shadow-md cursor-pointer hover:drop-shadow-[0_15px_15px_rgba(0,0,0,0.4)]"
         />
       </div>
-      <p class="text-3xl text-black">New folder</p>
+      <p class="text-xl text-black text-center">New folder</p>
+    </div>
+  </div>
+  <div class="flex flex-wrap">
+    <div
+      *ngFor="let folder of openedFolders"
+      class="m-4 flex bg-white/[.25] rounded-md flex-wrap shadow-md relative flex-col"
+    >
+      <img
+        src="icons/question-square-mark.svg"
+        alt="Help"
+        class="w-7 absolute right-8 top-0"
+        matTooltip="Red - public, green - private"
+      />
+      <img
+        src="icons/close.svg"
+        alt="Close"
+        class="w-7 absolute right-0 top-0 cursor-pointer"
+        matTooltip="Close"
+        (click)="openFolder(folder)"
+      />
+
+      <div class="flex flex-row justify-center">
+        {{ folder.name }}
+      </div>
+      <div class="flex flex-row">
+        <div *ngFor="let item of folder.photos">
+          <img
+            src="{{ item.url }}"
+            alt="photo"
+            class="max-h-40 mt-5 ml-3 mr-3 mb-3 rounded-md"
+          />
+        </div>
+        <div
+          *ngIf="folder.photos.length == 0"
+          class="h-40 w-40 mt-5 ml-3 mr-3 mb-3"
+        >
+          No photos yet
+        </div>
+      </div>
     </div>
   </div>
 </div>

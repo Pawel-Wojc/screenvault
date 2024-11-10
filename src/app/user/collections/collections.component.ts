@@ -13,7 +13,6 @@ import {
   moveItemInArray,
   transferArrayItem,
 } from '@angular/cdk/drag-drop';
-import { every } from 'rxjs';
 
 @Component({
   selector: 'app-collections',
@@ -23,21 +22,19 @@ import { every } from 'rxjs';
   styleUrl: './collections.component.css',
 })
 export class CollectionsComponent {
-  onDrop(event: CdkDragDrop<any, any, any>) {
-    console.log(event.container.data);
-    console.log(event.previousContainer.data);
-  }
   private snackBar = inject(MatSnackBar);
   private dialog = inject(MatDialog);
-  private currentOpenedFolder = signal<number | undefined>(undefined);
-  currentFolder = signal<
+  openedFolders:
     | {
         id: number;
         name: string;
-        photos: { name: string; url: string; status: string }[];
-      }
-    | undefined
-  >(undefined);
+        photos: {
+          name: string;
+          url: string;
+          status: string;
+        }[];
+      }[]
+    | undefined;
   userCollections = [
     //this data from api
     {
@@ -46,7 +43,7 @@ export class CollectionsComponent {
       photos: [
         {
           name: 'first funny photo',
-          url: 'https://fastly.picsum.photos/id/658/1280/960.jpg?hmac=yDYqssxczLgZ7oguYI0Nsj6s0ZDHpvT5dgdTG0T6ZzI',
+          url: 'https://picsum.photos/id/1/200/300',
           status: 'public',
         },
         {
@@ -65,18 +62,42 @@ export class CollectionsComponent {
       id: 2,
       name: 'My favorite photos',
       photos: [
-        { name: 'first favorite photo', url: '', status: 'private' },
-        { name: 'second favorite photo', url: '', status: 'private' },
-        { name: 'third favorite photo', url: '', status: 'public' },
+        {
+          name: 'first favorite photo',
+          url: 'https://fastly.picsum.photos/id/1000/200/200.jpg?hmac=U6gBcO-m8lNXspqhLW17ugDZ1Z3cEcCQj07Wp9Nq7IQ',
+          status: 'private',
+        },
+        {
+          name: 'second favorite photo',
+          url: 'https://fastly.picsum.photos/id/685/200/200.jpg?hmac=1IjDFMSIa0T_JSvcq79_e2NWPwRJg61Ufbfu4eM4HvA',
+          status: 'private',
+        },
+        {
+          name: 'third favorite photo',
+          url: 'https://fastly.picsum.photos/id/351/200/200.jpg?hmac=E2C8OwTRNgbEan5RzifMH73ENtpcsHSr45mGFQk5mPU',
+          status: 'public',
+        },
       ],
     },
     {
       id: 3,
       name: 'Other photos',
       photos: [
-        { name: 'first other photo', url: '', status: 'private' },
-        { name: 'second other photo', url: '', status: 'private' },
-        { name: 'third other photo', url: '', status: 'private' },
+        {
+          name: 'first other photo',
+          url: 'https://fastly.picsum.photos/id/743/200/200.jpg?hmac=p4EqNQGnGvZo65W4_FlXvjPQG8g1ogR7bgvnrQCUnEs',
+          status: 'private',
+        },
+        {
+          name: 'second other photo',
+          url: 'https://fastly.picsum.photos/id/743/200/200.jpg?hmac=p4EqNQGnGvZo65W4_FlXvjPQG8g1ogR7bgvnrQCUnEs',
+          status: 'private',
+        },
+        {
+          name: 'third other photo',
+          url: 'https://fastly.picsum.photos/id/26/200/200.jpg?hmac=A1fbIskzMWVQs1JuyIsJXYGuCgqVwevLXT4YaIJM3Rk',
+          status: 'private',
+        },
       ],
     },
     {
@@ -86,24 +107,11 @@ export class CollectionsComponent {
     },
   ];
 
-  drop(event: CdkDragDrop<string[]>) {
-    console.log(event.container);
-    console.log(event.previousContainer);
-    //api call to change image collection
-    if (event.previousContainer === event.container) {
-      moveItemInArray(
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex
-      );
-    } else {
-      transferArrayItem(
-        event.previousContainer.data,
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex
-      );
-    }
+  onDrop(event: any, targerFolder: any) {
+    console.log(event);
+    console.log(event.item.data.sourceFolder);
+
+    console.log(targerFolder);
   }
 
   deleteUserCollection(id: number) {
@@ -112,24 +120,24 @@ export class CollectionsComponent {
       (collection) => collection.id !== id
     );
   }
-  openFolder(id: number) {
-    if (this.currentOpenedFolder() == id) {
-      this.currentFolder.set(undefined);
-      this.currentOpenedFolder.set(undefined);
-      return;
+  openFolder(folderToOpen: any) {
+    if (this.openedFolders) {
+      if (this.openedFolders.find((f: any) => f === folderToOpen)) {
+        this.openedFolders = this.openedFolders.filter(
+          (f: any) => f !== folderToOpen
+        );
+        console.log('delete');
+        return;
+      }
     }
-    this.currentFolder.set(
-      this.userCollections.find((folder) => folder.id === id)
-    );
-    if (this.currentFolder()?.photos.length === 0) {
-      this.currentFolder.set(undefined);
-      this.snackBar.open('No photos in this folder', 'Close', {
-        duration: 2000,
-      });
+    if (this.openedFolders) {
+      this.openedFolders.push(folderToOpen);
     } else {
-      this.currentOpenedFolder.set(id);
+      this.openedFolders = [folderToOpen];
     }
+    console.log(folderToOpen);
   }
+
   addNewFolder() {
     //api call
     const dialogRef = this.dialog.open(InputDialog, {
