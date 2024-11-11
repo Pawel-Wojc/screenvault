@@ -6,10 +6,6 @@ import { CommonModule } from '@angular/common';
 import { MatTooltip } from '@angular/material/tooltip';
 import {
   DragDropModule,
-  CdkDragDrop,
-  CdkDrag,
-  CdkDropList,
-  CdkDropListGroup,
   moveItemInArray,
   transferArrayItem,
 } from '@angular/cdk/drag-drop';
@@ -22,7 +18,6 @@ import {
   styleUrl: './collections.component.css',
 })
 export class CollectionsComponent {
-  private snackBar = inject(MatSnackBar);
   private dialog = inject(MatDialog);
   openedFolders:
     | {

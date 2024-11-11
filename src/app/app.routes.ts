@@ -14,7 +14,6 @@ import { UserProfileComponent } from './user/user-profile/user-profile.component
 import { authGuardService } from './authorization/auth-guard.service';
 import { CommentSectionComponent } from './home/comment-section/comment-section.component';
 import { WallItemComponent } from './home/wall/wall-item/wall-item.component';
-import { DragDropTestComponent } from './user/drag-drop-test/drag-drop-test.component';
 
 export const routes: Routes = [
   {
@@ -79,7 +78,6 @@ export const routes: Routes = [
   },
   {
     path: 'user-profile',
-    //  component: DragDropTestComponent,
     component: UserProfileComponent,
     // canActivate: [authGuardService],
   },
