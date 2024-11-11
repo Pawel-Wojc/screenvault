@@ -107,11 +107,30 @@ export class CollectionsComponent {
     },
   ];
 
-  onDrop(event: any, targerFolder: any) {
-    console.log(event);
-    console.log(event.item.data.sourceFolder);
-
-    console.log(targerFolder);
+  onDrop(event: any) {
+    if (event.previousContainer === event.container) {
+      let array = this.userCollections.find((c) => c === event.container.data);
+      console.log(array);
+      if (array) {
+        moveItemInArray(array.photos, event.previousIndex, event.currentIndex);
+        //call api to update
+      }
+    } else {
+      let currentArray = this.userCollections.find(
+        (c) => c === event.previousContainer.data
+      );
+      let targetArray = this.userCollections.find(
+        (c) => c === event.container.data
+      );
+      if (currentArray && targetArray) {
+        transferArrayItem(
+          currentArray.photos,
+          targetArray.photos,
+          event.previousIndex,
+          event.currentIndex
+        );
+      }
+    }
   }
 
   deleteUserCollection(id: number) {
@@ -135,7 +154,6 @@ export class CollectionsComponent {
     } else {
       this.openedFolders = [folderToOpen];
     }
-    console.log(folderToOpen);
   }
 
   addNewFolder() {
