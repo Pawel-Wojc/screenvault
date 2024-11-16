@@ -4,11 +4,10 @@ import {
   FormBuilder,
   FormGroup,
   Validators,
-  AbstractControl,
 } from '@angular/forms';
-import { RouterLink } from '@angular/router';
-import { logInUser } from '../interfaces/logInUser';
+import { RouterLink, Router } from '@angular/router';
 import { LoginService } from './login.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-login',
@@ -21,9 +20,12 @@ export class LoginComponent {
   @ViewChild('errorBaner', { static: true }) errorBaner?: ElementRef;
 
   logInForm!: FormGroup;
-  logInUser!: logInUser;
+  credentials!: string;
+  credentialsBase64!: string;
 
   private loginService = inject(LoginService);
+  private router = inject(Router);
+  private snackBar = inject(MatSnackBar);
 
   constructor(private formBuilder: FormBuilder) {
     this.logInForm = this.formBuilder.group({
@@ -47,18 +49,29 @@ export class LoginComponent {
   }
 
   submitLogIn() {
-    this.logInUser = {
-      email: this.logInForm.value.email,
-      password: this.logInForm.value.password,
-    };
+    this.credentials = this.logInForm.value.email + ':' + this.logInForm.value.password;
+    this.credentialsBase64 = btoa(String.fromCharCode(...new TextEncoder().encode(this.credentials)));
 
-    if (this.loginService.loginUser(this.logInUser)) {
-      this.errorBaner?.nativeElement.classList.add('removeOpacity');
-    }
+    this.loginService.loginUser(this.credentialsBase64).subscribe({
+      next: (response) => {
+        if (response.status == 200) {
+          this.openSnackBar('Login successfull');
+          setTimeout(() => {
+            this.router.navigate(['/']);
+          }, 2000);
+        }
+      },
+      error: (error) => {
+        this.errorBaner?.nativeElement.classList.add('removeOpacity');
+      },
+    });
+  }
 
-    this.logInUser = {
-      email: '',
-      password: '',
-    };
+  openSnackBar(message: string) {
+    this.snackBar.open(message, 'Close', {
+      duration: 3000,
+      horizontalPosition: 'center',
+      verticalPosition: 'top',
+    });
   }
 }

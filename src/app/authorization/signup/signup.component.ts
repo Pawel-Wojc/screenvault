@@ -85,6 +85,7 @@ export class SignupComponent {
       verticalPosition: 'top',
     });
   }
+  
   submitSingUpForm() {
     this.newUser.login = this.singUpForm.value.email;
     this.newUser.username = this.singUpForm.value.userName;
