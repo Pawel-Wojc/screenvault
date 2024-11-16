@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 @Injectable({ providedIn: 'root' })
 export class SignupService {
   private httpClient = inject(HttpClient);
-  private url = myGlobals.apiLink + '/register';
+  private url = myGlobals.apiLink + '/authentication/register';
 
   registerUser(user: newUser): Observable<any> {
     return this.httpClient.post<any>(this.url, user, { observe: 'response' });

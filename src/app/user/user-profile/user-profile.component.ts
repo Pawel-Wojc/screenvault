@@ -12,7 +12,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { SimpleDialog } from '../../shared/simple-dialog/simple-dialog';
 import { CollectionsComponent } from '../collections/collections.component';
-import { DragDropTestComponent } from '../drag-drop-test/drag-drop-test.component';
+//import { DragDropTestComponent } from '../drag-drop-test/drag-drop-test.component';
 
 @Component({
   selector: 'app-user-profile',
@@ -21,7 +21,7 @@ import { DragDropTestComponent } from '../drag-drop-test/drag-drop-test.componen
     CommonModule,
     MatTooltipModule,
     CollectionsComponent,
-    DragDropTestComponent,
+  //  DragDropTestComponent,
   ],
   templateUrl: './user-profile.component.html',
   styleUrl: './user-profile.component.css',

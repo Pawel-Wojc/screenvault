@@ -4,6 +4,8 @@ import {
   FormBuilder,
   FormGroup,
   Validators,
+  ValidationErrors,
+  AbstractControlOptions,
 } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { newUser } from '../interfaces/newUser';
@@ -23,8 +25,8 @@ export class SignupComponent {
   private router = inject(Router);
 
   newUser: newUser = {
-    userName: '',
-    email: '',
+    username: '',
+    login: '',
     password: '',
   };
   singUpForm!: FormGroup;
@@ -54,12 +56,12 @@ export class SignupComponent {
       },
       {
         validator: this.passwordMatchValidator, // Applying custom validator
-      }
+      } as AbstractControlOptions
     );
   }
 
   // Custom Validator
-  passwordMatchValidator(formGroup: FormGroup) {
+  passwordMatchValidator(formGroup: FormGroup): ValidationErrors | null {
     const password = formGroup.get('password');
     const confirmPassword = formGroup.get('confirmPassword');
     return password &&
@@ -84,8 +86,8 @@ export class SignupComponent {
     });
   }
   submitSingUpForm() {
-    this.newUser.email = this.singUpForm.value.email;
-    this.newUser.userName = this.singUpForm.value.userName;
+    this.newUser.login = this.singUpForm.value.email;
+    this.newUser.username = this.singUpForm.value.userName;
     this.newUser.password = this.singUpForm.value.password;
     this.registerService.registerUser(this.newUser).subscribe({
       next: (response) => {
