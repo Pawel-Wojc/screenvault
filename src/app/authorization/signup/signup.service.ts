@@ -10,6 +10,6 @@ export class SignupService {
   private url = myGlobals.apiLink + '/authentication/register';
 
   registerUser(user: newUser): Observable<any> {
-    return this.httpClient.post<any>(this.url, user, { observe: 'response' });
+    return this.httpClient.post<any>(this.url, user, { observe: 'response', withCredentials: true });
   }
 }

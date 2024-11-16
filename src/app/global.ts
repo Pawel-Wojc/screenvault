@@ -1,1 +1,1 @@
-export const apiLink = 'https://localhost:44308';
+export const apiLink =  'http://localhost:8080'; // 'https://localhost:44308';

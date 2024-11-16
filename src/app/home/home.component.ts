@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { WallComponent } from './wall/wall.component';
-import { RouterOutlet,RouterLink } from '@angular/router';
+import { RouterOutlet} from '@angular/router';
 
 @Component({
   selector: 'app-home',
