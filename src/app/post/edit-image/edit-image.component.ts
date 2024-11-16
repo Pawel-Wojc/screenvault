@@ -5,11 +5,11 @@ import FilerobotImageEditor from 'filerobot-image-editor';
 import { FilerobotImageEditorConfig, TABS } from 'react-filerobot-image-editor';
 
 @Component({
-  selector: 'app-create-new-post',
+  selector: 'app-edit-image',
   standalone: true,
   imports: [RouterLink, RouterOutlet],
-  templateUrl: './create-new-post.component.html',
-  styleUrl: './create-new-post.component.css'
+  templateUrl: './edit-image.component.html',
+  styleUrl: './edit-image.component.css'
 })
 export class CreateNewPostComponent {
   private router =  inject(Router)

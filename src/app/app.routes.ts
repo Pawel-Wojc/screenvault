@@ -7,7 +7,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import { PostComponent } from './post/post/post.component';
 import { CreateAnonymousPostComponent } from './post/anonymous-post/create-anonymous-post/create-anonymous-post.component';
 import { WallComponent } from './home/wall/wall.component';
-import { CreateNewPostComponent } from './post/create-new-post/create-new-post.component';
+import { CreateNewPostComponent } from './post/edit-image/edit-image.component';
 import { PublicPostComponent } from './post/public-post/public-post.component';
 import { GetAnonymousPostComponent } from './post/anonymous-post/get-anonymous-post/get-anonymous-post.component';
 import { UserProfileComponent } from './user/user-profile/user-profile.component';
