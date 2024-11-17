@@ -81,6 +81,7 @@ export class WallItemComponent {
 
   reportPost(){
     this.reportService.reportPost('###########################');
+    this.openSnackBar("The report has been sent successfully.");
   }
   
   openSnackBar(message: string) {

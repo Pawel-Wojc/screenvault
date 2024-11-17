@@ -6,6 +6,7 @@ import { CommentServiceService } from './comment-service.service';
 import { Comment } from './comment';
 import { filter, fromEvent, map, Subscription, throttleTime } from 'rxjs';
 import { reportService } from '../report.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-comment-section',
@@ -30,8 +31,7 @@ export class CommentSectionComponent {
   private commentService = inject(CommentServiceService);
   private datePipe = inject(DatePipe);
   private reportService = inject(reportService);
-
-  
+  private snackBar = inject(MatSnackBar);
 
   constructor(){
     this.addCommentForm = this.formBuilder.group({
@@ -83,10 +83,20 @@ export class CommentSectionComponent {
 
   reportPost(){
     this.reportService.reportPost('###########################');
+    this.openSnackBar("The report has been sent successfully.");
   }
 
   reportComment(commentId: string){
     this.reportService.reportComment(commentId);
+    this.openSnackBar("The report has been sent successfully.");
+  }
+
+  openSnackBar(message: string) {
+    this.snackBar.open(message, 'Close', {
+      duration: 3000,
+      horizontalPosition: 'center',
+      verticalPosition: 'bottom',
+    });
   }
 
   saveComment(){
