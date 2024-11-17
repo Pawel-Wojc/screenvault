@@ -50,7 +50,7 @@ a{
     position: relative;
 }
 
-#report-img{
+.report-img{
     position: absolute;
     top: 0px;
     right: 0px;
@@ -101,6 +101,7 @@ a{
     flex-direction: column; 
     padding: 1.5% 2.5% 1.5% 2.5%;
     border-radius: 10px;
+    position: relative;
 }
 
 .comment:not(:first-of-type){
@@ -113,6 +114,7 @@ a{
     width: 100%;
     margin-bottom: 0.5%;
     font-size: 0.75vw;
+    padding-right: 1vw;
 }
 
 .user-name{

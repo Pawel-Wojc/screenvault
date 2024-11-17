@@ -30,12 +30,14 @@ export const routes: Routes = [
       {
         path: '',
         component: WallComponent,
+        /*
         children: [
           {
             path: 'sd',
             component: WallItemComponent,
           },
         ],
+        */
       },
       {
         path: 'commentSection/:id',
