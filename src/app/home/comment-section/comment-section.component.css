@@ -47,6 +47,23 @@ a{
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
+}
+
+#report-img{
+    position: absolute;
+    top: 0px;
+    right: 0px;
+}
+
+.report-icon{
+    height: 1.5vw;
+    width: 1.5vw;
+    opacity: 0.8;
+}
+
+.report-icon:hover{
+    opacity: 1;
 }
 
 #comment-wrapper{

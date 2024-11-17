@@ -5,6 +5,7 @@ import { RouterLink } from '@angular/router';
 import { CommentServiceService } from './comment-service.service';
 import { Comment } from './comment';
 import { filter, fromEvent, map, Subscription, throttleTime } from 'rxjs';
+import { reportService } from '../report.service';
 
 @Component({
   selector: 'app-comment-section',
@@ -14,6 +15,7 @@ import { filter, fromEvent, map, Subscription, throttleTime } from 'rxjs';
   styleUrl: './comment-section.component.css',
   providers: [DatePipe]
 })
+
 export class CommentSectionComponent {
   @ViewChild('commentsScroll') commentsScroll!: ElementRef;
 
@@ -27,6 +29,7 @@ export class CommentSectionComponent {
   private formBuilder = inject(FormBuilder);
   private commentService = inject(CommentServiceService);
   private datePipe = inject(DatePipe);
+  private reportService = inject(reportService);
 
   
 
@@ -76,7 +79,14 @@ export class CommentSectionComponent {
         this.isLoading = false;
       }
     );
+  }
 
+  reportPost(){
+    this.reportService.reportPost('###########################');
+  }
+
+  reportComment(commentId: string){
+    this.reportService.reportComment(commentId);
   }
 
   saveComment(){

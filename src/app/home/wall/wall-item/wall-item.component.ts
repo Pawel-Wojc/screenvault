@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { WallItemService } from './wall-item.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { reportService } from '../../report.service';
+
 @Component({
   selector: 'app-wall-item',
   standalone: true,
@@ -13,8 +15,27 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class WallItemComponent {
   private wallItemService = inject(WallItemService);
   private snackBar = inject(MatSnackBar);
+  private router = inject(Router);
+  private reportService = inject(reportService);
+
   svgMinus: string = 'icons/minus-red.svg';
   svgPlus: string = 'icons/plus-green.svg';
+  id = input<any>();
+
+  randomnumber = Math.floor(Math.random() * popularImageDimensions.length);
+  imageWidth = popularImageDimensions[this.randomnumber].width;
+  imageHeight = popularImageDimensions[this.randomnumber].height;
+  imageUrl = signal('');
+
+  ngOnInit() {
+    this.imageUrl.set(
+      `https://picsum.photos/${this.imageWidth}/${
+        this.imageHeight
+      }?random=${this.id()}`
+    );
+    console.log(this.imageUrl());
+  }
+
   disLikePost() {
     this.wallItemService.dislikePost(this.id()).subscribe({
       next: (response) => {
@@ -53,27 +74,15 @@ export class WallItemComponent {
       },
     });
   }
-  id = input<any>();
-  private router = inject(Router);
-
-  randomnumber = Math.floor(Math.random() * popularImageDimensions.length);
-  imageWidth = popularImageDimensions[this.randomnumber].width;
-  imageHeight = popularImageDimensions[this.randomnumber].height;
-  imageUrl = signal('');
-
-  ngOnInit() {
-    this.imageUrl.set(
-      `https://picsum.photos/${this.imageWidth}/${
-        this.imageHeight
-      }?random=${this.id()}`
-    );
-    console.log(this.imageUrl());
-  }
-
+  
   navigateToCommentsectionComponent() {
     this.router.navigate(['/home/commentSection/replaceMEEE']);
   }
 
+  reportPost(){
+    this.reportService.reportPost('###########################');
+  }
+  
   openSnackBar(message: string) {
     this.snackBar.open(message, 'Close', {
       duration: 3000,

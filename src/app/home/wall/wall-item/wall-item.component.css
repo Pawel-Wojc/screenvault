@@ -20,6 +20,20 @@ button{
   backdrop-filter: blur(3.6px);
   -webkit-backdrop-filter: blur(3.6px);
   border: 0px solid rgba(255, 255, 255, 0.29);
+  position: relative;
+}
+
+#report-img{ 
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  width: 1.5vw;
+  height: 1.5vw;
+  opacity: 0.4;
+}
+
+#report-img:hover{
+  opacity: 1;
 }
 
 .dot-elastic {
