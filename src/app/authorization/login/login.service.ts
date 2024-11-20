@@ -33,7 +33,7 @@ export class LoginService {
 */
   loginUser(authString: string): Observable<any>{
     const headers = new HttpHeaders()
-    .set('Authorization', authString); // Adding the Authorization header
+    .set('Authorization','Basic ' + authString); // Adding the Authorization header
   return this.httpClient.post<any>(this.url, {} ,{ headers, observe: 'response' });
   }
 }
