@@ -102,6 +102,7 @@ a{
     padding: 1.5% 2.5% 1.5% 2.5%;
     border-radius: 10px;
     position: relative;
+    box-shadow: 5px 5px 5px #555;
 }
 
 .comment:not(:first-of-type){

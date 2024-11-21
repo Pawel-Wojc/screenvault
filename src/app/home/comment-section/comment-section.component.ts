@@ -2,7 +2,7 @@ import { Component, inject, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { FormBuilder, Validators, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import { CommentServiceService } from './comment-service.service';
+import { CommentService } from './comment.service';
 import { Comment } from './comment';
 import { filter, fromEvent, map, Subscription, throttleTime } from 'rxjs';
 import { reportService } from '../report.service';
@@ -28,7 +28,7 @@ export class CommentSectionComponent {
   private scrollSubscription!: Subscription;
 
   private formBuilder = inject(FormBuilder);
-  private commentService = inject(CommentServiceService);
+  private commentService = inject(CommentService);
   private datePipe = inject(DatePipe);
   private reportService = inject(reportService);
   private snackBar = inject(MatSnackBar);
@@ -61,24 +61,24 @@ export class CommentSectionComponent {
 
   checkScrollPosition(): boolean {
     const container = this.commentsScroll.nativeElement;
-    const threshold = 200; // Trigger 100px before the bottom
+    const threshold = 200; // Trigger 200px before the bottom
     return container.scrollTop + container.clientHeight >= container.scrollHeight - threshold;
   }
 
   loadComments(){
     this.isLoading = true;
 
-    this.commentService.getComments(this.commentsPageNo).subscribe(
-      (newComments) => {
+    this.commentService.getComments(this.commentsPageNo).subscribe({
+      next: (newComments) => {
         this.comments =[...this.comments, ...newComments];
         this.isLoading = false;
         this.commentsPageNo++;
       },
-      (error) => {
+      error:(error)=> {
         console.error('Error fetching comments', error);
         this.isLoading = false;
-      }
-    );
+      },
+    });
   }
 
   reportPost(){
