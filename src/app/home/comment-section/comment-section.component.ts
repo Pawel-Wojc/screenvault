@@ -89,6 +89,7 @@ export class CommentSectionComponent {
   reportComment(commentId: string){
     this.reportService.reportComment(commentId);
     this.openSnackBar("The report has been sent successfully.");
+    this.handleReport(commentId);
   }
 
   openSnackBar(message: string) {
@@ -115,4 +116,10 @@ export class CommentSectionComponent {
     return this.addCommentForm.valid ? 'active-button' : 'inactive-button';
   }
 
+  handleReport(commentId: string){
+    this.comments = this.comments.filter(com => com.id !== commentId);
+    if(this.comments.length < 10){
+      this.loadComments();
+    }  
+  }
 }
