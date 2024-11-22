@@ -54,6 +54,11 @@ a{
     position: absolute;
     top: 0px;
     right: 0px;
+    opacity: 0;
+}
+
+.hover{
+    opacity: 1;
 }
 
 .report-icon{
@@ -140,6 +145,7 @@ a{
   /* Handle */
 ::-webkit-scrollbar-thumb {
     background: rgb(110, 110, 110);
+    border-radius: 4px;
 }
   
   /* Handle on hover */

@@ -19,7 +19,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 
 export class CommentSectionComponent {
   @ViewChild('commentsScroll') commentsScroll!: ElementRef;
-
+  imgHoverFlag = false;
   imgSrc: string = '';
   comments: Comment[] = [];
   isLoading = false;
@@ -119,7 +119,7 @@ export class CommentSectionComponent {
   handleReport(commentId: string){
     this.comments = this.comments.filter(com => com.id !== commentId);
     if(this.comments.length < 10){
-      this.loadComments();
+       this.loadComments();
     }  
   }
 }

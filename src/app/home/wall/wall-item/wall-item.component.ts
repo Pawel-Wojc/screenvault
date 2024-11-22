@@ -4,11 +4,12 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { WallItemService } from './wall-item.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { reportService } from '../../report.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-wall-item',
   standalone: true,
-  imports: [MatTooltipModule],
+  imports: [MatTooltipModule, CommonModule],
   templateUrl: './wall-item.component.html',
   styleUrl: './wall-item.component.css',
 })
@@ -21,6 +22,7 @@ export class WallItemComponent {
   svgMinus: string = 'icons/minus-red.svg';
   svgPlus: string = 'icons/plus-green.svg';
   id = input<any>();
+  postHoverFlag = false;
 
   randomnumber = Math.floor(Math.random() * popularImageDimensions.length);
   imageWidth = popularImageDimensions[this.randomnumber].width;

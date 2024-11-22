@@ -4,7 +4,6 @@ import { LoginComponent } from './authorization/login/login.component';
 import { SignupComponent } from './authorization/signup/signup.component';
 import { UploadImageComponent } from './post/upload-image/upload-image.component';
 import { NotFoundComponent } from './not-found/not-found.component';
-import { PostComponent } from './post/post/post.component';
 import { CreateAnonymousPostComponent } from './post/anonymous-post/create-anonymous-post/create-anonymous-post.component';
 import { WallComponent } from './home/wall/wall.component';
 import { CreateNewPostComponent } from './post/edit-image/edit-image.component';
@@ -61,10 +60,6 @@ export const routes: Routes = [
   {
     path: 'create-new-post',
     component: CreateNewPostComponent,
-  },
-  {
-    path: 'post',
-    component: PostComponent,
   },
   {
     path: 'public-post',

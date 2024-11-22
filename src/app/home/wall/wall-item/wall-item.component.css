@@ -23,18 +23,27 @@ button{
   position: relative;
 }
 
-#report-img{ 
+.report-img{ 
   position: absolute;
   top: 0px;
   right: 0px;
   width: 1.5vw;
   height: 1.5vw;
-  opacity: 0.4;
+  opacity: 0;
 }
 
-#report-img:hover{
+.hover{
   opacity: 1;
 }
+
+.report-icon{
+  opacity: 0.85;
+}
+
+.report-icon:hover{
+  opacity: 1;
+}
+
 
 .dot-elastic {
   position: relative;

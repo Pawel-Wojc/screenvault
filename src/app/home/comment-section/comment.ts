@@ -3,4 +3,5 @@ export interface Comment{
     userName: string,
     text: string,
     postedOn: Date | string,
+    hover?: boolean | null, 
 }

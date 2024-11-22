@@ -15,43 +15,43 @@ export class CommentService {
   getComments(pageNo: number): Observable<Comment[]>{
     return of([
     {
-    id: 'FSDFDGFRBVBD',
+    id: 'FSDFDfGFRBVBD',
     userName: 'Tomek',
     text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco',
     postedOn: new Date('2001-12-31'),
     },
     {
-      id: 'FSDFDGFRBVBD',
+      id: 'FSDFDdfGFRBVBD',
       userName: 'Tomek',
       text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco',
       postedOn: new Date('2001-12-31'),
     },
     {
-      id: 'FSDFDGFRBVBD',
+      id: 'FSDFDGFio8RBVBD',
       userName: 'Tomek',
       text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco',
       postedOn: new Date('2001-12-31'),
     },
     {
-      id: 'FSDFDGFRBVBD',
+      id: 'FSDFDGFRqeBVBD',
       userName: 'Tomek',
       text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco',
       postedOn: new Date('2001-12-31'),
     },
     {
-      id: 'FSDFDGFRBVBD',
+      id: 'FSkDFDGFRBVBD',
       userName: 'Tomek',
       text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco',
       postedOn: new Date('2001-12-31'),
     },
     {
-      id: 'FSDFDGFRBVBD',
+      id: 'FSDFDGFhjgRBVBD',
       userName: 'Tomek',
       text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco',
       postedOn: new Date('2001-12-31'),
     },
     {
-      id: 'FSDFDGFRBVBD',
+      id: 'FSDFDGF443RBVBD',
       userName: 'Tomek',
       text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco',
       postedOn: new Date('2001-12-31'),

@@ -1,11 +1,11 @@
-<div class="glossy-background flex flex-col w-[350px] shadow-2xl rounded-t-md">
-  <button id="report-img" (click)="reportPost()" title="Report this post"> <img class="report-icon" src="icons\report-icon.png"> </button>
-  <div class="w-full">
+<div class="glossy-background flex flex-col w-[350px] shadow-2xl rounded-t-md" (mouseover)="postHoverFlag = true" (mouseout)="postHoverFlag = false">
+  <button [ngClass]="{'hover' : postHoverFlag }" class="report-img" (click)="reportPost()" title="Report this post"> <img class="report-icon" src="icons\report-icon.png"> </button>
+  <div class="w-full" >
     <!-- <div class="h-[100px] w-100">
       <div class="dot-elastic h-[100px]"></div>
     </div> -->
-    <button (click)="navigateToCommentsectionComponent()">
-      <img [src]="imageUrl()" alt="idk" class="w-full rounded-t-md" />
+    <button (click)="navigateToCommentsectionComponent()" >
+      <img [src]="imageUrl()" alt="idk" class="w-full rounded-t-md"/>
     </button>
   </div>
   <div class="relative h-[60px]">
