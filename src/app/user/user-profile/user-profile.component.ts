@@ -12,13 +12,8 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { SimpleDialog } from '../../shared/simple-dialog/simple-dialog';
 import { CollectionsComponent } from '../collections/collections.component';
-<<<<<<< Updated upstream
-//import { DragDropTestComponent } from '../drag-drop-test/drag-drop-test.component';
-
-=======
-import { MatButtonModule } from '@angular/material/button';
 import { ChangePasswordDialog } from '../change-password-dialog/change-password-dialog';
->>>>>>> Stashed changes
+
 @Component({
   selector: 'app-user-profile',
   standalone: true,
@@ -26,12 +21,7 @@ import { ChangePasswordDialog } from '../change-password-dialog/change-password-
     CommonModule,
     MatTooltipModule,
     CollectionsComponent,
-<<<<<<< Updated upstream
-  //  DragDropTestComponent,
-=======
     MatMenuModule,
-    MatButtonModule,
->>>>>>> Stashed changes
   ],
   templateUrl: './user-profile.component.html',
   styleUrl: './user-profile.component.css',
