@@ -1,6 +1,6 @@
 <div>
-  <div class="m-4 flex flex-row bg-white/[.25] rounded-md flex-wrap shadow-md">
-    <div *ngFor="let collection of userCollections" class="flex flex-col">
+  <div class="m-4 flex bg-white/[.25] rounded-md flex-wrap shadow-md">
+    <div *ngFor="let collection of userCollections" class="flex">
       <div class="m-4 flex flex-col items-center rounded-md max-w-24">
         <div class="relative">
           <img
@@ -53,7 +53,7 @@
   <div class="flex flex-wrap" cdkDropListGroup>
     <div
       *ngFor="let folder of openedFolders"
-      class="m-4 flex bg-white/[.25] rounded-md flex-wrap shadow-md relative flex-col min-h-40 min-w-40"
+      class="m-4 flex bg-white/[.25] rounded-md flex-wrap shadow-md flex-col min-h-40 min-w-40"
       cdkDropList
       [cdkDropListData]="folder"
       (cdkDropListDropped)="onDrop($event)"
@@ -89,10 +89,7 @@
             class="max-h-40 mt-5 ml-3 mr-3 mb-3 rounded-md flex"
           />
         </div>
-        <div
-          *ngIf="folder.photos.length == 0"
-          class="mt-5 ml-3 mr-3 mb-3 flex flex-row"
-        ></div>
+        <div *ngIf="folder.photos.length == 0" class=""></div>
       </div>
     </div>
   </div>
