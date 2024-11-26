@@ -61,8 +61,9 @@ export class LoginComponent {
           }, 2000);
         }
       },
-      error: (error) => {
+      error: (error: string) => {
         this.errorBaner?.nativeElement.classList.add('removeOpacity');
+        console.log(error);
       },
     });
   }
