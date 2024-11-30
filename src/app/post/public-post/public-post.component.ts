@@ -7,7 +7,8 @@ import { CommonModule } from '@angular/common';
 import { PublicPostService } from './public-post.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { RefreshTokenService } from  '../../authorization/refresh-token.service';
-import { PublicPostPayload } from '../entities/public-post-payload';
+
+import { IsLoggedService } from '../../authorization/is-logged.service';
 
 @Component({
   selector: 'app-public-post',
@@ -65,16 +66,10 @@ export class PublicPostComponent {
   savePost(){
     console.log(this.image); 
     //create post  
-    const postToPublic: PostToPublic = new PostToPublic(this.titleForm.value.title.trim());
-     
-    console.log(postToPublic);
-
-    //create request payload
-    const publicPostRequestPayload: PublicPostPayload = new PublicPostPayload(postToPublic, this.isPostPublic);
-   
+    const postToPublic: PostToPublic = new PostToPublic(this.titleForm.value.title.trim(), this.isPostPublic); 
 
     //api call post postToPublic
-    this.publicPostService.publicPost(this.image, publicPostRequestPayload).subscribe({
+    this.publicPostService.publicPost(this.image, postToPublic).subscribe({
 
       next: (response) => {
         this.openSnackBar(response.message);

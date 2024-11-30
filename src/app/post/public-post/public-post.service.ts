@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import * as myGlobals from '../../global';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { PublicPostPayload } from '../entities/public-post-payload';
+import { PostToPublic } from '../entities/post-to-public';
 
 @Injectable({
     providedIn: 'root',
@@ -12,10 +12,10 @@ export class PublicPostService{
     private httpClient = inject(HttpClient);
     private url = myGlobals.apiLink + '/post/noAuth/uploadPost';
     
-    public publicPost(img: File, post: PublicPostPayload): Observable<any>{
+    public publicPost(img: File, post: PostToPublic): Observable<any>{
 
         const fileWithType = new Blob([img], { type: this.getMimeType(img.name) });
-        
+
         const formData = new FormData();
         formData.append('image', fileWithType);
         formData.append('postRequest', JSON.stringify(post));

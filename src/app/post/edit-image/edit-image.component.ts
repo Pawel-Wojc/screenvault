@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { RouterLink, Router, RouterOutlet } from '@angular/router';
+import { Router} from '@angular/router';
 import { ImagesService } from '../services/images.service';
 import FilerobotImageEditor from 'filerobot-image-editor';
 import { FilerobotImageEditorConfig, TABS } from 'react-filerobot-image-editor';
@@ -7,7 +7,7 @@ import { FilerobotImageEditorConfig, TABS } from 'react-filerobot-image-editor';
 @Component({
   selector: 'app-edit-image',
   standalone: true,
-  imports: [RouterLink, RouterOutlet],
+  imports: [],
   templateUrl: './edit-image.component.html',
   styleUrl: './edit-image.component.css'
 })
