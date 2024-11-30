@@ -15,5 +15,5 @@ export class CollectionsService {
   private addPostToMyCollectionUrl = myGlobals.apiLink + '/collection/addPostToMyCollection';
   private getMyCollectionsUrl = myGlobals.apiLink + '/collection/getMyCollections';
   
-
+  
 }

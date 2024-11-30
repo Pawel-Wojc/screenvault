@@ -31,6 +31,7 @@ export class PublicPostComponent {
   titleForm: FormGroup;
   isPostPublic: boolean = true;
   collectionUUID: string | null = null;
+  isUserLogged: boolean = false;
   
   @ViewChild('ButtonPublic', {static: true}) sharePublicly?: ElementRef;
   @ViewChild('ButtonPrivate', {static: true}) sharePrivately?: ElementRef;
@@ -43,7 +44,9 @@ export class PublicPostComponent {
 
   ngOnInit(){
 
+    this.isUserLogged = this.isLogged.isLogged();
     this.image = this.imageService.getFile() as File;
+
     if(this.image){
       this.imageURL = URL.createObjectURL(this.image as File);
       
@@ -59,7 +62,7 @@ export class PublicPostComponent {
   }
 
   selectPrivateMode(){
-    if(this.isLogged.isLogged()){
+    if(this.isUserLogged){
       this.isPostPublic = false;
     }
     else{
@@ -68,7 +71,12 @@ export class PublicPostComponent {
   }
 
   savePost(){
-    console.log(this.image); 
+    //handle collection functionality
+    if(this.isUserLogged){
+      
+
+    }
+
     //create post  
     const postToPublic: PostToPublic = new PostToPublic(this.titleForm.value.title.trim(), this.isPostPublic); 
 
