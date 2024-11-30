@@ -29,6 +29,7 @@ export class PublicPostComponent {
   linkToPost: string = 'Link';
   titleForm: FormGroup;
   isPostPublic: boolean = true;
+  collectionUUID: string | null = null;
   
   @ViewChild('ButtonPublic', {static: true}) sharePublicly?: ElementRef;
   @ViewChild('ButtonPrivate', {static: true}) sharePrivately?: ElementRef;
@@ -79,15 +80,12 @@ export class PublicPostComponent {
         this.openSnackBar(response.message);
         if (response.status == 200) {
           this.openSnackBar('Post added successfully');
+          console.log(response);
         }
       },
       error: (error) => {
-
-        this.openSnackBar(error.message);
-             
+        this.openSnackBar("error.message");  
       }
-          
-       // alert('I lack implementation');
       },
     );
   }
