@@ -12,12 +12,17 @@
     </div>
   </div>
   <div class="right">
-    <a *ngIf="!isLoggedIn()" ><button (click)="login()">Login</button></a>
-    <a *ngIf="isLoggedIn()" ><button (click)="logout()">Logout</button></a>
-
-    <a *ngIf="isLoggedIn()" routerLink="/not-implemented"><button>Posts</button></a>
-    <a *ngIf="isLoggedIn()" routerLink="/user-profile"><button class="px-2">Your profile</button></a>
-    <a *ngIf="!isLoggedIn()" routerLink="/login"><button class="signin">Sign in</button></a>
-    <a *ngIf="!isLoggedIn()" routerLink="/signup"><button class="signup">Sign up</button></a>
+    <a *ngIf="isLoggedIn" routerLink="/not-implemented"
+      ><button>Posts</button></a
+    >
+    <a *ngIf="isLoggedIn" routerLink="/user-profile"
+      ><button class="px-2">Your profile</button></a
+    >
+    <a *ngIf="!isLoggedIn" routerLink="/login"
+      ><button class="signin">Sign in</button></a
+    >
+    <a *ngIf="!isLoggedIn" routerLink="/signup"
+      ><button class="signup">Sign up</button></a
+    >
   </div>
 </div>

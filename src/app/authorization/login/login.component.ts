@@ -8,6 +8,7 @@ import {
 import { RouterLink, Router } from '@angular/router';
 import { LoginService } from './login.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-login',
@@ -26,6 +27,7 @@ export class LoginComponent {
   private loginService = inject(LoginService);
   private router = inject(Router);
   private snackBar = inject(MatSnackBar);
+  private authService = inject(AuthService);
 
   constructor(private formBuilder: FormBuilder) {
     this.logInForm = this.formBuilder.group({
@@ -49,12 +51,16 @@ export class LoginComponent {
   }
 
   submitLogIn() {
-    this.credentials = this.logInForm.value.email + ':' + this.logInForm.value.password;
-    this.credentialsBase64 = btoa(String.fromCharCode(...new TextEncoder().encode(this.credentials)));
+    this.credentials =
+      this.logInForm.value.email + ':' + this.logInForm.value.password;
+    this.credentialsBase64 = btoa(
+      String.fromCharCode(...new TextEncoder().encode(this.credentials))
+    );
 
     this.loginService.loginUser(this.credentialsBase64).subscribe({
       next: (response) => {
         if (response.status == 200) {
+          this.authService.login();
           this.openSnackBar('Login successfull');
           setTimeout(() => {
             this.router.navigate(['/']);

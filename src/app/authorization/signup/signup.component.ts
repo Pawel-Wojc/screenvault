@@ -85,7 +85,7 @@ export class SignupComponent {
       verticalPosition: 'top',
     });
   }
-  
+
   submitSingUpForm() {
     this.newUser.login = this.singUpForm.value.email;
     this.newUser.username = this.singUpForm.value.userName;
@@ -98,8 +98,10 @@ export class SignupComponent {
             this.router.navigate(['/login']);
           }, 2000);
         }
+        console.log(response);
       },
       error: (error) => {
+        console.log(error);
         if (error.error.errors.DuplicateUserName) {
           this.openSnackBar('Email already exists');
         } else {
