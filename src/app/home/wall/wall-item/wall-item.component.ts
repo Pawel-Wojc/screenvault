@@ -82,8 +82,21 @@ export class WallItemComponent {
   }
 
   reportPost(){
-    this.reportService.reportPost('###########################');
-    this.openSnackBar("The report has been sent successfully.");
+    alert('implement me');
+    this.reportService.reportPost('').subscribe({
+      next: (response) => {
+
+        if (response.status == 200) {
+          this.openSnackBar("The report has been sent successfully.");
+        }
+
+      },
+      error: (error) => {
+       // console.log(error);
+       this.openSnackBar(error.statusText);
+      },
+    });
+    
   }
   
   openSnackBar(message: string) {
