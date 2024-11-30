@@ -7,7 +7,6 @@ import { CommonModule } from '@angular/common';
 import { PublicPostService } from './public-post.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { RefreshTokenService } from  '../../authorization/refresh-token.service';
-
 import { IsLoggedService } from '../../authorization/is-logged.service';
 
 @Component({
@@ -23,6 +22,7 @@ export class PublicPostComponent {
   private formBuilder = inject(FormBuilder)
   private publicPostService = inject(PublicPostService);
   private snackBar = inject(MatSnackBar);
+  private isLogged = inject(IsLoggedService);
   private refreshTokenService = inject(RefreshTokenService);
 
   image!: File;
@@ -59,8 +59,12 @@ export class PublicPostComponent {
   }
 
   selectPrivateMode(){
-    alert('add check if loged in!~!!!!');
-    this.isPostPublic = false;
+    if(this.isLogged.isLogged()){
+      this.isPostPublic = false;
+    }
+    else{
+      this.openSnackBar('You have to log in first');
+    }
   }
 
   savePost(){

@@ -11,7 +11,7 @@ export class IsLoggedService {
 
   private httpClient = inject(HttpClient);
 
-  public isLogged(){
+  public isLogged(): boolean{
     this.httpClient.get(this.whoAmIUrl).subscribe({
       next: (response) => {
         return true;
@@ -20,7 +20,7 @@ export class IsLoggedService {
         return false; 
       } 
     });
-     
+     return false;
   }
 
 }
