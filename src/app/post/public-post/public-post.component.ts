@@ -1,11 +1,13 @@
 import { Component, ElementRef, inject, ViewChild } from '@angular/core';
 import { ImagesService } from '../services/images.service';
 import { Router } from '@angular/router';
-import { PostToPublic } from '../interfaces/post-to-public';
+import { PostToPublic } from '../entities/post-to-public';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { PublicPostService } from './public-post.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { RefreshTokenService } from  '../../authorization/refresh-token.service';
+import { PublicPostPayload } from '../entities/public-post-payload';
 
 @Component({
   selector: 'app-public-post',
@@ -20,10 +22,11 @@ export class PublicPostComponent {
   private formBuilder = inject(FormBuilder)
   private publicPostService = inject(PublicPostService);
   private snackBar = inject(MatSnackBar);
+  private refreshTokenService = inject(RefreshTokenService);
 
-  image!: File | null;
+  image!: File;
   imageURL!: string;
-  linkToPost?: string;
+  linkToPost: string = 'Link';
   titleForm: FormGroup;
   isPostPublic: boolean = true;
   
@@ -37,8 +40,8 @@ export class PublicPostComponent {
   }
 
   ngOnInit(){
-    this.linkToPost = "add proper endpoint!!!!!!!!!!!!!!!!!"; 
-    this.image = this.imageService.getFile();
+
+    this.image = this.imageService.getFile() as File;
     if(this.image){
       this.imageURL = URL.createObjectURL(this.image as File);
       
@@ -54,34 +57,39 @@ export class PublicPostComponent {
   }
 
   selectPrivateMode(){
+    alert('add check if loged in!~!!!!');
     this.isPostPublic = false;
   }
 
   savePost(){
-      
-    const postToPublic: PostToPublic = {
-      title:  this.titleForm.value.title.trim() as string,
-      file: this.image!,
-    };
+    console.log(this.image); 
+    //create post  
+    const postToPublic: PostToPublic = new PostToPublic(this.titleForm.value.title.trim());
+     
+    console.log(postToPublic);
+
+    //create request payload
+    const publicPostRequestPayload: PublicPostPayload = new PublicPostPayload(postToPublic, this.isPostPublic);
+   
 
     //api call post postToPublic
-    this.publicPostService.publicPost("My man i would love to know").subscribe({
+    this.publicPostService.publicPost(this.image, publicPostRequestPayload).subscribe({
+
       next: (response) => {
+        this.openSnackBar(response.message);
         if (response.status == 200) {
           this.openSnackBar('Post added successfully');
-          
         }
       },
       error: (error) => {
-        
-          this.openSnackBar('I lack implementation');
+
+        this.openSnackBar(error.message);
+             
+      }
+          
        // alert('I lack implementation');
       },
-    });
-
-    setTimeout(() => {
-      this.router.navigate(['']);
-    }, 2000);
+    );
   }
 
   openSnackBar(message: string) {

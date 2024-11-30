@@ -15,7 +15,7 @@
              <div id="ButtonsWrapper">
                 <button id="ButtonPublic" type="button" class="ButtonShare" [ngClass]="{'ButtonSelected':isPostPublic}" (click)="selectPublicMode()" #ButtonPublic>Share publicly</button>
 
-               <button id="ButtonPrivate" type="button" class="ButtonShare" [ngClass]="{'ButtonSelected':!isPostPublic}" (click)="selectPrivateMode()" #ButtonPrivate>Share privately</button>
+                <button id="ButtonPrivate" type="button" class="ButtonShare" [ngClass]="{'ButtonSelected':!isPostPublic}" (click)="selectPrivateMode()" #ButtonPrivate>Share privately</button>
             </div>
 
             <button id="Save"  type="submit" [disabled]="!titleForm.valid">Save</button> 
