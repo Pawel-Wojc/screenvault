@@ -1,12 +1,11 @@
 import { Component } from '@angular/core';
 import { WallItemComponent } from './wall-item/wall-item.component';
 import { NgFor } from '@angular/common';
-import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-wall',
   standalone: true,
-  imports: [WallItemComponent, NgFor, RouterLink],
+  imports: [WallItemComponent, NgFor],
   templateUrl: './wall.component.html',
   styleUrl: './wall.component.css',
 })
