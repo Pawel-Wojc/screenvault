@@ -9,7 +9,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { RefreshTokenService } from  '../../authorization/refresh-token.service';
 import { IsLoggedService } from '../../authorization/is-logged.service';
 import { CollectionsService } from '../../user/collections/collections.service';
-import { Observable } from 'rxjs';
+import { firstValueFrom, Observable } from 'rxjs';
+import { Collection } from '../../user/collections/collection';
+import { HttpErrorResponse } from '@angular/common/http';
 
 type addPostToCollectionFunctionDelegate = (postId: string, collectionId: string) => Observable<any>;
 type addCollectionFunctionDelegate = (name: string) => Observable<any>;
@@ -41,6 +43,7 @@ export class PublicPostComponent {
   isPostPublic: boolean = true;
   collectionUUID: string | null = null;
   isUserLogged: boolean = false;
+  usersCollection?: Collection[];
   
   @ViewChild('ButtonPublic', {static: true}) sharePublicly?: ElementRef;
   @ViewChild('ButtonPrivate', {static: true}) sharePrivately?: ElementRef;
@@ -51,19 +54,18 @@ export class PublicPostComponent {
     });
   }
 
-  ngOnInit(){
+  async ngOnInit(){
+    try{
+      const response = await firstValueFrom(this.isLogged.isLogged());
 
-    this.isLogged.isLogged().subscribe({
-      next: (response) => {
-        this.isUserLogged = true;
-      },
-      error: (error) => {
-        this.isUserLogged = false;
-      }
-    });
-
-
+      this.isUserLogged = true;
+    }
+    catch (err){
+      this.isUserLogged = false;
+    }
+    
     console.log(this.isUserLogged);
+
     this.image = this.imageService.getFile() as File;
 
     if(this.image){
@@ -89,25 +91,53 @@ export class PublicPostComponent {
     }
   }
 
-  savePost(){
+  async savePost(){
     //handle collection functionality
     if(this.isUserLogged){
 
-      this.collectionService.getUsersCollections().subscribe({
-        next: (response) => {
-          this.openSnackBar(response.message);
-          if (response.status == 200) {
-            this.openSnackBar('Post added successfully');
-            console.log(response);
-          }
-        },
-        error: (error) => {
-          if (error.status == 403){
-            this.refreshToken(this.collectionService.getUsersCollections);
-          } 
-        }
+      //get users collections ->
+      try{
+        const getUsersCollectionsResponse = await firstValueFrom(this.collectionService.getUsersCollections());
 
-      });
+        if (getUsersCollectionsResponse.status == 200) {
+          this.openSnackBar('check me');
+          console.log(getUsersCollectionsResponse);
+          this.usersCollection = getUsersCollectionsResponse;
+        }
+      }
+      catch(err: any){
+        if (err.status == 403){
+          
+          try{
+            const tokenRespose = await firstValueFrom(this.refreshTokenService.refreshToken());
+            
+            if (tokenRespose.status == 200) {
+
+              try{
+                const getUsersCollectionsResponse = await firstValueFrom(this.collectionService.getUsersCollections());
+
+                if (getUsersCollectionsResponse.status == 200) {
+                  this.openSnackBar('check me');
+                  console.log(getUsersCollectionsResponse);
+                  this.usersCollection = getUsersCollectionsResponse;
+                }
+              }
+              catch(err: any){
+                this.openSnackBar(err.statusText);
+              }
+              
+            } 
+          }
+          catch(err: any){
+            this.openSnackBar(err.statusText);
+          }  
+        }
+      }
+      //get users collections <-
+
+      if(this.usersCollection?.length){
+
+      }
 
     }
 
@@ -145,61 +175,21 @@ export class PublicPostComponent {
 
 
   // Single implementation
-  refreshToken(
-    arg1: string | getUsersCollectionsFunctionDelegate,
-    arg2?: string | addCollectionFunctionDelegate,
-    arg3?: addPostToCollectionFunctionDelegate
-  ): void {
+  refreshToken1(name: string, funcToDoWhenRefreshed: addCollectionFunctionDelegate){
     this.refreshTokenService.refreshToken().subscribe({
       next: (response) => {
-        if (response.status === 200) {
-          if (typeof arg1 === 'string' && typeof arg2 === 'function') {
-            // Case 1: name + funcToDoWhenRefreshed
-            arg2(arg1).subscribe({
-              next: (response) => {
-                if (response.status === 200) {
-                  this.openSnackBar('Action completed');
-                }
-              },
-              error: (error) => {
-                this.openSnackBar(error.statusText);
-              },
-            });
-          } 
-          else if (
-            typeof arg1 === 'string' &&
-            typeof arg2 === 'string' &&
-            typeof arg3 === 'function'
-          ) 
-          {
-            // Case 2: postId + collectionId + funcToDoWhenRefreshed
-            arg3(arg1, arg2).subscribe({
-              next: (response) => {
-                if (response.status === 200) {
-                  this.openSnackBar('Action completed');
-                }
-              },
-              error: (error) => {
-                this.openSnackBar(error.statusText);
-              },
-            });
-          } 
-          else if (typeof arg1 === 'function') {
-            // Case 3: funcToDoWhenRefreshed
-            arg1().subscribe({
-              next: (response) => {
-                if (response.status === 200) {
-                  this.openSnackBar('Action completed');
-                }
-              },
-              error: (error) => {
-                this.openSnackBar(error.statusText);
-              },
-            });
-          } 
-          else {
-            console.error('Invalid arguments provided to refreshToken');
-          }
+        if (response.status == 200) {
+
+          funcToDoWhenRefreshed(name).subscribe({
+            next: (response) => {
+              if (response.status == 200) {
+                this.openSnackBar('Action completed');
+              }
+            },
+            error: (error) => {
+              this.openSnackBar(error.statusText);
+            }, 
+          });
         }
       },
       error: (error) => {
@@ -207,4 +197,28 @@ export class PublicPostComponent {
       },
     });
   }
+
+  refreshToken(postId: string, collectionId: string, funcToDoWhenRefreshed: addPostToCollectionFunctionDelegate){
+    this.refreshTokenService.refreshToken().subscribe({
+      next: (response) => {
+        if (response.status == 200) {
+
+          funcToDoWhenRefreshed(postId, collectionId).subscribe({
+            next: (response) => {
+              if (response.status == 200) {
+                this.openSnackBar('Action completed');
+              }
+            },
+            error: (error) => {
+              this.openSnackBar(error.statusText);
+            }, 
+          });
+        }
+      },
+      error: (error) => {
+        this.openSnackBar(error.statusText);
+      },
+    });
+  }
+
 }
