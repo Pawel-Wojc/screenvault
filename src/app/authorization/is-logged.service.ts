@@ -10,17 +10,13 @@ export class IsLoggedService {
   private whoAmIUrl: string = myGlobals.apiLink  + "/authentication/noAuth/whoAmI";
 
   private httpClient = inject(HttpClient);
+  
+  
 
-  public isLogged(): boolean{
-    this.httpClient.get(this.whoAmIUrl).subscribe({
-      next: (response) => {
-        return true;
-      },
-      error: (error) => {
-        return false; 
-      } 
-    });
-     return false;
+  public isLogged(): Observable<any>{
+    
+    return this.httpClient.get(this.whoAmIUrl);
+     
   }
 
 }

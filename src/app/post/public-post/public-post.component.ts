@@ -8,6 +8,12 @@ import { PublicPostService } from './public-post.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { RefreshTokenService } from  '../../authorization/refresh-token.service';
 import { IsLoggedService } from '../../authorization/is-logged.service';
+import { CollectionsService } from '../../user/collections/collections.service';
+import { Observable } from 'rxjs';
+
+type addPostToCollectionFunctionDelegate = (postId: string, collectionId: string) => Observable<any>;
+type addCollectionFunctionDelegate = (name: string) => Observable<any>;
+type getUsersCollectionsFunctionDelegate = () => Observable<any>;
 
 @Component({
   selector: 'app-public-post',
@@ -17,13 +23,16 @@ import { IsLoggedService } from '../../authorization/is-logged.service';
   styleUrl: './public-post.component.css'
 })
 export class PublicPostComponent {
+  
   private imageService = inject(ImagesService)
   private router = inject(Router)
   private formBuilder = inject(FormBuilder)
   private publicPostService = inject(PublicPostService);
   private snackBar = inject(MatSnackBar);
   private isLogged = inject(IsLoggedService);
+  private collectionService = inject(CollectionsService);
   private refreshTokenService = inject(RefreshTokenService);
+
 
   image!: File;
   imageURL!: string;
@@ -44,7 +53,17 @@ export class PublicPostComponent {
 
   ngOnInit(){
 
-    this.isUserLogged = this.isLogged.isLogged();
+    this.isLogged.isLogged().subscribe({
+      next: (response) => {
+        this.isUserLogged = true;
+      },
+      error: (error) => {
+        this.isUserLogged = false;
+      }
+    });
+
+
+    console.log(this.isUserLogged);
     this.image = this.imageService.getFile() as File;
 
     if(this.image){
@@ -73,7 +92,22 @@ export class PublicPostComponent {
   savePost(){
     //handle collection functionality
     if(this.isUserLogged){
-      
+
+      this.collectionService.getUsersCollections().subscribe({
+        next: (response) => {
+          this.openSnackBar(response.message);
+          if (response.status == 200) {
+            this.openSnackBar('Post added successfully');
+            console.log(response);
+          }
+        },
+        error: (error) => {
+          if (error.status == 403){
+            this.refreshToken(this.collectionService.getUsersCollections);
+          } 
+        }
+
+      });
 
     }
 
@@ -109,4 +143,68 @@ export class PublicPostComponent {
     navigator.clipboard.writeText(this.linkToPost as string);
   }
 
+
+  // Single implementation
+  refreshToken(
+    arg1: string | getUsersCollectionsFunctionDelegate,
+    arg2?: string | addCollectionFunctionDelegate,
+    arg3?: addPostToCollectionFunctionDelegate
+  ): void {
+    this.refreshTokenService.refreshToken().subscribe({
+      next: (response) => {
+        if (response.status === 200) {
+          if (typeof arg1 === 'string' && typeof arg2 === 'function') {
+            // Case 1: name + funcToDoWhenRefreshed
+            arg2(arg1).subscribe({
+              next: (response) => {
+                if (response.status === 200) {
+                  this.openSnackBar('Action completed');
+                }
+              },
+              error: (error) => {
+                this.openSnackBar(error.statusText);
+              },
+            });
+          } 
+          else if (
+            typeof arg1 === 'string' &&
+            typeof arg2 === 'string' &&
+            typeof arg3 === 'function'
+          ) 
+          {
+            // Case 2: postId + collectionId + funcToDoWhenRefreshed
+            arg3(arg1, arg2).subscribe({
+              next: (response) => {
+                if (response.status === 200) {
+                  this.openSnackBar('Action completed');
+                }
+              },
+              error: (error) => {
+                this.openSnackBar(error.statusText);
+              },
+            });
+          } 
+          else if (typeof arg1 === 'function') {
+            // Case 3: funcToDoWhenRefreshed
+            arg1().subscribe({
+              next: (response) => {
+                if (response.status === 200) {
+                  this.openSnackBar('Action completed');
+                }
+              },
+              error: (error) => {
+                this.openSnackBar(error.statusText);
+              },
+            });
+          } 
+          else {
+            console.error('Invalid arguments provided to refreshToken');
+          }
+        }
+      },
+      error: (error) => {
+        this.openSnackBar(error.statusText);
+      },
+    });
+  }
 }
