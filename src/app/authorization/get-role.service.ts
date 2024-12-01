@@ -6,14 +6,14 @@ import { HttpClient } from '@angular/common/http';
 @Injectable({
   providedIn: 'root'
 })
-export class IsLoggedService {
+export class GetRoleService {
   private whoAmIUrl: string = myGlobals.apiLink  + "/authentication/noAuth/whoAmI";
 
   private httpClient = inject(HttpClient);
   
   
 
-  public isLogged(): Observable<any>{
+  public getRole(): Observable<any>{
     
     return this.httpClient.get(this.whoAmIUrl);
      

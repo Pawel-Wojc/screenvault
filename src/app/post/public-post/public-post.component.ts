@@ -7,7 +7,7 @@ import { CommonModule } from '@angular/common';
 import { PublicPostService } from './public-post.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { RefreshTokenService } from  '../../authorization/refresh-token.service';
-import { IsLoggedService } from '../../authorization/is-logged.service';
+import { GetRoleService } from '../../authorization/get-role.service';
 import { CollectionsService } from '../../user/collections/collections.service';
 import { firstValueFrom, Observable } from 'rxjs';
 import { Collection } from '../../user/collections/collection';
@@ -33,7 +33,7 @@ export class PublicPostComponent {
   private formBuilder = inject(FormBuilder)
   private publicPostService = inject(PublicPostService);
   private snackBar = inject(MatSnackBar);
-  private isLogged = inject(IsLoggedService);
+  private getRoleService = inject(GetRoleService);
   private collectionService = inject(CollectionsService);
   private refreshTokenService = inject(RefreshTokenService);
 
@@ -62,9 +62,11 @@ export class PublicPostComponent {
     //this.titleForm.controls['newCollectionName'].setValidators(Validators.required);
 
     try{
-      const response = await firstValueFrom(this.isLogged.isLogged());
-
+      const response = await firstValueFrom(this.getRoleService.getRole());
+      console.log(response.role);
+      if(response.role !== "ANONYMOUS"){
       this.isUserLogged = true;
+      }
     }
     catch (err){
       this.isUserLogged = false;
@@ -93,62 +95,62 @@ export class PublicPostComponent {
 
   async selectPrivateMode(){
     
-    if(this.isUserLogged){
-    
-      this.isPostPublic = false;
-
-      //handle collection functionality
-      //get users collections ->
-      try{
-        const getUsersCollectionsResponse = await firstValueFrom(this.collectionService.getUsersCollections());
-
-        if (getUsersCollectionsResponse.status == 200) {
-          this.openSnackBar('check me');
-          console.log(getUsersCollectionsResponse);
-          this.usersCollection = getUsersCollectionsResponse;
-        }
-      }
-      catch(err: any){
-        if (err.status == 403){
-          
-          try{
-            const tokenRespose = await firstValueFrom(this.refreshTokenService.refreshToken());
-            
-            if (tokenRespose.status == 200) {
-
-              try{
-                const getUsersCollectionsResponse = await firstValueFrom(this.collectionService.getUsersCollections());
-
-                if (getUsersCollectionsResponse.status == 200) {
-                  this.openSnackBar('check me');
-                  console.log(getUsersCollectionsResponse);
-                  this.usersCollection = getUsersCollectionsResponse;
-                }
-              }
-              catch(err: any){
-                this.openSnackBar(err.statusText);
-              }
-              
-            } 
-          }
-          catch(err: any){
-            this.openSnackBar(err.statusText);
-          }  
-        }
-      }
-      //get users collections <-
-
-      //if there are no collections get name to add one 
-      if(!this.usersCollection?.length){
-        
-        this.noCollectionFlag = true;
-        this.titleForm.get('newCollectionName')?.setValue('Example');
-        this.titleForm.controls['newCollectionName'].setValidators(Validators.required);
-      }
-    }
-    else{
+    if(!this.isUserLogged){
       this.openSnackBar('You have to log in first');
+      return;
     }
+    
+    this.isPostPublic = false;
+
+    //handle collection functionality
+    //get users collections ->
+    try{
+      const getUsersCollectionsResponse = await firstValueFrom(this.collectionService.getUsersCollections());
+
+      if (getUsersCollectionsResponse.status == 200) {
+        this.openSnackBar('check me');
+        console.log(getUsersCollectionsResponse);
+        this.usersCollection = getUsersCollectionsResponse;
+      }
+    }
+    catch(err: any){
+      if (err.status == 403){
+        
+        try{
+          const tokenRespose = await firstValueFrom(this.refreshTokenService.refreshToken());
+          
+          if (tokenRespose.status == 200) {
+
+            try{
+              const getUsersCollectionsResponse = await firstValueFrom(this.collectionService.getUsersCollections());
+
+              if (getUsersCollectionsResponse.status == 200) {
+                this.openSnackBar('check me');
+                console.log(getUsersCollectionsResponse);
+                this.usersCollection = getUsersCollectionsResponse;
+              }
+            }
+            catch(err: any){
+              this.openSnackBar(err.statusText);
+            }
+            
+          } 
+        }
+        catch(err: any){
+          this.openSnackBar(err.statusText);
+        }  
+      }
+    }
+    //get users collections <-
+
+    //if there are no collections get name to add one 
+    if(!this.usersCollection?.length){
+      
+      this.noCollectionFlag = true;
+      this.titleForm.get('newCollectionName')?.setValue('Example');
+      this.titleForm.controls['newCollectionName'].setValidators(Validators.required);
+    }
+  
   }
 
   savePost(){
