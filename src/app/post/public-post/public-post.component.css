@@ -122,8 +122,21 @@ form{
   justify-content: space-around;
   display: flex;
   margin-top: 6vh;
-  margin-bottom: 8vh;
-  
+  margin-bottom: 6vh; 
+}
+
+.newCollectionName{
+  width: 15vw;
+  height: 8vh;
+  margin-bottom: 2vh; 
+}
+
+.disp-block{
+  display: block;
+}
+
+.disp-none{
+  display: none;
 }
 
 .Flex{

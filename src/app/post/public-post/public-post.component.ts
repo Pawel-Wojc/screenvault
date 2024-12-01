@@ -12,6 +12,8 @@ import { CollectionsService } from '../../user/collections/collections.service';
 import { firstValueFrom, Observable } from 'rxjs';
 import { Collection } from '../../user/collections/collection';
 import { HttpErrorResponse } from '@angular/common/http';
+import {MatInputModule} from '@angular/material/input';
+import {MatFormFieldModule} from '@angular/material/form-field';
 
 type addPostToCollectionFunctionDelegate = (postId: string, collectionId: string) => Observable<any>;
 type addCollectionFunctionDelegate = (name: string) => Observable<any>;
@@ -20,7 +22,7 @@ type getUsersCollectionsFunctionDelegate = () => Observable<any>;
 @Component({
   selector: 'app-public-post',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, MatFormFieldModule, MatInputModule],
   templateUrl: './public-post.component.html',
   styleUrl: './public-post.component.css'
 })
@@ -44,6 +46,7 @@ export class PublicPostComponent {
   collectionUUID: string | null = null;
   isUserLogged: boolean = false;
   usersCollection?: Collection[];
+  noCollectionFlag: boolean = false;
   
   @ViewChild('ButtonPublic', {static: true}) sharePublicly?: ElementRef;
   @ViewChild('ButtonPrivate', {static: true}) sharePrivately?: ElementRef;
@@ -51,10 +54,13 @@ export class PublicPostComponent {
   constructor(){
     this.titleForm = this.formBuilder.group({
       title: ['',Validators.required],
+      newCollectionName: ['',],
     });
   }
 
   async ngOnInit(){
+    //this.titleForm.controls['newCollectionName'].setValidators(Validators.required);
+
     try{
       const response = await firstValueFrom(this.isLogged.isLogged());
 
@@ -80,21 +86,18 @@ export class PublicPostComponent {
 
   selectPublicMode(){
     this.isPostPublic = true;
+    this.noCollectionFlag = false;
+    this.titleForm.controls['newCollectionName'].clearValidators();
+    this.titleForm.controls['newCollectionName'].updateValueAndValidity()
   }
 
-  selectPrivateMode(){
+  async selectPrivateMode(){
+    
     if(this.isUserLogged){
+    
       this.isPostPublic = false;
-    }
-    else{
-      this.openSnackBar('You have to log in first');
-    }
-  }
 
-  async savePost(){
-    //handle collection functionality
-    if(this.isUserLogged){
-
+      //handle collection functionality
       //get users collections ->
       try{
         const getUsersCollectionsResponse = await firstValueFrom(this.collectionService.getUsersCollections());
@@ -135,12 +138,21 @@ export class PublicPostComponent {
       }
       //get users collections <-
 
-      if(this.usersCollection?.length){
-
+      //if there are no collections get name to add one 
+      if(!this.usersCollection?.length){
+        
+        this.noCollectionFlag = true;
+        this.titleForm.get('newCollectionName')?.setValue('Example');
+        this.titleForm.controls['newCollectionName'].setValidators(Validators.required);
       }
-
     }
+    else{
+      this.openSnackBar('You have to log in first');
+    }
+  }
 
+  savePost(){
+    
     //create post  
     const postToPublic: PostToPublic = new PostToPublic(this.titleForm.value.title.trim(), this.isPostPublic); 
 
