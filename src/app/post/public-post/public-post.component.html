@@ -23,6 +23,12 @@
                 <input matInput  formControlName="newCollectionName">
             </mat-form-field>
 
+            <mat-selection-list class="calloctionList" [formControl]="collectionControl" name="collections" [multiple]="false" [ngClass]="collectionFoundFlag? 'disp-block' : 'disp-none'">
+                @for (coll of usersCollection; track coll) {
+                  <mat-list-option [value]="coll.id">{{coll.name}}</mat-list-option>
+                }
+            </mat-selection-list>
+
             <button id="Save"  type="submit" [disabled]="!titleForm.valid">Save</button> 
 
             <div id="LinkWrapper" class="Flex">

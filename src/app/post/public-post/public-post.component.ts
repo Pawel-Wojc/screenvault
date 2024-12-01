@@ -2,7 +2,7 @@ import { Component, ElementRef, inject, ViewChild } from '@angular/core';
 import { ImagesService } from '../services/images.service';
 import { Router } from '@angular/router';
 import { PostToPublic } from '../entities/post-to-public';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormControl } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { PublicPostService } from './public-post.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -12,8 +12,9 @@ import { CollectionsService } from '../../user/collections/collections.service';
 import { firstValueFrom, Observable } from 'rxjs';
 import { Collection } from '../../user/collections/collection';
 import { HttpErrorResponse } from '@angular/common/http';
-import {MatInputModule} from '@angular/material/input';
-import {MatFormFieldModule} from '@angular/material/form-field';
+import { MatInputModule}  from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatListModule } from '@angular/material/list';
 
 type addPostToCollectionFunctionDelegate = (postId: string, collectionId: string) => Observable<any>;
 type addCollectionFunctionDelegate = (name: string) => Observable<any>;
@@ -22,7 +23,7 @@ type getUsersCollectionsFunctionDelegate = () => Observable<any>;
 @Component({
   selector: 'app-public-post',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, MatFormFieldModule, MatInputModule],
+  imports: [ReactiveFormsModule, CommonModule, MatFormFieldModule, MatInputModule, MatListModule],
   templateUrl: './public-post.component.html',
   styleUrl: './public-post.component.css'
 })
@@ -42,11 +43,13 @@ export class PublicPostComponent {
   imageURL!: string;
   linkToPost: string = 'Link';
   titleForm: FormGroup;
+  collectionControl: FormControl = new FormControl();
   isPostPublic: boolean = true;
   collectionUUID: string | null = null;
   isUserLogged: boolean = false;
   usersCollection?: Collection[];
   noCollectionFlag: boolean = false;
+  collectionFoundFlag: boolean = false; 
   
   @ViewChild('ButtonPublic', {static: true}) sharePublicly?: ElementRef;
   @ViewChild('ButtonPrivate', {static: true}) sharePrivately?: ElementRef;
@@ -55,6 +58,7 @@ export class PublicPostComponent {
     this.titleForm = this.formBuilder.group({
       title: ['',Validators.required],
       newCollectionName: ['',],
+      collections: this.collectionControl,
     });
   }
 
@@ -64,7 +68,9 @@ export class PublicPostComponent {
     try{
       const response = await firstValueFrom(this.getRoleService.getRole());
       console.log(response.role);
-      if(response.role !== "ANONYMOUS"){
+      this.openSnackBar('check me');
+      this.isUserLogged = true;
+      if(response.role != "ANONYMOUS"){
       this.isUserLogged = true;
       }
     }
@@ -91,10 +97,13 @@ export class PublicPostComponent {
     this.noCollectionFlag = false;
     this.titleForm.controls['newCollectionName'].clearValidators();
     this.titleForm.controls['newCollectionName'].updateValueAndValidity()
+    this.collectionFoundFlag = false;
+    this.titleForm.controls['collections'].clearValidators();
+    this.titleForm.controls['collections'].updateValueAndValidity()
   }
 
   async selectPrivateMode(){
-    
+      
     if(!this.isUserLogged){
       this.openSnackBar('You have to log in first');
       return;
@@ -143,12 +152,17 @@ export class PublicPostComponent {
     }
     //get users collections <-
 
+    this.usersCollection = [{ id: 'string',  name: 'string'},{ id: 'strinfdgg',  name: 'strinutyug'},{ id: 'strhting',  name: 'stvgbnng'},{ id: 'st+6ring',  name: 'stri6ng'},]
     //if there are no collections get name to add one 
     if(!this.usersCollection?.length){
-      
       this.noCollectionFlag = true;
-      this.titleForm.get('newCollectionName')?.setValue('Example');
       this.titleForm.controls['newCollectionName'].setValidators(Validators.required);
+      this.titleForm.controls['newCollectionName'].updateValueAndValidity()
+    }
+    else{
+      this.collectionFoundFlag = true;
+      this.titleForm.controls['collections'].setValidators(Validators.required);
+      this.titleForm.controls['collections'].updateValueAndValidity()
     }
   
   }

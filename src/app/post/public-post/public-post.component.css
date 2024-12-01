@@ -100,7 +100,8 @@ form{
 }
 
 #LinkWrapper{
-  margin-top: 7.5vh;
+  margin-top: 5.5vh;
+  margin-bottom: 1vh;
   min-width: 40vw;
   height: 40px;
 }
@@ -139,8 +140,32 @@ form{
   display: none;
 }
 
+.calloctionList{
+  width: 20vw;
+  height: 15vh;
+  background-color: wheat;
+  border-radius: 5px;
+  margin-bottom: 4vh; 
+  overflow-y: auto;
+}
+
 .Flex{
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: rgb(110, 110, 110);
+  border-radius: 4px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }
