@@ -9,6 +9,8 @@ import { RouterLink, Router } from '@angular/router';
 import { LoginService } from './login.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService } from '../auth.service';
+import { GetRoleService } from '../../authorization/get-role.service';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -19,7 +21,7 @@ import { AuthService } from '../auth.service';
 })
 export class LoginComponent {
   @ViewChild('errorBaner', { static: true }) errorBaner?: ElementRef;
-
+  private getRoleService = inject(GetRoleService);
   logInForm!: FormGroup;
   credentials!: string;
   credentialsBase64!: string;
@@ -50,7 +52,7 @@ export class LoginComponent {
     });
   }
 
-  submitLogIn() {
+  async submitLogIn() {
     this.credentials =
       this.logInForm.value.email + ':' + this.logInForm.value.password;
     this.credentialsBase64 = btoa(
@@ -58,9 +60,24 @@ export class LoginComponent {
     );
 
     this.loginService.loginUser(this.credentialsBase64).subscribe({
-      next: (response) => {
+      next: async (response) => {
         if (response.status == 200) {
           this.authService.login();
+          /*
+          console.log(response);
+          try{
+            const response = await firstValueFrom(this.getRoleService.getRole());
+            console.log(response);
+            this.openSnackBar('check me');
+           // this.isUserLogged = true;
+            if(response.role != "ANONYMOUS"){
+           // this.isUserLogged = true;
+            }
+          }
+          catch (err){
+           // this.isUserLogged = false;
+          }
+          */
           this.openSnackBar('Login successfull');
           setTimeout(() => {
             this.router.navigate(['/']);

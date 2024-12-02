@@ -17,7 +17,7 @@ export class CollectionsService {
   private getMyCollectionsUrl = myGlobals.apiLink + '/collection/getMyCollections';
   
   public addCollection(name: string): Observable<any>{
-    return this.httpClient.post(this.postCollectionUrl, new Collection(name));
+    return this.httpClient.post(this.postCollectionUrl, new Collection(name), {withCredentials: true});
   }
   
   public addPostToCollection(postId: string, collectionId: string): Observable<any>{
@@ -26,10 +26,10 @@ export class CollectionsService {
     formData.append('postId', postId);
     formData.append('collectionId', collectionId);
 
-    return this.httpClient.post(this.addPostToMyCollectionUrl, formData);
+    return this.httpClient.post(this.addPostToMyCollectionUrl, formData,{withCredentials: true});
   }
   
   public getUsersCollections(): Observable<any>{
-    return this.httpClient.get(this.getMyCollectionsUrl)
+    return this.httpClient.get(this.getMyCollectionsUrl,{withCredentials: true})
   }
 }

@@ -14,10 +14,11 @@ export class LoginService {
       'Authorization',
       'Basic ' + authString
     ); // Adding the Authorization header
+    headers.set('withCredentials', 'true' );
     return this.httpClient.post<any>(
       this.url,
       {},
-      { headers, observe: 'response' }
+      { withCredentials: true, headers, observe: 'response' }
     );
   }
 }
