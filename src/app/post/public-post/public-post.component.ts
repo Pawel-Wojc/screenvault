@@ -64,6 +64,11 @@ export class PublicPostComponent {
   async ngOnInit(){
     //this.titleForm.controls['newCollectionName'].setValidators(Validators.required);
     this.isUserLogged = await this.getRoleService.ifUserLogged();
+   // this.isUserLogged = true;
+    if(this.isUserLogged){
+      //handle collection functionality
+      this.handleCollections();
+    }
     
     //this.openSnackBar('check me');
    //   this.isUserLogged = true;
@@ -82,8 +87,24 @@ export class PublicPostComponent {
   }
 
   selectPublicMode(){
-    this.isPostPublic = true;
+      this.isPostPublic = true;
+  }
 
+  async selectPrivateMode(){
+
+    if(!this.isUserLogged){
+      this.openSnackBar('You have to log in first');
+      return;
+    }
+    //handle collection functionality
+    this.handleCollections();
+
+    this.isPostPublic = false;
+  }
+
+  async handleCollections(){
+
+    //reset flags
     this.noCollectionFlag = false;
     this.titleForm.controls['newCollectionName'].clearValidators();
     this.titleForm.controls['newCollectionName'].updateValueAndValidity()
@@ -91,18 +112,7 @@ export class PublicPostComponent {
     this.collectionFoundFlag = false;
     this.titleForm.controls['collections'].clearValidators();
     this.titleForm.controls['collections'].updateValueAndValidity()
-  }
 
-  async selectPrivateMode(){
-      
-    if(!this.isUserLogged){
-      this.openSnackBar('You have to log in first');
-      return;
-    }
-    
-    this.isPostPublic = false;
-
-    //handle collection functionality
     //get users collections ->
     console.log("1");
     try{
@@ -160,7 +170,6 @@ export class PublicPostComponent {
       this.titleForm.controls['collections'].setValidators(Validators.required);
       this.titleForm.controls['collections'].updateValueAndValidity()
     }
-  
   }
 
   savePost(){
