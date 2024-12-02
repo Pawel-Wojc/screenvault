@@ -6,6 +6,8 @@ import {
   HTTP_INTERCEPTORS,
   provideHttpClient,
   withFetch,
+  withInterceptors,
+  withInterceptorsFromDi,
 } from '@angular/common/http';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { RefreshTokenInterceptor } from './refresh.token.inteceptor';
@@ -15,18 +17,19 @@ export const appConfig: ApplicationConfig = {
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
-      useClass: RefreshTokenInterceptor,
+      useClass: CredentialsInterceptor,
       multi: true,
     },
     {
       provide: HTTP_INTERCEPTORS,
-      useClass: CredentialsInterceptor,
+      useClass: RefreshTokenInterceptor,
       multi: true,
     },
+
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     provideClientHydration(),
-    provideHttpClient(withFetch()),
+    provideHttpClient(withFetch(), withInterceptorsFromDi()),
     provideAnimationsAsync(),
   ],
 };
