@@ -28,11 +28,7 @@ export class GetRoleService {
       const response = await firstValueFrom(this.getRole());
       console.log(response);
       
-      if(response.role != "ANONYMOUS"){
-      return true;
-      }
-      
-      return false;
+      return response.role != "ANONYMOUS";
     }
     catch (err){
       return false;
