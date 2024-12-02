@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import * as myGlobals from '../global';
-import { Observable } from 'rxjs';
+import { firstValueFrom, Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
@@ -21,6 +21,22 @@ export class GetRoleService {
 
     return this.httpClient.get(this.whoAmIUrl, {withCredentials: true/*, headers*/});
      
+  }
+
+  public async ifUserLogged() {
+    try{
+      const response = await firstValueFrom(this.getRole());
+      console.log(response);
+      
+      if(response.role != "ANONYMOUS"){
+      return true;
+      }
+      
+      return false;
+    }
+    catch (err){
+      return false;
+    }
   }
 
 }

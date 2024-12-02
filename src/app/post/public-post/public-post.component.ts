@@ -63,18 +63,8 @@ export class PublicPostComponent {
 
   async ngOnInit(){
     //this.titleForm.controls['newCollectionName'].setValidators(Validators.required);
-
-    try{
-      const response = await firstValueFrom(this.getRoleService.getRole());
-      console.log(response);
-      
-      if(response.role != "ANONYMOUS"){
-      this.isUserLogged = true;
-      }
-    }
-    catch (err){
-      this.isUserLogged = false;
-    }
+    this.isUserLogged = await this.getRoleService.ifUserLogged();
+    
     //this.openSnackBar('check me');
    //   this.isUserLogged = true;
     console.log(this.isUserLogged);
