@@ -5,16 +5,15 @@ import * as myGlobals from '../global';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private isAuthenticatedSubject = new BehaviorSubject<boolean>(false);
+  private isAuthenticatedSubject = new BehaviorSubject<boolean | null>(null);
+  //if null that means the api call is not finished and we don't know user is authenticated or not
   url = myGlobals.apiLink + '/authentication/noAuth/whoAmI';
-  isAuthenticated$: Observable<boolean> =
+  isAuthenticated$: Observable<boolean | null> =
     this.isAuthenticatedSubject.asObservable();
 
   http = inject(HttpClient);
   constructor() {
-    this.checkAuthStatusFromApi().subscribe((res) => {
-      this.isAuthenticatedSubject.next(res.user.role == 'USER');
-    });
+    this.updateAuthStatus();
   }
 
   logout(): Observable<any> {
@@ -29,7 +28,9 @@ export class AuthService {
 
   updateAuthStatus() {
     this.checkAuthStatusFromApi().subscribe((res) => {
-      this.isAuthenticatedSubject.next(res.user.role == 'USER');
+      this.isAuthenticatedSubject.next(
+        res.user.role == 'USER' || res.user.role == 'ADMIN'
+      );
     });
   }
 

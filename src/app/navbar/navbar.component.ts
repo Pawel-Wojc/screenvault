@@ -14,7 +14,7 @@ import { AsyncPipe, CommonModule } from '@angular/common';
 export class NavbarComponent {
   authService = inject(AuthService);
   router = inject(Router);
-  isLoggedIn = false;
+  isLoggedIn: boolean | null = false;
 
   ngOnInit() {
     this.authService.isAuthenticated$.subscribe((isAuthenticated) => {

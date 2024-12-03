@@ -21,88 +21,14 @@ import {
 export class CollectionsComponent {
   private collectionsService = inject(CollectionsService);
   private dialog = inject(MatDialog);
-  openedFolders:
-    | {
-        id: number;
-        name: string;
-        photos: {
-          name: string;
-          url: string;
-          status: string;
-        }[];
-      }[]
-    | undefined;
-  userCollections = [
-    //this data from api
-    {
-      id: 1,
-      name: 'Funny photos',
-      photos: [
-        {
-          name: 'first funny photo',
-          url: 'https://picsum.photos/id/1/200/300',
-          status: 'public',
-        },
-        {
-          name: 'second funny photo',
-          url: 'https://fastly.picsum.photos/id/658/1280/960.jpg?hmac=yDYqssxczLgZ7oguYI0Nsj6s0ZDHpvT5dgdTG0T6ZzI',
-          status: 'private',
-        },
-        {
-          name: 'third funny photo',
-          url: 'https://fastly.picsum.photos/id/658/1280/960.jpg?hmac=yDYqssxczLgZ7oguYI0Nsj6s0ZDHpvT5dgdTG0T6ZzI',
-          status: 'public',
-        },
-      ],
-    },
-    {
-      id: 2,
-      name: 'My favorite photos',
-      photos: [
-        {
-          name: 'first favorite photo',
-          url: 'https://fastly.picsum.photos/id/1000/200/200.jpg?hmac=U6gBcO-m8lNXspqhLW17ugDZ1Z3cEcCQj07Wp9Nq7IQ',
-          status: 'private',
-        },
-        {
-          name: 'second favorite photo',
-          url: 'https://fastly.picsum.photos/id/685/200/200.jpg?hmac=1IjDFMSIa0T_JSvcq79_e2NWPwRJg61Ufbfu4eM4HvA',
-          status: 'private',
-        },
-        {
-          name: 'third favorite photo',
-          url: 'https://fastly.picsum.photos/id/351/200/200.jpg?hmac=E2C8OwTRNgbEan5RzifMH73ENtpcsHSr45mGFQk5mPU',
-          status: 'public',
-        },
-      ],
-    },
-    {
-      id: 3,
-      name: 'Other photos',
-      photos: [
-        {
-          name: 'first other photo',
-          url: 'https://fastly.picsum.photos/id/743/200/200.jpg?hmac=p4EqNQGnGvZo65W4_FlXvjPQG8g1ogR7bgvnrQCUnEs',
-          status: 'private',
-        },
-        {
-          name: 'second other photo',
-          url: 'https://fastly.picsum.photos/id/743/200/200.jpg?hmac=p4EqNQGnGvZo65W4_FlXvjPQG8g1ogR7bgvnrQCUnEs',
-          status: 'private',
-        },
-        {
-          name: 'third other photo',
-          url: 'https://fastly.picsum.photos/id/26/200/200.jpg?hmac=A1fbIskzMWVQs1JuyIsJXYGuCgqVwevLXT4YaIJM3Rk',
-          status: 'private',
-        },
-      ],
-    },
-    {
-      id: 4,
-      name: 'Memes',
-      photos: [],
-    },
-  ];
+  openedFolders: any[] = [];
+  ngOnInit() {
+    this.collectionsService.getUsersCollections().subscribe((res) => {
+      this.userCollections = res.collectionList;
+      console.log(res.collectionList);
+    });
+  }
+  userCollections: any[] = [];
 
   onDrop(event: any) {
     if (event.previousContainer === event.container) {
