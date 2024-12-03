@@ -76,11 +76,11 @@ export class LoginComponent {
           catch (err){
            // this.isUserLogged = false;
           }
-          */
+        */
           this.openSnackBar('Login successfull');
-          setTimeout(() => {
-            this.router.navigate(['/']);
-          }, 2000);
+          
+          this.router.navigate(['/']);
+          
         }
       },
       error: (error: string) => {

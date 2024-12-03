@@ -39,14 +39,10 @@ export class CollectionsService {
     formData.append('postId', postId);
     formData.append('collectionId', collectionId);
 
-    return this.httpClient.post(this.addPostToMyCollectionUrl, formData, {
-      withCredentials: true,
-    });
+    return this.httpClient.post(this.addPostToMyCollectionUrl, formData, );
   }
 
   public getUsersCollections(): Observable<any> {
-    return this.httpClient.get(this.getMyCollectionsUrl, {
-      withCredentials: true,
-    });
+    return this.httpClient.get(this.getMyCollectionsUrl,);
   }
 }

@@ -19,16 +19,16 @@ export class GetRoleService {
     });
     */
 
-    return this.httpClient.get(this.whoAmIUrl, {withCredentials: true/*, headers*/});
+    return this.httpClient.get(this.whoAmIUrl, );
      
   }
 
   public async ifUserLogged() {
     try{
       const response = await firstValueFrom(this.getRole());
-      console.log(response);
+     // console.log(response.user.role);
       
-      return response.role != "ANONYMOUS";
+      return response.user.role != "ANONYMOUS";
     }
     catch (err){
       return false;
