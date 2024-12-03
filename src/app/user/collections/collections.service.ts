@@ -45,8 +45,6 @@ export class CollectionsService {
   }
 
   public getUsersCollections(): Observable<any> {
-    return this.httpClient.get(this.getMyCollectionsUrl, {
-      withCredentials: true,
-    });
+    return this.httpClient.get(this.getMyCollectionsUrl);
   }
 }
