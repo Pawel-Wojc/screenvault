@@ -9,7 +9,7 @@
         <form action="" [formGroup]="titleForm" (ngSubmit)="savePost()" class="Flex">
             <label id="TitleLabel">Title of your post:</label>
         
-            <input type="text" id="Title" class="Flex" formControlName="title">
+            <input type="text" id="Title"  class="Flex" formControlName="title">
         
 
              <div id="ButtonsWrapper">
@@ -23,13 +23,13 @@
                 <input matInput  formControlName="newCollectionName">
             </mat-form-field>
 
-            <mat-selection-list class="calloctionList" [formControl]="collectionControl" name="collections" [multiple]="false" [ngClass]="collectionFoundFlag? 'disp-block' : 'disp-none'">
+            <mat-selection-list class="calloctionList" [formControl]="collectionControl" name="collections"  [multiple]="false" [ngClass]="collectionFoundFlag? 'disp-block' : 'disp-none'">
                 @for (coll of usersCollection; track coll) {
                   <mat-list-option [value]="coll.id">{{coll.name}}</mat-list-option>
                 }
             </mat-selection-list>
 
-            <button id="Save"  type="submit" [disabled]="!titleForm.valid">Save</button> 
+            <button id="Save"  type="submit" [disabled]="!titleForm.valid || postSubmitted"  >Save</button> 
 
             <div id="LinkWrapper" class="Flex">
             <span id="Link" >{{linkToPost}}</span>

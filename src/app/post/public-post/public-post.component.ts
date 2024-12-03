@@ -17,10 +17,6 @@ import { MatListModule } from '@angular/material/list';
 import { HttpResponse } from '@angular/common/http';
 import { GetUsersCollectionsResposeEntity } from '../../user/collections/getUsersCollectionsResposeEntity';
 
-type addPostToCollectionFunctionDelegate = (postId: string, collectionId: string) => Observable<any>;
-type addCollectionFunctionDelegate = (name: string) => Observable<any>;
-type getUsersCollectionsFunctionDelegate = () => Observable<any>;
-
 @Component({
   selector: 'app-public-post',
   standalone: true,
@@ -37,12 +33,10 @@ export class PublicPostComponent {
   private snackBar = inject(MatSnackBar);
   private getRoleService = inject(GetRoleService);
   private collectionService = inject(CollectionsService);
-  private refreshTokenService = inject(RefreshTokenService);
-
-
+  
   image!: File;
   imageURL!: string;
-  linkToPost: string = 'Link';
+  linkToPost?: string = 'Link';
   titleForm: FormGroup;
   collectionControl: FormControl = new FormControl();
   isPostPublic: boolean = true;
@@ -51,6 +45,9 @@ export class PublicPostComponent {
   usersCollection?: Collection[];
   noCollectionFlag: boolean = false;
   collectionFoundFlag: boolean = false; 
+  postedPostUUID?: string;
+  selectedCollectionUUID?: string;
+  postSubmitted: boolean = false;
   
   @ViewChild('ButtonPublic', {static: true}) sharePublicly?: ElementRef;
   @ViewChild('ButtonPrivate', {static: true}) sharePrivately?: ElementRef;
@@ -69,7 +66,6 @@ export class PublicPostComponent {
 
     //handle collection functionality
     if(this.isUserLogged){
-      
       this.handleCollections();
     }
 
@@ -81,7 +77,7 @@ export class PublicPostComponent {
       this.titleForm.get('title')?.setValue(this.image.name);
     }
     else{
-     // this.router.navigate(['/upload-image']);
+      this.router.navigate(['/upload-image']);
     }
   }
 
@@ -120,7 +116,6 @@ export class PublicPostComponent {
     catch(err: any){}
     //get users collections <-
 
-    this.usersCollection = [{ id: 'string',  name: 'string'},{ id: 'strinfdgg',  name: 'strinutyug'},{ id: 'strhting',  name: 'stvgbnng'},{ id: 'st+6ring',  name: 'stri6ng'},]
     //if there are no collections get name to add one 
     if(!this.usersCollection?.length){
       this.noCollectionFlag = true;
@@ -134,26 +129,56 @@ export class PublicPostComponent {
     }
   }
 
-  savePost(){
-    console.log(this.titleForm.value);
+  async savePost(){
+    this.postSubmitted = true;
     //create post  
     const postToPublic: PostToPublic = new PostToPublic(this.titleForm.value.title.trim(), this.isPostPublic); 
 
     //api call post postToPublic
-    this.publicPostService.publicPost(this.image, postToPublic).subscribe({
+    try{
+      const publicPostResponse = await firstValueFrom(this.publicPostService.publicPost(this.image, postToPublic));
+      if (publicPostResponse.success) {
+        this.openSnackBar('Post added successfully');
+        this.postedPostUUID = publicPostResponse.post.id;
 
-      next: (response) => {
-        this.openSnackBar(response.message);
-        if (response.status == 200) {
-          this.openSnackBar('Post added successfully');
-          console.log(response);
-        }
-      },
-      error: (error) => {
-        this.openSnackBar("error.message");  
+        this.linkToPost =  this.postedPostUUID;
       }
-      },
-    );
+    }
+    catch(err: any){
+      this.openSnackBar(err.message); 
+    }
+
+    //if user not logged end function
+    if(!this.isUserLogged){
+      return;
+    }
+
+    if(this.noCollectionFlag){
+      //create new collection
+      try{
+        const addCollectionResponse = await firstValueFrom(this.collectionService.addCollection(this.titleForm.value.newCollectionName.trim()));
+
+        if (addCollectionResponse.success) {
+          this.selectedCollectionUUID = addCollectionResponse.collection.id;
+        }
+      }
+      catch(err: any){
+        this.openSnackBar(err.message); 
+      }
+      
+    }
+    else if(this.collectionFoundFlag){
+      this.selectedCollectionUUID = this.titleForm.value.collections[0];
+    }
+
+    //add post to collection
+    try{
+      const addPostToCollectionResponse = await firstValueFrom(this.collectionService.addPostToCollection(this.postedPostUUID as string, this.selectedCollectionUUID as string));
+    }
+    catch(err: any){
+      this.openSnackBar(err.message); 
+    }
+  
   }
 
   openSnackBar(message: string) {

@@ -3,7 +3,8 @@ import * as myGlobals from '../../global';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Collection } from './collection';
-
+import { AddPostToCollectionPayload } from './addPostToCollectionPayload';
+ 
 @Injectable({
   providedIn: 'root',
 })
@@ -35,11 +36,8 @@ export class CollectionsService {
     postId: string,
     collectionId: string
   ): Observable<any> {
-    const formData = new FormData();
-    formData.append('postId', postId);
-    formData.append('collectionId', collectionId);
-
-    return this.httpClient.post(this.addPostToMyCollectionUrl, formData, );
+    
+    return this.httpClient.patch(this.addPostToMyCollectionUrl, new AddPostToCollectionPayload(postId, collectionId), );
   }
 
   public getUsersCollections(): Observable<any> {
