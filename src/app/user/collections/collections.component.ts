@@ -4,6 +4,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { InputDialog } from '../../shared/input-dialog/input-dialog';
 import { CommonModule } from '@angular/common';
 import { MatTooltip } from '@angular/material/tooltip';
+import { CollectionsService } from './collections.service';
 import {
   DragDropModule,
   moveItemInArray,
@@ -18,6 +19,7 @@ import {
   styleUrl: './collections.component.css',
 })
 export class CollectionsComponent {
+  private collectionsService = inject(CollectionsService);
   private dialog = inject(MatDialog);
   openedFolders:
     | {
@@ -169,6 +171,9 @@ export class CollectionsComponent {
           name: result,
           photos: [],
         };
+        this.collectionsService
+          .addCollection(result)
+          .subscribe((collection) => {});
         this.userCollections.push(newFolder);
         console.log(`Save new folder, folder name ${result}`);
         //create now folder API, then refetch folder list

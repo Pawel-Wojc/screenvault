@@ -2,55 +2,53 @@ import {
   HttpClient,
   HttpErrorResponse,
   HttpEvent,
-  HttpHandler,
-  HttpInterceptor,
+  HttpHandlerFn,
   HttpRequest,
 } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { inject } from '@angular/core';
 import { catchError, Observable, switchMap, throwError } from 'rxjs';
 import * as myGlobals from './/global';
-@Injectable()
-export class RefreshTokenInterceptor implements HttpInterceptor {
-  private isRefreshing = false;
-  http = inject(HttpClient);
 
-  private refreshUrl =
-    myGlobals.apiLink + '/authentication/noAuth/refreshToken';
+export function RefreshTokenInterceptor(
+  req: HttpRequest<any>,
+  next: HttpHandlerFn
+): Observable<HttpEvent<any>> {
+  var httpClient = inject(HttpClient);
+  return next(req).pipe(
+    catchError((error: HttpErrorResponse) => {
+      if (error.status === 403) {
+        return refreshToken(req, next, httpClient);
+      }
+      return throwError(() => error);
+    })
+  );
+}
 
-  intercept(
-    req: HttpRequest<any>,
-    next: HttpHandler
-  ): Observable<HttpEvent<any>> {
-    return next.handle(req).pipe(
-      catchError((error: HttpErrorResponse) => {
-        if (error.status === 403) {
-          return this.refreshToken(req, next);
-        }
-        return throwError(() => error);
+function refreshToken(
+  req: HttpRequest<any>,
+  next: HttpHandlerFn,
+  httpClient: HttpClient
+): Observable<HttpEvent<any>> {
+  console.log('asd token refresh');
+
+  var refreshUrl = myGlobals.apiLink + '/authentication/noAuth/refreshToken';
+  var isRefreshing = false;
+  if (!isRefreshing) {
+    isRefreshing = true;
+
+    return httpClient.get(refreshUrl, { withCredentials: true }).pipe(
+      switchMap(() => {
+        isRefreshing = false;
+        return next(req);
+      }),
+      catchError((refreshError) => {
+        isRefreshing = false;
+        return throwError(() => refreshError);
       })
     );
-  }
-  refreshToken(
-    req: HttpRequest<any>,
-    next: HttpHandler
-  ): Observable<HttpEvent<any>> {
-    if (!this.isRefreshing) {
-      this.isRefreshing = true;
-
-      return this.http.get(this.refreshUrl, { withCredentials: true }).pipe(
-        switchMap(() => {
-          this.isRefreshing = false;
-          return next.handle(req);
-        }),
-        catchError((refreshError) => {
-          this.isRefreshing = false;
-          return throwError(() => refreshError);
-        })
-      );
-    } else {
-      return throwError(
-        () => new Error('refresh token request already in progress')
-      );
-    }
+  } else {
+    return throwError(
+      () => new Error('refresh token request already in progress')
+    );
   }
 }
