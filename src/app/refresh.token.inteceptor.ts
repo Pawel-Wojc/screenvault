@@ -29,13 +29,10 @@ function refreshToken(
   next: HttpHandlerFn,
   httpClient: HttpClient
 ): Observable<HttpEvent<any>> {
-  console.log('asd token refresh');
-
   var refreshUrl = myGlobals.apiLink + '/authentication/noAuth/refreshToken';
   var isRefreshing = false;
   if (!isRefreshing) {
     isRefreshing = true;
-
     return httpClient.get(refreshUrl, { withCredentials: true }).pipe(
       switchMap(() => {
         isRefreshing = false;

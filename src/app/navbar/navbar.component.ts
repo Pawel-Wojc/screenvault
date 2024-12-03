@@ -1,5 +1,5 @@
 import { Component, Inject, inject, signal, Signal } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { NavigationEnd, Router, RouterLink } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AuthService } from '../authorization/auth.service';
 import { AsyncPipe, CommonModule } from '@angular/common';
@@ -7,12 +7,13 @@ import { AsyncPipe, CommonModule } from '@angular/common';
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [RouterLink, AsyncPipe, CommonModule],
+  imports: [RouterLink, CommonModule],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css',
 })
 export class NavbarComponent {
   authService = inject(AuthService);
+  router = inject(Router);
   isLoggedIn = false;
 
   ngOnInit() {
@@ -22,12 +23,6 @@ export class NavbarComponent {
   }
 
   logout() {
-    //this.authService.isLoggedIn.set(false);
-    //this.isLoggedIn.set(false);
-  }
-
-  login() {
-    // this.authService.isLoggedIn.set(true);
-    // this.isLoggedIn.set(true);
+    this.authService.logout().subscribe();
   }
 }

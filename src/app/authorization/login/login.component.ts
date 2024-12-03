@@ -62,7 +62,6 @@ export class LoginComponent {
     this.loginService.loginUser(this.credentialsBase64).subscribe({
       next: async (response) => {
         if (response.status == 200) {
-          this.authService.login();
           /*
           console.log(response);
           try{
