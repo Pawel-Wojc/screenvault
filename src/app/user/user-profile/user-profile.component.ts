@@ -13,6 +13,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { SimpleDialog } from '../../shared/simple-dialog/simple-dialog';
 import { CollectionsComponent } from '../collections/collections.component';
 import { ChangePasswordDialog } from '../change-password-dialog/change-password-dialog';
+import { single } from 'rxjs';
+import { UserProfileService } from './user-profile-service';
 
 @Component({
   selector: 'app-user-profile',
@@ -27,17 +29,6 @@ import { ChangePasswordDialog } from '../change-password-dialog/change-password-
   styleUrl: './user-profile.component.css',
 })
 export class UserProfileComponent {
-  changePasword() {
-    const dialogRef = this.dialog.open(ChangePasswordDialog, {
-      width: '300px',
-      data: {},
-    });
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        console.log('User password changed');
-      }
-    });
-  }
   profilePhotoPlaceholder: string = 'demo-avatar.png';
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
   private snackBar = inject(MatSnackBar);
@@ -45,6 +36,14 @@ export class UserProfileComponent {
   userPhoto = signal<string | ArrayBuffer | null>(this.profilePhotoPlaceholder);
   userEmail = signal('email');
   userName = signal('username');
+  userProfileService = inject(UserProfileService);
+
+  ngOnInit() {
+    this.userProfileService.getUserDetails().subscribe((res) => {
+      this.userEmail.set(res.user.login);
+      this.userName.set(res.user.username);
+    });
+  }
 
   changeUserProfilePicture(event: Event) {
     const target = event.target as HTMLInputElement;
@@ -70,6 +69,18 @@ export class UserProfileComponent {
         });
       }
     }
+  }
+
+  changePasword() {
+    const dialogRef = this.dialog.open(ChangePasswordDialog, {
+      width: '300px',
+      data: {},
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        console.log('User password changed');
+      }
+    });
   }
 
   deleteProfilePicture(event: Event) {
