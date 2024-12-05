@@ -25,18 +25,18 @@ export class CollectionsComponent {
   ngOnInit() {
     this.collectionsService.getUsersCollections().subscribe((res) => {
       this.userCollections = res.collectionList;
-      console.log(res.collectionList);
     });
   }
   userCollections: any[] = [];
 
   onDrop(event: any) {
     if (event.previousContainer === event.container) {
+      //if moving inside the same container
       let array = this.userCollections.find((c) => c === event.container.data);
-      console.log(array);
       if (array) {
         moveItemInArray(array.photos, event.previousIndex, event.currentIndex);
-        //call api to update
+
+        //this.collectionsService.changePostCollection()
       }
     } else {
       let currentArray = this.userCollections.find(
@@ -57,7 +57,11 @@ export class CollectionsComponent {
   }
 
   deleteUserCollection(id: number) {
-    ///API CALL
+    this.collectionsService
+      .deleteUserCollections(id.toString())
+      .subscribe((results) => {
+        console.log(results);
+      });
     this.userCollections = this.userCollections.filter(
       (collection) => collection.id !== id
     );
