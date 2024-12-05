@@ -21,14 +21,13 @@ export class WallItemComponent {
 
   svgMinus: string = 'icons/minus-red.svg';
   svgPlus: string = 'icons/plus-green.svg';
-  id = input<any>();
+  id = input<string>();
+  imageUrl = input<string>();
   postHoverFlag = false;
 
-
-  imageUrl = signal('');
-
   disLikePost() {
-    this.wallItemService.dislikePost(this.id()).subscribe({
+    alert('fix dilike post wall-item');
+    this.wallItemService.dislikePost('this.id()').subscribe({
       next: (response) => {
         //if ok
         if (this.svgMinus == 'icons/minus-red.svg') {
@@ -46,8 +45,10 @@ export class WallItemComponent {
       },
     });
   }
+
   likePost() {
-    this.wallItemService.likePost(this.id()).subscribe({
+    alert('fix like post wall-item');
+    this.wallItemService.likePost('this.id()').subscribe({
       next: (response) => {
         if (this.svgPlus == 'icons/plus-green.svg') {
           this.svgMinus = 'icons/minus-black.svg';
