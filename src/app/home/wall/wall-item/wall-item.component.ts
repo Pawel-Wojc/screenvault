@@ -22,10 +22,16 @@ export class WallItemComponent {
   svgMinus: string = 'icons/minus-red.svg';
   svgPlus: string = 'icons/plus-green.svg';
   id = input<string>();
+  title = input<string>();
   imageUrl = input<string>();
+  score = input<number>();
+  viewCount = input<number>();
+  commentCount = input<number>();
   postHoverFlag = false;
 
   disLikePost() {
+    console.log(this.id());
+    console.log(this.imageUrl());
     alert('fix dilike post wall-item');
     this.wallItemService.dislikePost('this.id()').subscribe({
       next: (response) => {

@@ -3,7 +3,12 @@
     @for (post of listOfPosts; track post) {
       <app-wall-item 
       class="cell"
-      [id]="post.id">
+      [id]="post.id"
+      [title]="post.title"
+      [imageUrl]="post.imageUrl"
+      [score]="post.score"
+      [viewCount]="post.viewCount"
+      [commentCount]="post.commentCount">
       </app-wall-item>
     }
     
