@@ -134,6 +134,7 @@ export class PublicPostComponent {
     //create post  
     const postToPublic: PostToPublic = new PostToPublic(this.titleForm.value.title.trim(), this.isPostPublic); 
 
+    console.log(postToPublic);
     //api call post postToPublic
     try{
       const publicPostResponse = await firstValueFrom(this.publicPostService.publicPost(this.image, postToPublic));

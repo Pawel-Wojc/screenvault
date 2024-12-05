@@ -24,7 +24,7 @@ export class CommentSectionComponent {
   comments: Comment[] = [];
   isLoading = false;
   addCommentForm: FormGroup;
-  commentsPageNo: number = 1;
+  commentsPageNo: number = 0;
   private scrollSubscription!: Subscription;
 
   private formBuilder = inject(FormBuilder);

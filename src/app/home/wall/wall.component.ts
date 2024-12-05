@@ -1,14 +1,57 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, inject, ViewChild } from '@angular/core';
 import { WallItemComponent } from './wall-item/wall-item.component';
 import { NgFor } from '@angular/common';
+import { Post } from './post';
+import { WallService } from './wall.service';
 
 @Component({
   selector: 'app-wall',
   standalone: true,
-  imports: [WallItemComponent, NgFor],
+  imports: [WallItemComponent],
   templateUrl: './wall.component.html',
   styleUrl: './wall.component.css',
 })
 export class WallComponent {
-  //call api to get 20 items with photos and tags
+
+  @ViewChild('scrollPostsWrapper') scrollPostsWrapper!: ElementRef;
+
+  listOfPosts: Post[] =[];
+  pageNo: number = 0;
+  isLoading: boolean = false;
+
+  private wallService = inject(WallService);
+
+  ngOnInit(){
+    alert('implement view counter api call implement get call for picture  implement get comments post comment fill comment obj');
+
+    this.loadPosts();
+   // this.comments = this.commentService.getComments();
+   // console.log(this.commentService.getComments());
+   // console.log(this.comments);
+
+  }
+
+
+  checkScrollPosition(): boolean {
+    const container = this.scrollPostsWrapper.nativeElement;
+    const threshold = 200; // Trigger 200px before the bottom
+    return container.scrollTop + container.clientHeight >= container.scrollHeight - threshold;
+  }
+
+  loadPosts(){
+    this.isLoading = true;
+
+    this.wallService.getLandingPagePosts(this.pageNo).subscribe({
+      next: (response) => {
+        console.log(response.content);
+        this.listOfPosts =[...this.listOfPosts, ...response.content];
+        this.isLoading = false;
+        this.pageNo++;
+      },
+      error:(error)=> {
+        console.error('Error fetching posts', error);
+        this.isLoading = false;
+      },
+    });
+  }
 }

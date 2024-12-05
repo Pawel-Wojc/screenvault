@@ -1,10 +1,11 @@
 <div class="wall">
-  <div class="grid-container">
-    <app-wall-item
-      *ngFor="let item of [].constructor(18); let i = index"
+  <div class="grid-container" #scrollPostsWrapper>
+    @for (post of listOfPosts; track post) {
+      <app-wall-item 
       class="cell"
-      [id]="i"
-      
-    ></app-wall-item>
+      [id]="post.id">
+      </app-wall-item>
+    }
+    
   </div>
 </div>
