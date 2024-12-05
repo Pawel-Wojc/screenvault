@@ -22,15 +22,12 @@ export class WallComponent {
   private wallService = inject(WallService);
 
   ngOnInit(){
-    alert('implement view counter api call implement get call for picture  implement get comments post comment fill comment obj');
-
     this.loadPosts();
-   // this.comments = this.commentService.getComments();
-   // console.log(this.commentService.getComments());
-   // console.log(this.comments);
-
   }
 
+  hangleChangeOfRating(x:number){
+    console.log(x);
+  }
 
   checkScrollPosition(): boolean {
     const container = this.scrollPostsWrapper.nativeElement;

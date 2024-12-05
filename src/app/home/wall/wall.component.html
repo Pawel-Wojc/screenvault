@@ -8,7 +8,8 @@
       [imageUrl]="post.imageUrl"
       [score]="post.score"
       [viewCount]="post.viewCount"
-      [commentCount]="post.commentCount">
+      [commentCount]="post.commentCount"
+      (emitChangeOfRating)="hangleChangeOfRating($event)">
       </app-wall-item>
     }
     

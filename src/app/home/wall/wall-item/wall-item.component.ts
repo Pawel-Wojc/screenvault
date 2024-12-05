@@ -1,10 +1,12 @@
-import { Component, inject, input, Signal, signal } from '@angular/core';
+import { Component, inject, input, output} from '@angular/core';
 import { Router } from '@angular/router';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { WallItemService } from './wall-item.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { reportService } from '../../report.service';
 import { CommonModule } from '@angular/common';
+import { Rating } from './rating';
+import { GetRoleService } from '../../../authorization/get-role.service';
 
 @Component({
   selector: 'app-wall-item',
@@ -18,57 +20,60 @@ export class WallItemComponent {
   private snackBar = inject(MatSnackBar);
   private router = inject(Router);
   private reportService = inject(reportService);
+  private getRoleService = inject(GetRoleService);
 
-  svgMinus: string = 'icons/minus-red.svg';
-  svgPlus: string = 'icons/plus-green.svg';
+  //svgMinus: string = 'icons/minus-red.svg';
+  //svgPlus: string = 'icons/plus-green.svg';
+
+  svgMinus: string = 'icons/minus-black.svg';
+  svgPlus: string = 'icons/plus-black.svg';
+
   id = input<string>();
   title = input<string>();
   imageUrl = input<string>();
   score = input<number>();
   viewCount = input<number>();
   commentCount = input<number>();
+
+  emitChangeOfRating = output<number>();
+
   postHoverFlag = false;
 
-  disLikePost() {
-    console.log(this.id());
-    console.log(this.imageUrl());
-    alert('fix dilike post wall-item');
-    this.wallItemService.dislikePost('this.id()').subscribe({
-      next: (response) => {
-        //if ok
-        if (this.svgMinus == 'icons/minus-red.svg') {
-          this.svgPlus = 'icons/plus-black.svg';
-        }
-      },
-      error: (error) => {
-        if (error.status == 401) {
-          this.openSnackBar('Hey! Sign in to perform this action');
-        } else {
-          this.openSnackBar(
-            "Sorry, we can't perform this action right now. :("
-          );
-        }
-      },
-    });
+
+  async disLikePost() {
+    if(await this.getRoleService.ifUserLogged()){
+      this.emitChangeOfRating.emit(50);
+      this.ratePost(this.id() as string, Rating.DISLIKE);
+    }
+    else{
+      this.openSnackBar('Hey! Sign in to perform this action');
+    }
   }
 
-  likePost() {
-    alert('fix like post wall-item');
-    this.wallItemService.likePost('this.id()').subscribe({
+  async likePost() {
+    if(await this.getRoleService.ifUserLogged()){
+      this.ratePost(this.id() as string, Rating.LIKE);
+    }
+    else{
+      this.openSnackBar('Hey! Sign in to perform this action');
+    }
+  }
+
+  ratePost(postId: string, rating: Rating){
+    this.wallItemService.postRating(postId, rating).subscribe({
       next: (response) => {
-        if (this.svgPlus == 'icons/plus-green.svg') {
+        //if ok
+        if (rating === Rating.DISLIKE /*&& /*this.svgMinus == 'icons/minus-red.svg'*/) {
+          this.svgPlus = 'icons/plus-black.svg';
+          this.svgMinus = 'icons/minus-red.svg';
+        }
+        if (rating === Rating.LIKE/* && /*this.svgPlus == 'icons/plus-green.svg'*/) {
+          this.svgPlus = 'icons/plus-green.svg';
           this.svgMinus = 'icons/minus-black.svg';
         }
-        console.log('Post liked successfully:', response.status);
       },
       error: (error) => {
-        if (error.status == 401) {
-          this.openSnackBar('Hey! Sign in to perform this action');
-        } else {
-          this.openSnackBar(
-            "Sorry, we can't perform this action right now. :( "
-          );
-        }
+        this.openSnackBar( "Sorry, we can't perform this action right now. :(");
       },
     });
   }

@@ -11,7 +11,7 @@ export class WallService {
   private httpClient = inject(HttpClient);
 
   public getLandingPagePosts(pageNo: number): Observable<any>{
-    alert('change me wall item service');
+    //alert('change me wall item service');
     return this.httpClient.get(this.getLandingPagePostsUrl,
       {params:
         {page: pageNo, 
