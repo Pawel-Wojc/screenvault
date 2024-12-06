@@ -76,14 +76,15 @@ export class WallItemComponent {
         }
 
         this.svgMinus = 'icons/minus-red.svg';
+        this.ratePost(this.id() as string, Rating.DISLIKE);
       }
       //if undone dislike
       else{
         this.emitChangeOfRating.emit(1);
         this.svgMinus = 'icons/minus-black.svg';
+        this.removeRating(this.id() as string);
       }
       
-      this.ratePost(this.id() as string, Rating.DISLIKE);
     }
     else{
       this.openSnackBar('Hey! Sign in to perform this action');
@@ -109,14 +110,15 @@ export class WallItemComponent {
         }
 
         this.svgPlus = 'icons/plus-green.svg';
+        this.ratePost(this.id() as string, Rating.LIKE);
       } 
       //if undone like
       else{
         this.svgPlus = 'icons/plus-black.svg';
         this.emitChangeOfRating.emit(-1);
+        this.removeRating(this.id() as string);
       }
 
-      this.ratePost(this.id() as string, Rating.LIKE);
     }
     else{
       this.openSnackBar('Hey! Sign in to perform this action');
@@ -157,6 +159,16 @@ export class WallItemComponent {
       },
     });
     
+  }
+
+  removeRating(id: string){
+    this.wallItemService.deleteRating(id).subscribe({
+      next: (r) =>{},
+      error: (e) =>{
+        this.openSnackBar("Error unable to remove rating.");
+      }
+      
+    });
   }
   
   openSnackBar(message: string) {

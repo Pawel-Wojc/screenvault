@@ -22,7 +22,7 @@ export class WallItemService {
 
   public deleteRating(postId: string): Observable<any> {
 
-    return this.httpClient.post(this.deleteRatingUrl, {postId: postId});
+    return this.httpClient.delete(this.deleteRatingUrl,{body: {postId: postId}});
   }
 
 }
