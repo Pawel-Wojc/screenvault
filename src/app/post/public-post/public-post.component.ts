@@ -6,16 +6,16 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormControl } 
 import { CommonModule } from '@angular/common';
 import { PublicPostService } from './public-post.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { RefreshTokenService } from  '../../authorization/refresh-token.service';
 import { GetRoleService } from '../../authorization/get-role.service';
 import { CollectionsService } from '../../user/collections/collections.service';
-import { firstValueFrom, Observable } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
 import { Collection } from '../../user/collections/collection';
 import { MatInputModule}  from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatListModule } from '@angular/material/list';
-import { HttpResponse } from '@angular/common/http';
+import { HttpParams } from '@angular/common/http';
 import { GetUsersCollectionsResposeEntity } from '../../user/collections/getUsersCollectionsResposeEntity';
+import * as Globals from '../../global';
 
 @Component({
   selector: 'app-public-post',
@@ -142,7 +142,11 @@ export class PublicPostComponent {
         this.openSnackBar('Post added successfully');
         this.postedPostUUID = publicPostResponse.post.id;
 
-        this.linkToPost =  this.postedPostUUID;
+        const params = new HttpParams().set('id', this.postedPostUUID as string);
+
+        this.linkToPost = Globals.frontLink + '/home/commentSection;' + params.toString();
+        
+        
       }
     }
     catch(err: any){
@@ -192,6 +196,7 @@ export class PublicPostComponent {
 
   copyLink(){
     navigator.clipboard.writeText(this.linkToPost as string);
+    this.openSnackBar('Copied');
   }
 
 
