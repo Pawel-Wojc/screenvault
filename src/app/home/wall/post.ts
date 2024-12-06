@@ -9,5 +9,4 @@ export interface Post{
     score: number,
     commentCount: number,
     myScore?: Rating,
-
 }

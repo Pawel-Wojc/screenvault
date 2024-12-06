@@ -44,20 +44,13 @@ export class CommentSectionComponent {
   }
 
   ngOnInit(){
-    alert('implement view counter api call implement get call for picture  implement get comments post comment fill comment obj');
+    alert('add comment implement get comments post comment fill comment obj reporting');
 
     if(!this.route.snapshot.paramMap.get('id')){
       this.router.navigate(['']);
     }
     
-    this.commentService.getPostById(this.route.snapshot.paramMap.get('id') as string).subscribe({
-      next: (response) => {
-        this.imgSrc = response.imageUrl;
-      },
-      error: (err) => {
-        this.openSnackBar("Error occured while loading post");
-      },
-    })
+    this.loadPost();
   
     this.loadComments();
 
@@ -67,6 +60,7 @@ export class CommentSectionComponent {
 
 
   }
+
   ngAfterViewInit() {
     // Setup scroll event listener with throttling
     this.scrollSubscription = fromEvent(this.commentsScroll.nativeElement, 'scroll')
@@ -86,10 +80,10 @@ export class CommentSectionComponent {
 
   loadComments(){
     this.isLoading = true;
-    /*
-    this.commentService.getComments(this.commentsPageNo).subscribe({
-      next: (newComments) => {
-        this.comments =[...this.comments, ...newComments];
+    
+    this.commentService.getComments(this.route.snapshot.paramMap.get('id') as string,this.commentsPageNo).subscribe({
+      next: (response) => {
+        this.comments =[...this.comments, ...response.content];
         this.isLoading = false;
         this.commentsPageNo++;
       },
@@ -98,7 +92,18 @@ export class CommentSectionComponent {
         this.isLoading = false;
       },
     });
-    */
+    
+  }
+
+  loadPost(){
+    this.commentService.getPostById(this.route.snapshot.paramMap.get('id') as string).subscribe({
+      next: (response) => {
+        this.imgSrc = response.imageUrl;
+      },
+      error: (err) => {
+        this.openSnackBar("Error occured while loading post");
+      },
+    })
   }
 
   reportPost(){
@@ -110,6 +115,13 @@ export class CommentSectionComponent {
     this.reportService.reportComment(commentId);
     this.openSnackBar("The report has been sent successfully.");
     this.handleReport(commentId);
+  }
+
+  handleReport(commentId: string){
+    this.comments = this.comments.filter(com => com.id !== commentId);
+    if(this.comments.length < 10){
+       this.loadComments();
+    }  
   }
 
   openSnackBar(message: string) {
@@ -136,10 +148,5 @@ export class CommentSectionComponent {
     return this.addCommentForm.valid ? 'active-button' : 'inactive-button';
   }
 
-  handleReport(commentId: string){
-    this.comments = this.comments.filter(com => com.id !== commentId);
-    if(this.comments.length < 10){
-       this.loadComments();
-    }  
-  }
+
 }

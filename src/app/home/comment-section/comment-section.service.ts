@@ -23,10 +23,18 @@ export class CommentService {
        },
     )
   }
-  /*
-  getComments(pageNo: number): Observable<any>{
-    return 
+  
+  getComments(postId: string, pageNo: number): Observable<any>{
+    return this.httpClient.get(this.getCommentsUrl,
+      {params:
+        {
+          postId: postId,
+          page: pageNo, 
+          pageSize: 20
+        },
+    }
+  )
     
   }
-  */
+  
 }
