@@ -23,9 +23,6 @@ export class WallItemComponent {
   private reportService = inject(reportService);
   private getRoleService = inject(GetRoleService);
 
-  //svgMinus: string = 'icons/minus-red.svg';
-  //svgPlus: string = 'icons/plus-green.svg';
-
   svgMinus: string = 'icons/minus-black.svg';
   svgPlus: string = 'icons/plus-black.svg';
 
@@ -45,7 +42,7 @@ export class WallItemComponent {
   private postLikedFlag: boolean = false;
 
   ngOnInit(){
-    //console.log(this.rating());
+    
     if(this.rating() === Rating.LIKE){
       
       this.postLikedFlag = true;
@@ -141,15 +138,15 @@ export class WallItemComponent {
   }
   
   navigateToCommentsectionComponent() {
-    this.router.navigate(['/home/commentSection/replaceMEEE']);
+    this.router.navigate(['/home/commentSection/',{ id: this.id() }]);
   }
 
   reportPost(){
-    alert('implement me');
-    this.reportService.reportPost('').subscribe({
-      next: (response) => {
 
-        if (response.status == 200) {
+    this.reportService.reportPost(this.id() as string).subscribe({
+      next: (response) => {
+        
+        if (response.success) {
           this.openSnackBar("The report has been sent successfully.");
         }
 

@@ -12,7 +12,7 @@ export class reportService{
     private reportCommentUrl = myGlobals.apiLink + '/report/reportComment';
 
     public reportPost(postId: string): Observable<any>{
-        console.log('rep post');
+        
         return this.httpClient.post(
             this.reportPostUrl,
             new ReportRequest(postId),    

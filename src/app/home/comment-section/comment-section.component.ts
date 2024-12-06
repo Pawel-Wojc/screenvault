@@ -1,8 +1,8 @@
 import { Component, inject, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { FormBuilder, Validators, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
-import { CommentService } from './comment.service';
+import { RouterLink, ActivatedRoute, Router } from '@angular/router';
+import { CommentService } from './comment-section.service';
 import { Comment } from './comment';
 import { filter, fromEvent, map, Subscription, throttleTime } from 'rxjs';
 import { reportService } from '../report.service';
@@ -19,12 +19,14 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 
 export class CommentSectionComponent {
   @ViewChild('commentsScroll') commentsScroll!: ElementRef;
+  
   imgHoverFlag = false;
   imgSrc: string = '';
   comments: Comment[] = [];
   isLoading = false;
   addCommentForm: FormGroup;
   commentsPageNo: number = 0;
+
   private scrollSubscription!: Subscription;
 
   private formBuilder = inject(FormBuilder);
@@ -32,6 +34,8 @@ export class CommentSectionComponent {
   private datePipe = inject(DatePipe);
   private reportService = inject(reportService);
   private snackBar = inject(MatSnackBar);
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
 
   constructor(){
     this.addCommentForm = this.formBuilder.group({
@@ -42,10 +46,25 @@ export class CommentSectionComponent {
   ngOnInit(){
     alert('implement view counter api call implement get call for picture  implement get comments post comment fill comment obj');
 
+    if(!this.route.snapshot.paramMap.get('id')){
+      this.router.navigate(['']);
+    }
+    
+    this.commentService.getPostById(this.route.snapshot.paramMap.get('id') as string).subscribe({
+      next: (response) => {
+        this.imgSrc = response.imageUrl;
+      },
+      error: (err) => {
+        this.openSnackBar("Error occured while loading post");
+      },
+    })
+  
     this.loadComments();
+
    // this.comments = this.commentService.getComments();
    // console.log(this.commentService.getComments());
    // console.log(this.comments);
+
 
   }
   ngAfterViewInit() {
@@ -67,7 +86,7 @@ export class CommentSectionComponent {
 
   loadComments(){
     this.isLoading = true;
-
+    /*
     this.commentService.getComments(this.commentsPageNo).subscribe({
       next: (newComments) => {
         this.comments =[...this.comments, ...newComments];
@@ -79,6 +98,7 @@ export class CommentSectionComponent {
         this.isLoading = false;
       },
     });
+    */
   }
 
   reportPost(){
