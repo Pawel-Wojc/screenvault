@@ -46,7 +46,7 @@ export class WallComponent {
 
     this.wallService.getLandingPagePosts(this.pageNo).subscribe({
       next: (response) => {
-        console.log(response.content);
+       // console.log(response.content);
         this.listOfPosts =[...this.listOfPosts, ...response.content];
         this.isLoading = false;
         this.pageNo++;

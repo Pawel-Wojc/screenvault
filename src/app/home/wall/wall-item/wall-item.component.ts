@@ -7,6 +7,7 @@ import { reportService } from '../../report.service';
 import { CommonModule } from '@angular/common';
 import { Rating } from './rating';
 import { GetRoleService } from '../../../authorization/get-role.service';
+import { Post } from '../post';
 
 @Component({
   selector: 'app-wall-item',
@@ -34,6 +35,7 @@ export class WallItemComponent {
   score = input<number>();
   viewCount = input<number>();
   commentCount = input<number>();
+  rating = input<Rating>();
 
   emitChangeOfRating = output<number>();
 
@@ -42,6 +44,21 @@ export class WallItemComponent {
   private postDislikedFlag: boolean = false;
   private postLikedFlag: boolean = false;
 
+  ngOnInit(){
+    //console.log(this.rating());
+    if(this.rating() === Rating.LIKE){
+      
+      this.postLikedFlag = true;
+      this.svgPlus = 'icons/plus-green.svg';
+
+    }
+    else if(this.rating() === Rating.DISLIKE){
+
+      this.postDislikedFlag = true;
+      this.svgMinus = 'icons/minus-red.svg';
+
+    }
+  }
 
   async disLikePost() {
     if(await this.getRoleService.ifUserLogged()){
