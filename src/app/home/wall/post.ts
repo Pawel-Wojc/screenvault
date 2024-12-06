@@ -1,3 +1,5 @@
+import { Rating } from "./wall-item/rating";
+
 export interface Post{
     id: string,
     title: string,
@@ -6,5 +8,6 @@ export interface Post{
     viewCount: number,
     score: number,
     commentCount: number,
+    myScore?: Rating,
 
 }

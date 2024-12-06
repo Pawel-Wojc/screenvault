@@ -39,10 +39,36 @@ export class WallItemComponent {
 
   postHoverFlag = false;
 
+  private postDislikedFlag: boolean = false;
+  private postLikedFlag: boolean = false;
+
 
   async disLikePost() {
     if(await this.getRoleService.ifUserLogged()){
-      this.emitChangeOfRating.emit(50);
+
+      this.postDislikedFlag = !this.postDislikedFlag;
+
+      //if disliked
+      if(this.postDislikedFlag){
+        //and liked before    
+        if(this.postLikedFlag){
+          this.emitChangeOfRating.emit(-2);
+          this.postLikedFlag = false;
+          this.svgPlus = 'icons/plus-black.svg';
+        }
+        //and wasn't liked
+        else{
+          this.emitChangeOfRating.emit(-1);
+        }
+
+        this.svgMinus = 'icons/minus-red.svg';
+      }
+      //if undone dislike
+      else{
+        this.emitChangeOfRating.emit(1);
+        this.svgMinus = 'icons/minus-black.svg';
+      }
+      
       this.ratePost(this.id() as string, Rating.DISLIKE);
     }
     else{
@@ -52,6 +78,30 @@ export class WallItemComponent {
 
   async likePost() {
     if(await this.getRoleService.ifUserLogged()){
+
+      this.postLikedFlag = !this.postLikedFlag;
+      //if liked
+      if(this.postLikedFlag){
+            
+        //and was disliked
+        if(this.postDislikedFlag){
+          this.postDislikedFlag = false;
+          this.emitChangeOfRating.emit(2);
+          this.svgMinus = 'icons/minus-black.svg';
+        }
+        //and wasn't disliked
+        else{
+          this.emitChangeOfRating.emit(1);
+        }
+
+        this.svgPlus = 'icons/plus-green.svg';
+      } 
+      //if undone like
+      else{
+        this.svgPlus = 'icons/plus-black.svg';
+        this.emitChangeOfRating.emit(-1);
+      }
+
       this.ratePost(this.id() as string, Rating.LIKE);
     }
     else{
@@ -62,15 +112,10 @@ export class WallItemComponent {
   ratePost(postId: string, rating: Rating){
     this.wallItemService.postRating(postId, rating).subscribe({
       next: (response) => {
-        //if ok
-        if (rating === Rating.DISLIKE /*&& /*this.svgMinus == 'icons/minus-red.svg'*/) {
-          this.svgPlus = 'icons/plus-black.svg';
-          this.svgMinus = 'icons/minus-red.svg';
-        }
-        if (rating === Rating.LIKE/* && /*this.svgPlus == 'icons/plus-green.svg'*/) {
-          this.svgPlus = 'icons/plus-green.svg';
-          this.svgMinus = 'icons/minus-black.svg';
-        }
+
+       // console.log('liked ' + this.postLikedFlag);
+       // console.log('disliked ' + this.postDislikedFlag);
+
       },
       error: (error) => {
         this.openSnackBar( "Sorry, we can't perform this action right now. :(");

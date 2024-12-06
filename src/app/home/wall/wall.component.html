@@ -9,7 +9,7 @@
       [score]="post.score"
       [viewCount]="post.viewCount"
       [commentCount]="post.commentCount"
-      (emitChangeOfRating)="hangleChangeOfRating($event)">
+      (emitChangeOfRating)="hangleChangeOfRating($event, post.id)">
       </app-wall-item>
     }
     

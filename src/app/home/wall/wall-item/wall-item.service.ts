@@ -16,15 +16,12 @@ export class WallItemService {
   private httpClient = inject(HttpClient);
 
   public postRating(postId: string, score: Rating): Observable<any> {
-    //const url = `${myGlobals.apiLink}/post/like?postId=${postId}`;
-    //alert('change me wall item service');
-    console.log(score);
+
     return this.httpClient.post(this.postRatingUrl, new RatingPayload(postId, score));
   }
 
   public deleteRating(postId: string): Observable<any> {
-    //const url = `${myGlobals.apiLink}/post/dislike?postId=${postId}`;
-   // alert('change me wall item service');
+
     return this.httpClient.post(this.deleteRatingUrl, {postId: postId});
   }
 

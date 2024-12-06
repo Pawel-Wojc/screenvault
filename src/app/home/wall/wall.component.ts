@@ -25,8 +25,14 @@ export class WallComponent {
     this.loadPosts();
   }
 
-  hangleChangeOfRating(x:number){
-    console.log(x);
+  hangleChangeOfRating(hangeOfRating: number, id: string){
+    //console.log(hangeOfRating+" "+ id);
+
+    const index = this.listOfPosts.findIndex((p)=> p.id === id);
+    const post = this.listOfPosts.find((p)=> p.id === id);
+    post!.score += hangeOfRating;
+    this.listOfPosts[index] = post as Post;
+    //console.log(index);
   }
 
   checkScrollPosition(): boolean {
