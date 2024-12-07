@@ -28,10 +28,12 @@
 }
 .left {
   display: inline-flex;
+  padding-left: 20px;
 }
 
 .center {
   height: 36px;
+  margin-left: 10px;
 }
 
 .center form {
@@ -43,6 +45,7 @@ input {
   padding-left: 4px;
   color: white;
   border-radius: 3px;
+  min-width: 440px;
   border: 1px solid transparent;
   background: rgba(255, 255, 255, 0.25);
   width: 100%;
@@ -89,4 +92,8 @@ p {
   margin-left: 0;
   margin-bottom: auto;
   margin-right: 0px;
+}
+
+#your-profile{
+  min-width: 146px;
 }
