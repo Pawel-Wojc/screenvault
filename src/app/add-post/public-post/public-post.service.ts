@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import * as myGlobals from '../../global';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { PostToPublic } from '../entities/post-to-public';
+import { PostToPublic } from '../post-to-public';
 
 @Injectable({
     providedIn: 'root',

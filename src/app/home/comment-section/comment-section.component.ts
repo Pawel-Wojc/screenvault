@@ -47,8 +47,7 @@ export class CommentSectionComponent {
   }
 
   ngOnInit(){
-    alert('add comment implement  post comment fill comment obj reporting');
-
+   
     if(!this.route.snapshot.paramMap.get('id')){
       this.router.navigate(['']);
     }
@@ -85,7 +84,7 @@ export class CommentSectionComponent {
         this.isLoading = false;
         this.commentsPageNo++;
       },
-      error:(error)=> {
+      error: (error)=> {
         console.error('Error fetching comments', error);
         this.isLoading = false;
       },
@@ -115,7 +114,7 @@ export class CommentSectionComponent {
       },
       error: (error) => {
        // console.log(error);
-       this.openSnackBar( "Sorry, we can't perform this action right now. :(");
+       this.openSnackBar( "Sorry, we can't perform this action right now. ");
       },
     });
   }
@@ -127,7 +126,7 @@ export class CommentSectionComponent {
         this.handleReport(commentId);
       },
       error: (e) =>{
-        this.openSnackBar( "Sorry, we can't perform this action right now. :(");
+        this.openSnackBar( "Sorry, we can't perform this action right now. ");
       }
     });
 
@@ -159,7 +158,7 @@ export class CommentSectionComponent {
         if(response.success){
 
           this.openSnackBar("Comment posted.");
-          
+
           this.comments = [...this.comments, response.comment];
         }
       },

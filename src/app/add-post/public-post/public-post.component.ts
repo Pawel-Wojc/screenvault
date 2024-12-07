@@ -1,7 +1,7 @@
 import { Component, ElementRef, inject, ViewChild } from '@angular/core';
 import { ImagesService } from '../services/images.service';
 import { Router } from '@angular/router';
-import { PostToPublic } from '../entities/post-to-public';
+import { PostToPublic } from '../post-to-public';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormControl } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { PublicPostService } from './public-post.service';
@@ -198,7 +198,5 @@ export class PublicPostComponent {
     navigator.clipboard.writeText(this.linkToPost as string);
     this.openSnackBar('Copied');
   }
-
-
 
 }
