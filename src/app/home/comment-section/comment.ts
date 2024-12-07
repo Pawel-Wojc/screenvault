@@ -1,7 +1,7 @@
 export interface Comment{
     id: string,
-    userName: string,
+    username?: string,
     text: string,
-    postedOn: Date | string,
+    postedOn?: Date | string,
     hover?: boolean | null, 
 }

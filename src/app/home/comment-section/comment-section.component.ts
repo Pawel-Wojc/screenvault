@@ -7,6 +7,8 @@ import { Comment } from './comment';
 import { filter, fromEvent, map, Subscription, throttleTime } from 'rxjs';
 import { reportService } from '../report.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { GetRoleService } from '../../authorization/get-role.service';
+import { NewComment } from './new-comment';
 
 @Component({
   selector: 'app-comment-section',
@@ -36,6 +38,7 @@ export class CommentSectionComponent {
   private snackBar = inject(MatSnackBar);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
+  private getRoleService = inject(GetRoleService);
 
   constructor(){
     this.addCommentForm = this.formBuilder.group({
@@ -44,7 +47,7 @@ export class CommentSectionComponent {
   }
 
   ngOnInit(){
-    alert('add comment implement get comments post comment fill comment obj reporting');
+    alert('add comment implement  post comment fill comment obj reporting');
 
     if(!this.route.snapshot.paramMap.get('id')){
       this.router.navigate(['']);
@@ -53,11 +56,6 @@ export class CommentSectionComponent {
     this.loadPost();
   
     this.loadComments();
-
-   // this.comments = this.commentService.getComments();
-   // console.log(this.commentService.getComments());
-   // console.log(this.comments);
-
 
   }
 
@@ -81,7 +79,7 @@ export class CommentSectionComponent {
   loadComments(){
     this.isLoading = true;
     
-    this.commentService.getComments(this.route.snapshot.paramMap.get('id') as string,this.commentsPageNo).subscribe({
+    this.commentService.getComments(this.route.snapshot.paramMap.get('id') as string, this.commentsPageNo).subscribe({
       next: (response) => {
         this.comments =[...this.comments, ...response.content];
         this.isLoading = false;
@@ -107,14 +105,32 @@ export class CommentSectionComponent {
   }
 
   reportPost(){
-    this.reportService.reportPost('###########################');
-    this.openSnackBar("The report has been sent successfully.");
+    this.reportService.reportPost(this.route.snapshot.paramMap.get('id') as string).subscribe({
+      next: (response) => {
+        
+        if (response.success) {
+          this.openSnackBar("The report has been sent successfully.");
+        }
+
+      },
+      error: (error) => {
+       // console.log(error);
+       this.openSnackBar( "Sorry, we can't perform this action right now. :(");
+      },
+    });
   }
 
   reportComment(commentId: string){
-    this.reportService.reportComment(commentId);
-    this.openSnackBar("The report has been sent successfully.");
-    this.handleReport(commentId);
+    this.reportService.reportComment(commentId).subscribe({
+      next: (resp) =>{
+        this.openSnackBar("The report has been sent successfully.");
+        this.handleReport(commentId);
+      },
+      error: (e) =>{
+        this.openSnackBar( "Sorry, we can't perform this action right now. :(");
+      }
+    });
+
   }
 
   handleReport(commentId: string){
@@ -132,16 +148,31 @@ export class CommentSectionComponent {
     });
   }
 
-  saveComment(){
-    alert("implement me!!!!!!");
-    const date = new Date();
-    let newComment: Comment = {
-      id: '',
-      userName: '',
-      text: this.addCommentForm.value.comment,
-      postedOn: this.datePipe.transform(date, 'yyyy-MM-dd HH:mm:ss') as string,
-    };
+  async saveComment(){
+    if(await this.getRoleService.ifUserLogged()){    
+  
+    let newComment: NewComment = { text: this.addCommentForm.value.comment as string };
+
+    this.commentService.addComment(newComment, this.route.snapshot.paramMap.get('id') as string ).subscribe({
+      next: (response) =>{
+
+        if(response.success){
+
+          this.openSnackBar("Comment posted.");
+          
+          this.comments = [...this.comments, response.comment];
+        }
+      },
+      error: (err) => {
+        this.openSnackBar( "Sorry, we can't perform this action right now.");
+      }
+    })
+
     this.addCommentForm.reset();
+    }
+    else{
+      this.openSnackBar('Hey! Sign in to perform this action');
+    }
   }
 
   get buttonActive(){
