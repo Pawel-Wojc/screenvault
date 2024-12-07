@@ -7,7 +7,8 @@ import * as myGlobals from '../global';
 export class AuthService {
   private isAuthenticatedSubject = new BehaviorSubject<boolean | null>(null);
   //if null that means the api call is not finished and we don't know user is authenticated or not
-  url = myGlobals.apiLink + '/authentication/noAuth/whoAmI';
+  checkAuthStatusUrl = myGlobals.apiLink + '/authentication/noAuth/whoAmI';
+  logOutUrl = myGlobals.apiLink + '/authentication/logout';
   isAuthenticated$: Observable<boolean | null> =
     this.isAuthenticatedSubject.asObservable();
 
@@ -16,14 +17,18 @@ export class AuthService {
     this.updateAuthStatus();
   }
 
-  logout(): Observable<any> {
-    this.isAuthenticatedSubject.next(false);
-    // IMPORTANT create api call, no endpoint yet
-    return this.http.post('/api/auth/logout', {}).pipe(
-      tap(() => {
-        // On successful logout, set isAuthenticated to false
+  logout() {
+    return this.http.delete(this.logOutUrl, { observe: 'response' }).pipe(
+      tap((response) => {
+        if (response.status === 200) {
+          this.isAuthenticatedSubject.next(false);
+        }
       })
     );
+  }
+
+  setLoginStatus(status: boolean) {
+    this.isAuthenticatedSubject.next(status);
   }
 
   updateAuthStatus() {
@@ -35,6 +40,6 @@ export class AuthService {
   }
 
   checkAuthStatusFromApi(): Observable<any> {
-    return this.http.get(this.url);
+    return this.http.get(this.checkAuthStatusUrl);
   }
 }

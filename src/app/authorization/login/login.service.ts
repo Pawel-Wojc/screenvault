@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import * as myGlobals from '../../global';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { HttpHeaders } from '@angular/common/http';
 import { AuthService } from '../auth.service';
 
@@ -18,10 +18,18 @@ export class LoginService {
       'Basic ' + authString
     ); // Adding the Authorization header
     headers.set('withCredentials', 'true');
-    return this.httpClient.post<any>(
-      this.url,
-      {},
-      { withCredentials: true, headers, observe: 'response' }
-    );
+    return this.httpClient
+      .post<any>(
+        this.url,
+        {},
+        { withCredentials: true, headers, observe: 'response' }
+      )
+      .pipe(
+        tap((response) => {
+          if (response.status === 200) {
+            this.authService.setLoginStatus(true);
+          }
+        })
+      );
   }
 }
