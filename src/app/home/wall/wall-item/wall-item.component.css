@@ -41,9 +41,14 @@ button{
 }
 
 .report-icon:hover{
+
   opacity: 1;
 }
 
+p{
+  overflow: hidden;
+  max-height: 24px;
+}
 
 .dot-elastic {
   position: relative;

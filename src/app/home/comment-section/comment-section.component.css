@@ -50,6 +50,11 @@ a{
     position: relative;
 }
 
+img{
+    max-height: 100%;
+    max-width: 100%;
+}
+
 .report-img{
     position: absolute;
     top: 0px;

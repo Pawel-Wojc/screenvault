@@ -98,12 +98,14 @@ form{
   color: darkgray;
   border-radius: 5px;
   overflow: hidden;
+  text-wrap: nowrap;
 }
 
 #LinkWrapper{
   margin-top: 5.5vh;
   margin-bottom: 1vh;
   min-width: 40vw;
+  max-width: 40vw;
   height: 40px;
 }
 

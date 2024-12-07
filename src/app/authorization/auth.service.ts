@@ -33,6 +33,7 @@ export class AuthService {
 
   updateAuthStatus() {
     this.checkAuthStatusFromApi().subscribe((res) => {
+    //  console.log(res.user.role);
       this.isAuthenticatedSubject.next(
         res.user.role == 'USER' || res.user.role == 'ADMIN'
       );
