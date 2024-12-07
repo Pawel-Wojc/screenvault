@@ -11,6 +11,17 @@ import {
   transferArrayItem,
 } from '@angular/cdk/drag-drop';
 
+interface CollectionForProfile {
+  id: string;
+  name: string;
+  posts: Post[];
+}
+interface Post {
+  id: string;
+  title: string;
+  imageUrl: string;
+  isPublic: boolean;
+}
 @Component({
   selector: 'app-collections',
   standalone: true,
@@ -21,34 +32,54 @@ import {
 export class CollectionsComponent {
   private collectionsService = inject(CollectionsService);
   private dialog = inject(MatDialog);
-  openedFolders: any[] = [];
+  openedFolders: CollectionForProfile[] = [];
+  userCollections: CollectionForProfile[] = [];
+
   ngOnInit() {
-    this.collectionsService.getUsersCollections().subscribe((res) => {
-      this.userCollections = res.collectionList;
+    this.getUsersCollections();
+  }
+  getUsersCollections() {
+    this.collectionsService.getUsersCollectionsForProfile().subscribe((res) => {
+      this.userCollections = res;
     });
   }
-  userCollections: any[] = [];
+
+  deletePost(postID: string) {
+    this.collectionsService.deletePost(postID).subscribe((res) => {});
+  }
 
   onDrop(event: any) {
     if (event.previousContainer === event.container) {
       //if moving inside the same container
-      let array = this.userCollections.find((c) => c === event.container.data);
-      if (array) {
-        moveItemInArray(array.photos, event.previousIndex, event.currentIndex);
-
-        //this.collectionsService.changePostCollection()
-      }
-    } else {
-      let currentArray = this.userCollections.find(
-        (c) => c === event.previousContainer.data
-      );
-      let targetArray = this.userCollections.find(
+      let collection = this.userCollections.find(
         (c) => c === event.container.data
       );
-      if (currentArray && targetArray) {
+      if (collection) {
+        moveItemInArray(
+          collection.posts,
+          event.previousIndex,
+          event.currentIndex
+        );
+      }
+      //api call to change order
+    } else {
+      let currentCollection: CollectionForProfile | undefined =
+        this.openedFolders.find(
+          (c) => c.id === event.previousContainer.data.id
+        );
+      let targetCollection: CollectionForProfile | undefined =
+        this.openedFolders.find((c) => c.id === event.container.data.id);
+
+      if (currentCollection && targetCollection) {
+        let post = currentCollection.posts[event.previousIndex];
+        this.collectionsService.changePostCollection(
+          post.id,
+          currentCollection.id,
+          targetCollection.id
+        );
         transferArrayItem(
-          currentArray.photos,
-          targetArray.photos,
+          currentCollection.posts,
+          targetCollection.posts,
           event.previousIndex,
           event.currentIndex
         );
@@ -56,35 +87,38 @@ export class CollectionsComponent {
     }
   }
 
-  deleteUserCollection(id: number) {
+  deleteUserCollection(id: string) {
     this.collectionsService
       .deleteUserCollections(id.toString())
-      .subscribe((results) => {
-        console.log(results);
-      });
+      .subscribe((results) => {});
     this.userCollections = this.userCollections.filter(
       (collection) => collection.id !== id
     );
+    this.openedFolders = this.openedFolders.filter(
+      (collection) => collection.id !== id
+    );
   }
-  openFolder(folderToOpen: any) {
+  ToogleFolder(folderToToogle: CollectionForProfile) {
     if (this.openedFolders) {
-      if (this.openedFolders.find((f: any) => f === folderToOpen)) {
+      if (
+        this.openedFolders.find(
+          (f: CollectionForProfile) => f.id === folderToToogle.id
+        )
+      ) {
         this.openedFolders = this.openedFolders.filter(
-          (f: any) => f !== folderToOpen
+          (f: CollectionForProfile) => f.id !== folderToToogle.id
         );
-        console.log('delete');
         return;
       }
     }
     if (this.openedFolders) {
-      this.openedFolders.push(folderToOpen);
+      this.openedFolders.push(folderToToogle);
     } else {
-      this.openedFolders = [folderToOpen];
+      this.openedFolders = [folderToToogle];
     }
   }
 
   addNewFolder() {
-    //api call
     const dialogRef = this.dialog.open(InputDialog, {
       width: '300px',
       data: {
@@ -96,21 +130,21 @@ export class CollectionsComponent {
     });
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        const newFolder = {
-          id: this.userCollections.length + 1,
-          name: result,
-          photos: [],
-        };
-        this.collectionsService
-          .addCollection(result)
-          .subscribe((collection) => {});
-        this.userCollections.push(newFolder);
-        console.log(`Save new folder, folder name ${result}`);
-        //create now folder API, then refetch folder list
+        this.collectionsService.addCollection(result).subscribe((response) => {
+          if (response.success) {
+            var newFolder = {
+              id: response.collection.id,
+              name: response.collection.name,
+              posts: response.collection.posts as Array<Post>,
+            };
+            this.userCollections.push(newFolder);
+            this.getUsersCollections();
+          }
+        });
       }
     });
   }
-  renameFolder(id: number) {
+  renameFolder(id: string) {
     //api call
     const collection = this.userCollections.find((c) => c.id === id);
     if (collection) {
@@ -127,7 +161,6 @@ export class CollectionsComponent {
       dialogRef.afterClosed().subscribe((result) => {
         if (result) {
           collection.name = result;
-          console.log('Call api to change name');
         }
       });
     }

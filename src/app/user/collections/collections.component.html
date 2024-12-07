@@ -4,7 +4,7 @@
       <div class="m-4 flex flex-col items-center rounded-md max-w-24">
         <div class="relative">
           <img
-            (click)="openFolder(collection)"
+            (click)="ToogleFolder(collection)"
             src="icons/folder.svg"
             alt="Colection"
             class="drop-shadow-md cursor-pointer hover:drop-shadow-[0_15px_15px_rgba(0,0,0,0.4)]"
@@ -69,27 +69,49 @@
             src="icons/question-square-mark.svg"
             alt="Help"
             class="w-7"
-            matTooltip="Red - public, green - private"
+            matTooltip="Red border - public, no border - private"
           />
           <img
             src="icons/close.svg"
             alt="Close"
             class="w-7 cursor-pointer"
             matTooltip="Close"
-            (click)="openFolder(folder)"
+            (click)="ToogleFolder(folder)"
           />
         </div>
       </div>
 
       <div class="flex flex-row flex-wrap overflow-hidden">
-        <div *ngFor="let item of folder.photos" cdkDrag class="cursor-move">
-          <img
-            src="{{ item.url }}"
-            alt="photo"
-            class="max-h-40 mt-5 ml-3 mr-3 mb-3 rounded-md flex"
-          />
+        <div
+          *ngFor="let item of folder.posts"
+          cdkDrag
+          class="cursor-move relative"
+        >
+          <div
+            class="max-h-60 mt-5 ml-3 mr-3 mb-3 rounded-md flex max-w-60 relative"
+          >
+            <img
+              src="{{ item.imageUrl }}"
+              alt="photo"
+              class=""
+              [ngClass]="{
+                'border-solid border-[1px] border-red-700': item.isPublic
+              }"
+            />
+            <button
+              (click)="deletePost(item.id)"
+              class="bg-slate-50 absolute w-5 right-[-3px] bottom-[-3px] shadow-sm rounded-sm bg-opacity-70 cursor-pointer z-10"
+            >
+              <img
+                matTooltip="Delete"
+                [matTooltipShowDelay]="300"
+                src="icons/bin.svg"
+                alt="Delete"
+                class="m-[2px]"
+              />
+            </button>
+          </div>
         </div>
-        <div *ngIf="folder.photos.length == 0" class=""></div>
       </div>
     </div>
   </div>
