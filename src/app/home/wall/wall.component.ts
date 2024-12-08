@@ -3,6 +3,8 @@ import { WallItemComponent } from './wall-item/wall-item.component';
 import { NgFor } from '@angular/common';
 import { Post } from './post';
 import { WallService } from './wall.service';
+import { ActivatedRoute } from '@angular/router';
+import { PassQueryParamsService } from '../../navbar/pass-query-params.service';
 
 @Component({
   selector: 'app-wall',
@@ -19,10 +21,44 @@ export class WallComponent {
   pageNo: number = 0;
   isLoading: boolean = false;
 
+  private title?: string | null;
+  private tags?: string[] | null; 
+
   private wallService = inject(WallService);
+  private route = inject(ActivatedRoute);
+  private passQueryParamsService = inject(PassQueryParamsService);
 
   ngOnInit(){
-    this.loadPosts();
+    this.passQueryParamsService.getTags()?.subscribe({
+      next: (tags) =>{
+        if(tags){
+          this.tags = tags;
+         // console.log(this.tags + " tag");
+        }
+      }
+    });
+
+    this.passQueryParamsService.getTitle()?.subscribe({
+      next: (title) =>{
+        if(title){
+          this.title = title;
+         // console.log(this.title + " title");
+        }
+      }
+    });
+    /*
+    this.route.params.subscribe(params => {
+      this.title = params['title'];
+     
+
+      console.log(this.title + " tit");
+      console.log(this.tags + " tag");
+    });
+
+    */
+
+   
+    this.loadLandingPagePosts();
   }
 
   hangleChangeOfRating(hangeOfRating: number, id: string){
@@ -41,7 +77,7 @@ export class WallComponent {
     return container.scrollTop + container.clientHeight >= container.scrollHeight - threshold;
   }
 
-  loadPosts(){
+  loadLandingPagePosts(){
     this.isLoading = true;
 
     this.wallService.getLandingPagePosts(this.pageNo).subscribe({
