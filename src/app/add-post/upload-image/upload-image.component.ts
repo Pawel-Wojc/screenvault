@@ -1,6 +1,6 @@
 import { Component, ElementRef, ViewChild, Inject, inject } from '@angular/core';
 import { RouterLink, Router, RouterOutlet } from '@angular/router';
-import { ImagesService } from '../services/images.service';
+import { ImagesService } from '../images.service';
 import { MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({

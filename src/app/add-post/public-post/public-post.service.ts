@@ -10,7 +10,7 @@ import { PostToPublic } from '../post-to-public';
 
 export class PublicPostService{
     private httpClient = inject(HttpClient);
-    private url = myGlobals.apiLink + '/post/noAuth/uploadPost';
+    private publicPostUrl = myGlobals.apiLink + '/post/noAuth/uploadPost';
     
     public publicPost(img: File, post: PostToPublic): Observable<any>{
 
@@ -22,10 +22,11 @@ export class PublicPostService{
         
         
         return this.httpClient.post<any>(
-            this.url,
+            this.publicPostUrl,
             formData,       
         );
     }
+
   
     private getMimeType(fileName: string): string | undefined {
         const extension = fileName.split('.').pop()?.toLowerCase();
