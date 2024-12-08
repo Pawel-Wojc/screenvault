@@ -30,8 +30,9 @@ export class LoginComponent {
   private router = inject(Router);
   private snackBar = inject(MatSnackBar);
   private authService = inject(AuthService);
+  private formBuilder = inject(FormBuilder);
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor() {
     this.logInForm = this.formBuilder.group({
       email: [
         '',
