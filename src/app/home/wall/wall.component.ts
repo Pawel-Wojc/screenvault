@@ -5,6 +5,7 @@ import { Post } from './post';
 import { WallService } from './wall.service';
 import { ActivatedRoute } from '@angular/router';
 import { PassQueryParamsService } from '../../navbar/pass-query-params.service';
+import { filter, fromEvent, map, Subscription, throttleTime } from 'rxjs';
 
 @Component({
   selector: 'app-wall',
@@ -20,6 +21,8 @@ export class WallComponent {
   listOfPosts: Post[] =[];
   pageNo: number = 0;
   isLoading: boolean = false;
+  
+  private scrollSubscription!: Subscription;
 
   private title?: string | null;
   private tags?: string[] | null; 
@@ -33,7 +36,11 @@ export class WallComponent {
       next: (tags) =>{
         if(tags){
           this.tags = tags;
-         // console.log(this.tags + " tag");
+          console.log(this.tags + " tag");
+        }
+        else{
+          console.log('dej1');
+          this.loadLandingPagePosts();
         }
       }
     });
@@ -42,7 +49,11 @@ export class WallComponent {
       next: (title) =>{
         if(title){
           this.title = title;
-         // console.log(this.title + " title");
+          console.log(this.title + " title");
+        }
+        else{
+          console.log('dej2');
+         // this.loadLandingPagePosts();
         }
       }
     });
@@ -58,7 +69,20 @@ export class WallComponent {
     */
 
    
-    this.loadLandingPagePosts();
+    
+  }
+
+  ngAfterViewInit() {
+    // Setup scroll event listener with throttling
+   // console.log('dfg');
+   // console.log(this.scrollPostsWrapper.nativeElement);
+    this.scrollSubscription = fromEvent(this.scrollPostsWrapper.nativeElement, 'scroll')
+      .pipe(
+        throttleTime(50),
+        map(() => this.checkScrollPosition()),
+        filter(isBottom => isBottom && !this.isLoading)
+      )
+      .subscribe(() => this.loadLandingPagePosts());
   }
 
   hangleChangeOfRating(hangeOfRating: number, id: string){
@@ -72,6 +96,7 @@ export class WallComponent {
   }
 
   checkScrollPosition(): boolean {
+   console.log('check');
     const container = this.scrollPostsWrapper.nativeElement;
     const threshold = 200; // Trigger 200px before the bottom
     return container.scrollTop + container.clientHeight >= container.scrollHeight - threshold;
@@ -79,6 +104,7 @@ export class WallComponent {
 
   loadLandingPagePosts(){
     this.isLoading = true;
+    console.log('load');
 
     this.wallService.getLandingPagePosts(this.pageNo).subscribe({
       next: (response) => {

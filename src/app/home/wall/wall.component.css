@@ -7,6 +7,8 @@
 
 .grid-container {
   justify-content: center;
+  height: 92vh;
+  overflow-y: auto;
   display: flex;
   flex-wrap: wrap;
 }

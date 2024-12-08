@@ -60,6 +60,7 @@ export class CommentSectionComponent {
 
   ngAfterViewInit() {
     // Setup scroll event listener with throttling
+  // console.log(this.commentsScroll.nativeElement);
     this.scrollSubscription = fromEvent(this.commentsScroll.nativeElement, 'scroll')
       .pipe(
         throttleTime(50),
@@ -70,6 +71,7 @@ export class CommentSectionComponent {
   }
 
   checkScrollPosition(): boolean {
+  //  console.log('check');
     const container = this.commentsScroll.nativeElement;
     const threshold = 200; // Trigger 200px before the bottom
     return container.scrollTop + container.clientHeight >= container.scrollHeight - threshold;
