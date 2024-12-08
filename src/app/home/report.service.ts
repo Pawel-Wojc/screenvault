@@ -19,7 +19,6 @@ export class reportService{
     }
 
     public reportComment(commentId: string): Observable<any>{
-        alert('report service i dont work');
         return this.httpClient.post(
             this.reportCommentUrl,
             new ReportRequest(commentId),
