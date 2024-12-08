@@ -61,4 +61,12 @@ export class NavbarComponent {
   logout() {
     this.authService.logout().subscribe();
   }
+
+  goHome(){
+    this.passQueryParamsService.setTags(null);
+    this.passQueryParamsService.setTitle(null);
+    //this.searchForm.value.input = '';
+    this.router.navigate(['/home']);
+    
+  }
 }

@@ -36,10 +36,16 @@ export class WallComponent {
       next: (tags) =>{
         if(tags){
           this.tags = tags;
-          console.log(this.tags + " tag");
+
+          this.resetPosts();
+
+          this.loadPostsByTags();
+        //  console.log(this.tags + " tag");
         }
-        else{
-          console.log('dej1');
+        else if(!this.isLoading){
+        //  console.log('dej1');
+          this.resetPosts();
+
           this.loadLandingPagePosts();
         }
       }
@@ -49,54 +55,52 @@ export class WallComponent {
       next: (title) =>{
         if(title){
           this.title = title;
-          console.log(this.title + " title");
-        }
-        else{
-          console.log('dej2');
-         // this.loadLandingPagePosts();
+
+          this.resetPosts();
+
+          this.loadPostsByTitle();
+        //  console.log(this.title + " title");
         }
       }
     });
-    /*
-    this.route.params.subscribe(params => {
-      this.title = params['title'];
-     
 
-      console.log(this.title + " tit");
-      console.log(this.tags + " tag");
-    });
+  }
 
-    */
-
-   
-    
+  resetPosts(){
+    this.pageNo = 0;
+    this.listOfPosts = [];
   }
 
   ngAfterViewInit() {
     // Setup scroll event listener with throttling
-   // console.log('dfg');
-   // console.log(this.scrollPostsWrapper.nativeElement);
     this.scrollSubscription = fromEvent(this.scrollPostsWrapper.nativeElement, 'scroll')
       .pipe(
         throttleTime(50),
         map(() => this.checkScrollPosition()),
         filter(isBottom => isBottom && !this.isLoading)
       )
-      .subscribe(() => this.loadLandingPagePosts());
+      .subscribe(() => {
+        if(this.title){
+          this.loadPostsByTitle();
+        }
+        else if(this.tags){
+          this.loadPostsByTags();
+        }
+        else{
+          this.loadLandingPagePosts();
+        }
+        
+      });
   }
 
   hangleChangeOfRating(hangeOfRating: number, id: string){
-    //console.log(hangeOfRating+" "+ id);
-
     const index = this.listOfPosts.findIndex((p)=> p.id === id);
     const post = this.listOfPosts.find((p)=> p.id === id);
     post!.score += hangeOfRating;
     this.listOfPosts[index] = post as Post;
-    //console.log(index);
   }
 
   checkScrollPosition(): boolean {
-   console.log('check');
     const container = this.scrollPostsWrapper.nativeElement;
     const threshold = 200; // Trigger 200px before the bottom
     return container.scrollTop + container.clientHeight >= container.scrollHeight - threshold;
@@ -104,11 +108,44 @@ export class WallComponent {
 
   loadLandingPagePosts(){
     this.isLoading = true;
-    console.log('load');
-
+   // console.log('load');
+   
     this.wallService.getLandingPagePosts(this.pageNo).subscribe({
       next: (response) => {
-       // console.log(response);
+        this.listOfPosts =[...this.listOfPosts, ...response.posts.content];
+        this.isLoading = false;
+        this.pageNo++;
+      },
+      error:(error)=> {
+        console.error('Error fetching posts', error);
+        this.isLoading = false;
+      },
+    });
+  }
+
+  loadPostsByTags(){
+    this.isLoading = true;
+   // console.log('load');
+   
+    this.wallService.getPostsByTags(this.pageNo, this.tags as string[]).subscribe({
+      next: (response) => {
+        this.listOfPosts =[...this.listOfPosts, ...response.posts.content];
+        this.isLoading = false;
+        this.pageNo++;
+      },
+      error:(error)=> {
+        console.error('Error fetching posts', error);
+        this.isLoading = false;
+      },
+    });
+  }
+
+  loadPostsByTitle(){
+    this.isLoading = true;
+   // console.log('load');
+   
+    this.wallService.getPostsByTitle(this.pageNo, this.title as string).subscribe({
+      next: (response) => {
         this.listOfPosts =[...this.listOfPosts, ...response.posts.content];
         this.isLoading = false;
         this.pageNo++;

@@ -12,7 +12,7 @@ export class PassQueryParamsService {
   private tagsSubject = new BehaviorSubject<string[] | null>(null);
   private tags?: Observable<string[] | null> = this.tagsSubject.asObservable();
 
-  public setTitle(title: string){
+  public setTitle(title: string | null){
     this.titleSubject.next(title);
   }
 
@@ -20,7 +20,7 @@ export class PassQueryParamsService {
     return this.title;
   }
 
-  public setTags(tags: string[]){
+  public setTags(tags: string[] | null){
     this.tagsSubject.next(tags);
   }
 

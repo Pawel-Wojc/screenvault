@@ -72,6 +72,10 @@ input:focus {
   color: white;
 }
 
+a:hover{
+  cursor: pointer;
+}
+
 button {
   min-width: 108px;
   height: 35px;
