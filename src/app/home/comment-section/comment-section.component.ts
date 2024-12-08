@@ -97,7 +97,7 @@ export class CommentSectionComponent {
   loadPost(){
     this.commentService.getPostById(this.route.snapshot.paramMap.get('id') as string).subscribe({
       next: (response) => {
-        this.imgSrc = response.imageUrl;
+        this.imgSrc = response.posts.imageUrl;
       },
       error: (err) => {
         this.openSnackBar("Error occured while loading post");
