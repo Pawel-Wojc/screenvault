@@ -143,7 +143,11 @@ export class WallItemComponent {
     this.router.navigate(['/home/commentSection/',{ id: this.id() }]);
   }
 
-  reportPost(){
+  async reportPost(){
+    if(!await this.getRoleService.ifUserLogged()){
+      this.openSnackBar('Hey! Sign in to perform this action');
+      return;
+    }
 
     this.reportService.reportPost(this.id() as string).subscribe({
       next: (response) => {
