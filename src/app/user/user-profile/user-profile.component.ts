@@ -34,14 +34,15 @@ export class UserProfileComponent {
   private snackBar = inject(MatSnackBar);
   private dialog = inject(MatDialog);
   userPhoto = signal<string | ArrayBuffer | null>(this.profilePhotoPlaceholder);
-  userEmail = signal('email');
+
   userName = signal('username');
   userProfileService = inject(UserProfileService);
 
   ngOnInit() {
     this.userProfileService.getUserDetails().subscribe((res) => {
-      this.userEmail.set(res.user.login);
       this.userName.set(res.user.username);
+      console.log(res.user);
+      this.userPhoto.set(res.user.profilePictureUrl);
     });
   }
 
@@ -61,7 +62,14 @@ export class UserProfileComponent {
         };
         reader.readAsDataURL(target.files[0]);
         this.fileInput.nativeElement.value = ''; //setting input to empty, then if we delete selected and select again same file, input will trigger change
-        //call api
+        this.userProfileService.changeUserProfilePicture(file).subscribe(
+          (res) => {
+            console.log(res);
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
         console.log('call api to save user profile picture changes');
       } else {
         this.snackBar.open('Available types: png, jpg, jpeg', 'Close', {
@@ -101,9 +109,5 @@ export class UserProfileComponent {
         }
       });
     }
-  }
-
-  changeUserPassword() {
-    //implementation??
   }
 }
