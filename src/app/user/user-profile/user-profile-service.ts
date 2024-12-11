@@ -8,14 +8,16 @@ export class UserProfileService {
   private httpClient = inject(HttpClient);
   private getUserDetailsUrl =
     myGlobals.apiLink + '/authentication/noAuth/whoAmI';
-  private changeUserPasswordUrl = myGlobals.apiLink + '/user/changePassword';
+
+  private changeUserProfilePictureUrl = myGlobals.apiLink + '/user/changePfp';
 
   public getUserDetails(): Observable<any> {
     return this.httpClient.get(this.getUserDetailsUrl);
   }
 
-  public changeUserPassword(newPassword: string): Observable<any> {
-    const data = { newPassword: newPassword };
-    return this.httpClient.post(this.changeUserPasswordUrl, data);
+  public changeUserProfilePicture(file: File): Observable<any> {
+    const formData = new FormData();
+    formData.append('newImage', file);
+    return this.httpClient.put(this.changeUserProfilePictureUrl, formData);
   }
 }

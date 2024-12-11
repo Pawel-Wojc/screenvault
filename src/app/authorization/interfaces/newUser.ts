@@ -3,4 +3,3 @@ export interface newUser {
   login: string;
   password: string;
 }
-

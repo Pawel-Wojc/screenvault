@@ -98,12 +98,13 @@ export class SignupComponent {
             this.router.navigate(['/login']);
           }, 2000);
         }
-        console.log(response);
       },
       error: (error) => {
         console.log(error);
-        if (error.error.errors.DuplicateUserName) {
-          this.openSnackBar('Email already exists');
+        if (error.error.message == 'Username taken.') {
+          this.openSnackBar('Username taken');
+        } else if (error.error.message == 'Email has been used already.') {
+          this.openSnackBar('Email has been used already');
         } else {
           this.openSnackBar('Something went wrong, try again later');
         }
