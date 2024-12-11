@@ -14,12 +14,6 @@ import { CommentSectionComponent } from './home/comment-section/comment-section.
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'home',
-    pathMatch: 'full',
-    title: 'ScreenVault',
-  },
-  {
-    path: 'home',
     component: HomeComponent,
     title: 'ScreenVault',
     children: [

@@ -144,7 +144,7 @@ export class PublicPostComponent {
 
         const params = new HttpParams().set('id', this.postedPostUUID as string);
 
-        this.linkToPost = Globals.frontLink + '/home/commentSection;' + params.toString();
+        this.linkToPost = Globals.frontLink + '/commentSection;' + params.toString();
         
         
       }

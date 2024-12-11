@@ -140,7 +140,7 @@ export class WallItemComponent {
   }
   
   navigateToCommentsectionComponent() {
-    this.router.navigate(['/home/commentSection/',{ id: this.id() }]);
+    this.router.navigate(['/commentSection/',{ id: this.id() }]);
   }
 
   async reportPost(){
