@@ -1,2 +1,2 @@
-export const apiLink =  'http://localhost:8080'; // 'https://localhost:44308';
-export const frontLink = 'http://localhost:4200';
+export const apiLink =  '/api'; // 'https://localhost:44308';
+export const frontLink = 'https://gray-river-074bfb703.4.azurestaticapps.net';

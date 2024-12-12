@@ -150,7 +150,7 @@ export class PublicPostComponent {
       }
     }
     catch(err: any){
-      this.openSnackBar(err.message); 
+      this.openSnackBar('Please try again later'); 
     }
 
     //if user not logged end function
