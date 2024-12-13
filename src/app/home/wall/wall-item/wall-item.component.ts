@@ -8,6 +8,7 @@ import { CommonModule } from '@angular/common';
 import { Rating } from './rating';
 import { GetRoleService } from '../../../authorization/get-role.service';
 import { Post } from '../post';
+import { AuthService } from '../../../authorization/auth.service';
 
 @Component({
   selector: 'app-wall-item',
@@ -22,6 +23,7 @@ export class WallItemComponent {
   private router = inject(Router);
   private reportService = inject(reportService);
   private getRoleService = inject(GetRoleService);
+  private authService = inject(AuthService);
 
   svgMinus: string = 'icons/minus-black.svg';
   svgPlus: string = 'icons/plus-black.svg';
@@ -42,6 +44,13 @@ export class WallItemComponent {
   private postLikedFlag: boolean = false;
 
   ngOnInit(){
+    //reset like/dislike buttons on logout
+    this.authService.isAuthenticated$.subscribe((isAuthenticated) => {
+      if(!isAuthenticated){
+        this.svgPlus = 'icons/plus-black.svg';
+        this.svgMinus = 'icons/minus-black.svg';
+      }
+    });
     
     if(this.rating() === Rating.LIKE){
       
