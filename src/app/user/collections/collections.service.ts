@@ -97,7 +97,8 @@ export class CollectionsService {
       .get<any>(this.getPostsDetailsUrl, { params: params })
       .pipe(
         map((response) => {
-          const posts = response.content;
+          const posts = response.posts.content;
+
           return posts.map(
             (post: { id: any; title: any; imageUrl: any; public: any }) => ({
               id: post.id,
