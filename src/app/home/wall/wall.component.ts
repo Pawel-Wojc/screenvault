@@ -15,87 +15,84 @@ import { filter, fromEvent, map, Subscription, throttleTime } from 'rxjs';
   styleUrl: './wall.component.css',
 })
 export class WallComponent {
-
   @ViewChild('scrollPostsWrapper') scrollPostsWrapper!: ElementRef;
 
-  listOfPosts: Post[] =[];
+  listOfPosts: Post[] = [];
   pageNo: number = 0;
   isLoading: boolean = false;
-  
+
   private scrollSubscription!: Subscription;
 
   private title?: string | null;
-  private tags?: string[] | null; 
+  private tags?: string[] | null;
 
   private wallService = inject(WallService);
   private route = inject(ActivatedRoute);
   private passQueryParamsService = inject(PassQueryParamsService);
 
-  ngOnInit(){
+  ngOnInit() {
     this.passQueryParamsService.getTags()?.subscribe({
-      next: (tags) =>{
-        if(tags){
+      next: (tags) => {
+        if (tags) {
           this.tags = tags;
 
           this.resetPosts();
 
           this.loadPostsByTags();
-        //  console.log(this.tags + " tag");
-        }
-        else if(!this.isLoading){
-        //  console.log('dej1');
+          //  console.log(this.tags + " tag");
+        } else if (!this.isLoading) {
+          //  console.log('dej1');
           this.resetPosts();
 
           this.loadLandingPagePosts();
         }
-      }
+      },
     });
 
     this.passQueryParamsService.getTitle()?.subscribe({
-      next: (title) =>{
-        if(title){
+      next: (title) => {
+        if (title) {
           this.title = title;
 
           this.resetPosts();
 
           this.loadPostsByTitle();
-        //  console.log(this.title + " title");
+          //  console.log(this.title + " title");
         }
-      }
+      },
     });
-
   }
 
-  resetPosts(){
+  resetPosts() {
     this.pageNo = 0;
     this.listOfPosts = [];
   }
 
   ngAfterViewInit() {
     // Setup scroll event listener with throttling
-    this.scrollSubscription = fromEvent(this.scrollPostsWrapper.nativeElement, 'scroll')
+    this.scrollSubscription = fromEvent(
+      this.scrollPostsWrapper.nativeElement,
+      'scroll'
+    )
       .pipe(
         throttleTime(50),
         map(() => this.checkScrollPosition()),
-        filter(isBottom => isBottom && !this.isLoading)
+        filter((isBottom) => isBottom && !this.isLoading)
       )
       .subscribe(() => {
-        if(this.title){
+        if (this.title) {
           this.loadPostsByTitle();
-        }
-        else if(this.tags){
+        } else if (this.tags) {
           this.loadPostsByTags();
-        }
-        else{
+        } else {
           this.loadLandingPagePosts();
         }
-        
       });
   }
 
-  hangleChangeOfRating(hangeOfRating: number, id: string){
-    const index = this.listOfPosts.findIndex((p)=> p.id === id);
-    const post = this.listOfPosts.find((p)=> p.id === id);
+  hangleChangeOfRating(hangeOfRating: number, id: string) {
+    const index = this.listOfPosts.findIndex((p) => p.id === id);
+    const post = this.listOfPosts.find((p) => p.id === id);
     post!.score += hangeOfRating;
     this.listOfPosts[index] = post as Post;
   }
@@ -103,57 +100,65 @@ export class WallComponent {
   checkScrollPosition(): boolean {
     const container = this.scrollPostsWrapper.nativeElement;
     const threshold = 200; // Trigger 200px before the bottom
-    return container.scrollTop + container.clientHeight >= container.scrollHeight - threshold;
+    return (
+      container.scrollTop + container.clientHeight >=
+      container.scrollHeight - threshold
+    );
   }
 
-  loadLandingPagePosts(){
+  loadLandingPagePosts() {
     this.isLoading = true;
-   // console.log('load');
-   
+    // console.log('load');
+
     this.wallService.getLandingPagePosts(this.pageNo).subscribe({
       next: (response) => {
-        this.listOfPosts =[...this.listOfPosts, ...response.posts.content];
+        this.listOfPosts = [...this.listOfPosts, ...response.posts.content];
         this.isLoading = false;
         this.pageNo++;
       },
-      error:(error)=> {
+      error: (error) => {
         console.error('Error fetching posts', error);
         this.isLoading = false;
       },
     });
   }
 
-  loadPostsByTags(){
+  loadPostsByTags() {
     this.isLoading = true;
-   // console.log('load');
-   
-    this.wallService.getPostsByTags(this.pageNo, this.tags as string[]).subscribe({
-      next: (response) => {
-        this.listOfPosts =[...this.listOfPosts, ...response.posts.content];
-        this.isLoading = false;
-        this.pageNo++;
-      },
-      error:(error)=> {
-        console.error('Error fetching posts', error);
-        this.isLoading = false;
-      },
-    });
+    // console.log('load');
+
+    this.wallService
+      .getPostsByTags(this.pageNo, this.tags as string[])
+      .subscribe({
+        next: (response) => {
+          console.log(response);
+          this.listOfPosts = [...this.listOfPosts, ...response.posts.content];
+          this.isLoading = false;
+          this.pageNo++;
+        },
+        error: (error) => {
+          console.error('Error fetching posts', error);
+          this.isLoading = false;
+        },
+      });
   }
 
-  loadPostsByTitle(){
+  loadPostsByTitle() {
     this.isLoading = true;
-   // console.log('load');
-   
-    this.wallService.getPostsByTitle(this.pageNo, this.title as string).subscribe({
-      next: (response) => {
-        this.listOfPosts =[...this.listOfPosts, ...response.posts.content];
-        this.isLoading = false;
-        this.pageNo++;
-      },
-      error:(error)=> {
-        console.error('Error fetching posts', error);
-        this.isLoading = false;
-      },
-    });
+    // console.log('load');
+
+    this.wallService
+      .getPostsByTitle(this.pageNo, this.title as string)
+      .subscribe({
+        next: (response) => {
+          this.listOfPosts = [...this.listOfPosts, ...response.posts.content];
+          this.isLoading = false;
+          this.pageNo++;
+        },
+        error: (error) => {
+          console.error('Error fetching posts', error);
+          this.isLoading = false;
+        },
+      });
   }
 }

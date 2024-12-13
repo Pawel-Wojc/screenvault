@@ -41,7 +41,7 @@ export class UserProfileComponent {
   ngOnInit() {
     this.userProfileService.getUserDetails().subscribe((res) => {
       this.userName.set(res.user.username);
-      console.log(res.user);
+
       this.userPhoto.set(res.user.profilePictureUrl);
     });
   }
