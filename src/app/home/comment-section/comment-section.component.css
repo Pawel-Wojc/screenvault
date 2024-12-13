@@ -89,6 +89,16 @@ img{
     flex-direction: column;
 }
 
+#user-profile-picture{
+    height: 4vw;
+    width: 4vw;
+    margin-right: 10px;
+}
+
+#user-details{
+    display: flex;
+}
+
 #title{
     font-size: 2vw;
 }

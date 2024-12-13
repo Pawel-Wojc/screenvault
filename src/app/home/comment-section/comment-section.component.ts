@@ -82,7 +82,9 @@ export class CommentSectionComponent {
     
     this.commentService.getComments(this.route.snapshot.paramMap.get('id') as string, this.commentsPageNo).subscribe({
       next: (response) => {
-        this.comments =[...this.comments, ...response.content];
+        console.log(response.comments.content[0]);
+        console.log(response.comments.content[0].userPfpUrl);
+        this.comments =[...this.comments, ...response.comments.content];
         this.isLoading = false;
         this.commentsPageNo++;
       },
@@ -97,7 +99,7 @@ export class CommentSectionComponent {
   loadPost(){
     this.commentService.getPostById(this.route.snapshot.paramMap.get('id') as string).subscribe({
       next: (response) => {
-        this.imgSrc = response.posts.imageUrl;
+        this.imgSrc = response.post.imageUrl;
       },
       error: (err) => {
         this.openSnackBar("Error occured while loading post");

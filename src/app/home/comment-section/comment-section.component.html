@@ -31,11 +31,18 @@
           (mouseout)="comment.hover = false"
         >
           <label class="comment-title">
-            <span class="user-name">{{ comment.username }}</span>
-            <span class="posted-on-date">{{
-              comment.postedOn | date : 'yyyy-MM-dd'
-            }}</span>
-            <button
+            <span id="user-details">
+              <img id="user-profile-picture" [src]="comment.userPfrUrl">
+              <span class="user-name">{{ comment.username }}</span>
+            </span>
+            <span class="posted-on-date">
+              {{ comment.postedOn | date : 'yyyy-MM-dd'}}
+            </span>
+          </label>
+
+          <span class="comment-text">{{ comment.text }}</span>
+
+          <button
               [ngClass]="{ hover: comment.hover }"
               class="report-img"
               (click)="reportComment(comment.id)"
@@ -43,8 +50,6 @@
             >
               <img class="report-icon" src="icons\report-icon.png" />
             </button>
-          </label>
-          <span class="comment-text">{{ comment.text }}</span>
         </div>
         }
       </div>
