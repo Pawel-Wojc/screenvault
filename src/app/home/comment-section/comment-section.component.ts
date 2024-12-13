@@ -58,6 +58,7 @@ export class CommentSectionComponent {
     this.loadPost();
 
     this.loadComments();
+
   }
 
   ngAfterViewInit() {
@@ -90,8 +91,6 @@ export class CommentSectionComponent {
     
     this.commentService.getComments(this.route.snapshot.paramMap.get('id') as string, this.commentsPageNo).subscribe({
       next: (response) => {
-        console.log(response.comments.content[0]);
-        console.log(response.comments.content[0].userPfpUrl);
         this.comments =[...this.comments, ...response.comments.content];
         this.isLoading = false;
         this.commentsPageNo++;
