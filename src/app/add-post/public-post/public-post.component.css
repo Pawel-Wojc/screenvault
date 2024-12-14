@@ -1,10 +1,10 @@
-#PublicPost {
+#Public-Post {
     background-color: #001d3d;
     width: 100vw;
     height: 100vh;
   }
 
-#UserImage{
+#User-Image{
   max-height: 70vh;
   max-width: 40vw;
 }
@@ -23,7 +23,7 @@ form{
   flex-direction: column;
 }
 
-#ImgWrapper{
+#Img-Wrapper{
   min-width: 40vw;
   min-height: 70vh;
   background-color: darkgrey;
@@ -31,9 +31,9 @@ form{
   border-radius: 5px;
 }
 
-#TitleLabel{
+#Title-Label{
   margin-bottom: 2vh;
-  font-size: 3vw ;
+  font-size: 2vw ;
 }
 
 #Title{
@@ -69,7 +69,7 @@ form{
   opacity: 0.3;
   }
 
-.ButtonShare{
+.Button-Share{
   width: 12vw;
   font-size: 1.5vw;
   padding: 6px;
@@ -79,11 +79,11 @@ form{
   box-shadow: 2px 2px 2px 2px black;
 }
 
-.ButtonShare:hover{
+.Button-Share:hover{
   opacity: 1;
 }
 
-.ButtonSelected{
+.Button-Selected{
   opacity: 1;
 }
 
@@ -101,7 +101,7 @@ form{
   text-wrap: nowrap;
 }
 
-#LinkWrapper{
+#Link-Wrapper{
   margin-top: 5.5vh;
   margin-bottom: 1vh;
   min-width: 40vw;
@@ -120,7 +120,7 @@ form{
   opacity: 0.8;
 }
 
-#ButtonsWrapper{
+#Buttons-Wrapper{
   width: 100%;
   height: 7%;
   justify-content: space-around;
@@ -129,7 +129,7 @@ form{
   margin-bottom: 6vh; 
 }
 
-.newCollectionName{
+.new-Collection-Name{
   width: 15vw;
   height: 8vh;
   margin-bottom: 2vh; 
@@ -143,9 +143,10 @@ form{
   display: none;
 }
 
-.calloctionList{
-  width: 20vw;
-  height: 15vh;
+.List{
+  width: 10vw;
+  min-width: 140px; 
+  max-height: 15vh;
   background-color: wheat;
   border-radius: 5px;
   margin-bottom: 4vh; 
@@ -155,6 +156,13 @@ form{
 .Flex{
   display: flex;
   justify-content: center;
+  align-items: center;
+}
+
+.Flex-space-evenly{
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
   align-items: center;
 }
 

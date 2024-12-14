@@ -35,32 +35,42 @@ export class PublicPostComponent {
   private collectionService = inject(CollectionsService);
   
   image!: File;
-  imageURL!: string;
+  imageURL?: string;
   linkToPost?: string = 'Link';
-  titleForm: FormGroup;
-  collectionControl: FormControl = new FormControl();
+  postForm: FormGroup;
   isPostPublic: boolean = true;
   collectionUUID: string | null = null;
   isUserLogged: boolean = false;
-  usersCollection?: Collection[];
   noCollectionFlag: boolean = false;
   collectionFoundFlag: boolean = false; 
   postedPostUUID?: string;
   selectedCollectionUUID?: string;
   postSubmitted: boolean = false;
+
+  usersCollections?: Collection[];
+  pictureTags?: string[];
+  collectionControl: FormControl = new FormControl();
+  tagControl: FormControl = new FormControl();
   
   @ViewChild('ButtonPublic', {static: true}) sharePublicly?: ElementRef;
   @ViewChild('ButtonPrivate', {static: true}) sharePrivately?: ElementRef;
   
   constructor(){
-    this.titleForm = this.formBuilder.group({
+    this.postForm = this.formBuilder.group({
       title: ['',Validators.required],
       newCollectionName: ['',],
       collections: this.collectionControl,
+      tags: this.tagControl,
     });
   }
 
   async ngOnInit(){
+
+    this.image = this.imageService.getFile() as File;
+
+    if(!this.image){
+      this.router.navigate(['/upload-image']);
+    }
 
     this.isUserLogged = await this.getRoleService.ifUserLogged();
 
@@ -68,17 +78,18 @@ export class PublicPostComponent {
     if(this.isUserLogged){
       this.handleCollections();
     }
-
-    this.image = this.imageService.getFile() as File;
-
-    if(this.image){
-      this.imageURL = URL.createObjectURL(this.image as File);
+    
+    this.imageURL = URL.createObjectURL(this.image as File);
       
-      this.titleForm.get('title')?.setValue(this.image.name);
-    }
-    else{
-      this.router.navigate(['/upload-image']);
-    }
+    this.postForm.get('title')?.setValue(this.image.name);
+    
+
+    this.pictureTags = await firstValueFrom(this.imageService.getTags());
+
+  //  this.pictureTags = ["#tag1", "#tag2","#dfg","#qqqq","#pop","#lol"];
+
+  //  console.log(this.pictureTags);
+   
   }
 
   selectPublicMode(){
@@ -99,40 +110,45 @@ export class PublicPostComponent {
 
     //reset flags
     this.noCollectionFlag = false;
-    this.titleForm.controls['newCollectionName'].clearValidators();
-    this.titleForm.controls['newCollectionName'].updateValueAndValidity()
+    this.postForm.controls['newCollectionName'].clearValidators();
+    this.postForm.controls['newCollectionName'].updateValueAndValidity()
 
     this.collectionFoundFlag = false;
-    this.titleForm.controls['collections'].clearValidators();
-    this.titleForm.controls['collections'].updateValueAndValidity()
+    this.postForm.controls['collections'].clearValidators();
+    this.postForm.controls['collections'].updateValueAndValidity()
 
     //get users collections ->
 
     try{
       const getUsersCollectionsResponse: GetUsersCollectionsResposeEntity  = await firstValueFrom(this.collectionService.getUsersCollections());
      
-      this.usersCollection = getUsersCollectionsResponse.collectionList;
+      this.usersCollections = getUsersCollectionsResponse.collectionList;
     }
     catch(err: any){}
     //get users collections <-
 
     //if there are no collections get name to add one 
-    if(!this.usersCollection?.length){
+    if(!this.usersCollections?.length){
       this.noCollectionFlag = true;
-      this.titleForm.controls['newCollectionName'].setValidators(Validators.required);
-      this.titleForm.controls['newCollectionName'].updateValueAndValidity()
+      this.postForm.controls['newCollectionName'].setValidators(Validators.required);
+      this.postForm.controls['newCollectionName'].updateValueAndValidity()
     }
     else{
       this.collectionFoundFlag = true;
-      this.titleForm.controls['collections'].setValidators(Validators.required);
-      this.titleForm.controls['collections'].updateValueAndValidity()
+      this.postForm.controls['collections'].setValidators(Validators.required);
+      this.postForm.controls['collections'].updateValueAndValidity()
     }
   }
 
   async savePost(){
     this.postSubmitted = true;
+   // console.log(this.postForm.value.tags);
     //create post  
-    const postToPublic: PostToPublic = new PostToPublic(this.titleForm.value.title.trim(), this.isPostPublic); 
+    const postToPublic: PostToPublic = new PostToPublic(
+      this.postForm.value.title.trim(), 
+      this.postForm.value.tags,
+      this.isPostPublic
+    ); 
 
     console.log(postToPublic);
     //api call post postToPublic
@@ -145,8 +161,7 @@ export class PublicPostComponent {
         const params = new HttpParams().set('id', this.postedPostUUID as string);
 
         this.linkToPost = Globals.frontLink + '/commentSection;' + params.toString();
-        
-        
+         
       }
     }
     catch(err: any){
@@ -161,7 +176,7 @@ export class PublicPostComponent {
     if(this.noCollectionFlag){
       //create new collection
       try{
-        const addCollectionResponse = await firstValueFrom(this.collectionService.addCollection(this.titleForm.value.newCollectionName.trim()));
+        const addCollectionResponse = await firstValueFrom(this.collectionService.addCollection(this.postForm.value.newCollectionName.trim()));
 
         if (addCollectionResponse.success) {
           this.selectedCollectionUUID = addCollectionResponse.collection.id;
@@ -173,7 +188,7 @@ export class PublicPostComponent {
       
     }
     else if(this.collectionFoundFlag){
-      this.selectedCollectionUUID = this.titleForm.value.collections[0];
+      this.selectedCollectionUUID = this.postForm.value.collections[0];
     }
 
     //add post to collection

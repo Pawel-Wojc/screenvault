@@ -1,37 +1,51 @@
-<div id="PublicPost" class="Flex">
+<div id="Public-Post" class="Flex">
 
-    <div id="ImgWrapper" class="Flex">
-        <img id="UserImage" [src]="imageURL">
+    <div id="Img-Wrapper" class="Flex">
+        <img id="User-Image" [src]="imageURL">
     </div>
 
     <div id="Panel" class="Flex">
 
-        <form action="" [formGroup]="titleForm" (ngSubmit)="savePost()" class="Flex">
-            <label id="TitleLabel">Title of your post:</label>
+        <form action="" [formGroup]="postForm" (ngSubmit)="savePost()" class="Flex">
+            <label id="Title-Label">Title of your post:</label>
         
             <input type="text" id="Title"  class="Flex" formControlName="title">
         
+            
+            <div id="Buttons-Wrapper">
+                <button id="Button-Public" type="button" class="Button-Share" [ngClass]="{'Button-Selected':isPostPublic}" (click)="selectPublicMode()" #ButtonPublic>Share publicly</button>
 
-             <div id="ButtonsWrapper">
-                <button id="ButtonPublic" type="button" class="ButtonShare" [ngClass]="{'ButtonSelected':isPostPublic}" (click)="selectPublicMode()" #ButtonPublic>Share publicly</button>
-
-                <button id="ButtonPrivate" type="button" class="ButtonShare" [ngClass]="{'ButtonSelected':!isPostPublic}" (click)="selectPrivateMode()" #ButtonPrivate>Share privately</button>
+                <button id="Button-Private" type="button" class="Button-Share" [ngClass]="{'Button-Selected':!isPostPublic}" (click)="selectPrivateMode()" #ButtonPrivate>Share privately</button>
             </div>
 
-            <mat-form-field class="newCollectionName" [ngClass]="noCollectionFlag? 'disp-block' : 'disp-none'">
-                <mat-label>Name collection for this post</mat-label>
-                <input matInput  formControlName="newCollectionName">
-            </mat-form-field>
+            <div class="Flex-space-evenly">            
+                <mat-form-field class="new-Collection-Name" [ngClass]="noCollectionFlag? 'disp-block' : 'disp-none'">
+                    <mat-label>Name collection for this post</mat-label>
+                    <input matInput  formControlName="newCollectionName">
+                </mat-form-field>
 
-            <mat-selection-list class="calloctionList" [formControl]="collectionControl" name="collections"  [multiple]="false" [ngClass]="collectionFoundFlag? 'disp-block' : 'disp-none'">
-                @for (coll of usersCollection; track coll) {
-                  <mat-list-option [value]="coll.id">{{coll.name}}</mat-list-option>
-                }
-            </mat-selection-list>
+                <span>
+                    <label>Choose collection</label>
+                    <mat-selection-list class="List" [formControl]="collectionControl" name="collections"  [multiple]="false" [ngClass]="collectionFoundFlag? 'disp-block' : 'disp-none'">
+                        @for (coll of usersCollections; track coll) {
+                        <mat-list-option [value]="coll.id">{{coll.name}}</mat-list-option>
+                        }
+                    </mat-selection-list>
+                </span>
 
-            <button id="Save"  type="submit" [disabled]="!titleForm.valid || postSubmitted"  >Save</button> 
+                <span>
+                    <label>Choose tags</label>
+                    <mat-selection-list class="List" [formControl]="tagControl" name="tags"  [multiple]="true">
+                        @for (tag of pictureTags; track tag) {
+                        <mat-list-option [value]="tag">{{tag}}</mat-list-option>
+                        }
+                    </mat-selection-list>
+                </span>
+            </div>
 
-            <div id="LinkWrapper" class="Flex">
+            <button id="Save"  type="submit" [disabled]="!postForm.valid || postSubmitted"  >Save</button> 
+
+            <div id="Link-Wrapper" class="Flex">
             <span id="Link" >{{linkToPost}}</span>
 
             <button id="Copy" type="button" (click)="copyLink()">
