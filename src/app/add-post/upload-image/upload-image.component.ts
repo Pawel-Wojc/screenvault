@@ -1,12 +1,11 @@
-import { Component, ElementRef, ViewChild, Inject, inject } from '@angular/core';
-import { RouterLink, Router, RouterOutlet } from '@angular/router';
+import { Component, ElementRef, ViewChild, inject } from '@angular/core';
+import { RouterLink, Router } from '@angular/router';
 import { ImagesService } from '../images.service';
-import { MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-upload-image',
   standalone: true,
-  imports: [RouterLink, RouterOutlet],
+  imports: [RouterLink],
   templateUrl: './upload-image.component.html',
   styleUrl: './upload-image.component.css',
 })
