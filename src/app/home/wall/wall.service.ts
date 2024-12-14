@@ -28,7 +28,7 @@ export class WallService {
     });
   }
   public getPostsByTags(pageNo: number, tags: string[]): Observable<any> {
-    alert('change me wall item service');
+   
     return this.httpClient.get(this.getPostsByTagsUrl, {
       params: { page: pageNo, pageSize: 20, tags: tags },
     });

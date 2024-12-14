@@ -41,17 +41,14 @@ export class NavbarComponent {
     if(!input){
       return;
     }
-    //console.log(input + " input");
 
     //if search by tags
     if(input.charAt(0) === '#'){
       const tags: string[] =  input.split(/\s*,\s*|\s/);
-     // console.log(tags + " tags");
       this.passQueryParamsService.setTags(tags);
     }
     //search by title
     else{
-     // console.log(input + " input");
       this.passQueryParamsService.setTitle(input);
     }
     this.router.navigate(['']);
@@ -64,7 +61,6 @@ export class NavbarComponent {
   goHome(){
     this.passQueryParamsService.setTags(null);
     this.passQueryParamsService.setTitle(null);
-    //this.searchForm.value.input = '';
     this.router.navigate(['']);
     
   }

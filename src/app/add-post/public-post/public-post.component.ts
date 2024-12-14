@@ -86,7 +86,7 @@ export class PublicPostComponent {
 
     this.pictureTags = await firstValueFrom(this.imageService.getTags());
 
-  //  this.pictureTags = ["#tag1", "#tag2","#dfg","#qqqq","#pop","#lol"];
+    this.pictureTags = ["#tag1", "#tag2","#dfg","#qqqq","#pop","#lol"];
 
   //  console.log(this.pictureTags);
    

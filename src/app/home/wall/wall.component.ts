@@ -1,6 +1,5 @@
 import { Component, ElementRef, inject, ViewChild } from '@angular/core';
 import { WallItemComponent } from './wall-item/wall-item.component';
-import { NgFor } from '@angular/common';
 import { Post } from './post';
 import { WallService } from './wall.service';
 import { ActivatedRoute } from '@angular/router';
@@ -23,41 +22,42 @@ export class WallComponent {
 
   private scrollSubscription!: Subscription;
 
-  private title?: string | null;
-  private tags?: string[] | null;
+  private title: string | null = null;
+  private tags: string[] | null = null;
 
   private wallService = inject(WallService);
   private route = inject(ActivatedRoute);
   private passQueryParamsService = inject(PassQueryParamsService);
 
   ngOnInit() {
+    //get tags if there are some search by them 
     this.passQueryParamsService.getTags()?.subscribe({
       next: (tags) => {
-        if (tags) {
-          this.tags = tags;
+        this.tags = tags;
 
+        if (this.tags) {
           this.resetPosts();
 
           this.loadPostsByTags();
-          //  console.log(this.tags + " tag");
-        } else if (!this.isLoading) {
-          //  console.log('dej1');
-          this.resetPosts();
-
-          this.loadLandingPagePosts();
-        }
+        } 
       },
     });
 
+    //get title, if there is title serch posts by it
+    //if there is no title nor tags, just get posts
     this.passQueryParamsService.getTitle()?.subscribe({
       next: (title) => {
-        if (title) {
-          this.title = title;
+       this.title = title;
 
+        if (this.title) {
           this.resetPosts();
 
           this.loadPostsByTitle();
-          //  console.log(this.title + " title");
+        }
+        else  {
+          this.resetPosts();
+
+          this.loadLandingPagePosts();
         }
       },
     });
@@ -108,7 +108,6 @@ export class WallComponent {
 
   loadLandingPagePosts() {
     this.isLoading = true;
-    // console.log('load');
 
     this.wallService.getLandingPagePosts(this.pageNo).subscribe({
       next: (response) => {
@@ -125,13 +124,11 @@ export class WallComponent {
 
   loadPostsByTags() {
     this.isLoading = true;
-    // console.log('load');
 
     this.wallService
       .getPostsByTags(this.pageNo, this.tags as string[])
       .subscribe({
         next: (response) => {
-          console.log(response);
           this.listOfPosts = [...this.listOfPosts, ...response.posts.content];
           this.isLoading = false;
           this.pageNo++;
@@ -145,7 +142,6 @@ export class WallComponent {
 
   loadPostsByTitle() {
     this.isLoading = true;
-    // console.log('load');
 
     this.wallService
       .getPostsByTitle(this.pageNo, this.title as string)
