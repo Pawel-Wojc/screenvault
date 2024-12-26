@@ -10,9 +10,9 @@ export function CSRFInterceptor(req: HttpRequest<any>,next: HttpHandlerFn): Obse
   var XSRF_HEADER_NAME = 'X-XSRF-TOKEN';
   
   var xsrfToken = getCookie(XSRF_COOKIE_NAME);
-      // Sprawdź, czy token istnieje i czy żądanie wymaga mutacji (POST, PUT, DELETE)
+      // Sprawdź, czy token istnieje i czy żądanie wymaga mutacji
       if (xsrfToken && isMutatingRequest(req)) {
-        // Klonujemy żądanie i dodajemy nagłówek
+        
         const clonedRequest = req.clone({
           headers: req.headers.set(XSRF_HEADER_NAME, xsrfToken)
         });

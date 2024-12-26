@@ -78,6 +78,7 @@ export class PublicPostComponent {
 
     //validate and bet tags
     var request = await firstValueFrom(this.publicPostService.validateAndGetTags(this.image))
+    console.log(request);
     if(request.flagged === true){
       this.openSnackBar("Your image violates terms of use!"); 
       await this.sleep(2000);
