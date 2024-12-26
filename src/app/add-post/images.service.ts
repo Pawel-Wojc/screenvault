@@ -44,7 +44,4 @@ export class ImagesService {
     return true;
   }
 
-  public getTags(): Observable<any> {
-    return this.httpClient.get(this.getTagsUrl);
-  }
 }

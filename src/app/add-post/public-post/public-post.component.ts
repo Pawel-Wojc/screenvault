@@ -16,11 +16,12 @@ import { MatListModule } from '@angular/material/list';
 import { HttpParams } from '@angular/common/http';
 import { GetUsersCollectionsResposeEntity } from '../../user/collections/getUsersCollectionsResposeEntity';
 import * as Globals from '../../global';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-public-post',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, MatFormFieldModule, MatInputModule, MatListModule],
+  imports: [ReactiveFormsModule, CommonModule, MatFormFieldModule, MatInputModule, MatListModule, MatProgressSpinnerModule],
   templateUrl: './public-post.component.html',
   styleUrl: './public-post.component.css'
 })
@@ -43,6 +44,7 @@ export class PublicPostComponent {
   isUserLogged: boolean = false;
   noCollectionFlag: boolean = false;
   collectionFoundFlag: boolean = false; 
+  areTagsPresent: boolean = false; 
   postedPostUUID?: string;
   selectedCollectionUUID?: string;
   postSubmitted: boolean = false;
@@ -54,7 +56,9 @@ export class PublicPostComponent {
   
   @ViewChild('ButtonPublic', {static: true}) sharePublicly?: ElementRef;
   @ViewChild('ButtonPrivate', {static: true}) sharePrivately?: ElementRef;
-  
+
+  sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
   constructor(){
     this.postForm = this.formBuilder.group({
       title: ['',Validators.required],
@@ -72,6 +76,16 @@ export class PublicPostComponent {
       this.router.navigate(['/upload-image']);
     }
 
+    //validate and bet tags
+    var request = await firstValueFrom(this.publicPostService.validateAndGetTags(this.image))
+    if(request.flagged === true){
+      this.openSnackBar("Your image violates terms of use!"); 
+      await this.sleep(2000);
+      this.router.navigate(['']);
+    }
+    this.pictureTags = request.tags
+    this.areTagsPresent = true;
+
     this.isUserLogged = await this.getRoleService.ifUserLogged();
 
     //handle collection functionality
@@ -82,14 +96,7 @@ export class PublicPostComponent {
     this.imageURL = URL.createObjectURL(this.image as File);
       
     this.postForm.get('title')?.setValue(this.image.name);
-    
-
-    this.pictureTags = await firstValueFrom(this.imageService.getTags());
-
-    this.pictureTags = ["#tag1", "#tag2","#dfg","#qqqq","#pop","#lol"];
-
-  //  console.log(this.pictureTags);
-   
+       
   }
 
   selectPublicMode(){

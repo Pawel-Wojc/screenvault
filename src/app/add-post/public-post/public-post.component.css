@@ -166,6 +166,10 @@ form{
   align-items: center;
 }
 
+mat-spinner{
+  position: absolute;
+}
+
 /* width */
 ::-webkit-scrollbar {
   width: 5px;

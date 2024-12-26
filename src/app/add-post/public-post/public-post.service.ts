@@ -11,6 +11,7 @@ import { PostToPublic } from '../post-to-public';
 export class PublicPostService{
     private httpClient = inject(HttpClient);
     private publicPostUrl = myGlobals.apiLink + '/post/noAuth/uploadPost';
+    private validateAndGetTagsUrl = myGlobals.apiLink + '/verification/noAuth/verifyAndGetTags';
     
     public publicPost(img: File, post: PostToPublic): Observable<any>{
 
@@ -25,6 +26,15 @@ export class PublicPostService{
             this.publicPostUrl,
             formData,       
         );
+    }
+
+    public validateAndGetTags(img: File): Observable<any>{
+        const fileWithType = new Blob([img], { type: this.getMimeType(img.name) });
+
+        const formData = new FormData();
+        formData.append('image', fileWithType);
+
+        return this.httpClient.post(this.validateAndGetTagsUrl, formData);
     }
 
   

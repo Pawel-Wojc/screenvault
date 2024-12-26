@@ -1,4 +1,5 @@
 <div id="Public-Post" class="Flex">
+    <mat-spinner [ngClass]="areTagsPresent? 'disp-none' : 'disp-block'"></mat-spinner>
 
     <div id="Img-Wrapper" class="Flex">
         <img id="User-Image" [src]="imageURL">
@@ -24,16 +25,16 @@
                     <input matInput  formControlName="newCollectionName">
                 </mat-form-field>
 
-                <span>
+                <span [ngClass]="collectionFoundFlag? 'disp-block' : 'disp-none'">
                     <label>Choose collection</label>
-                    <mat-selection-list class="List" [formControl]="collectionControl" name="collections"  [multiple]="false" [ngClass]="collectionFoundFlag? 'disp-block' : 'disp-none'">
+                    <mat-selection-list class="List" [formControl]="collectionControl" name="collections"  [multiple]="false" >
                         @for (coll of usersCollections; track coll) {
                         <mat-list-option [value]="coll.id">{{coll.name}}</mat-list-option>
                         }
                     </mat-selection-list>
                 </span>
 
-                <span>
+                <span [ngClass]="areTagsPresent? 'disp-block' : 'disp-none'">
                     <label>Choose tags</label>
                     <mat-selection-list class="List" [formControl]="tagControl" name="tags"  [multiple]="true">
                         @for (tag of pictureTags; track tag) {
