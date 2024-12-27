@@ -102,12 +102,35 @@ export class UserProfileComponent {
           cancelButtonText: 'No',
         },
       });
-      dialogRef.afterClosed().subscribe((result) => {
+      dialogRef.afterClosed().subscribe(async (result) => {
         if (result == true) {
           this.userPhoto.set(this.profilePhotoPlaceholder);
+
+          let defaultFoto: File = await this.readDefaultPhoto();
+          this.userProfileService
+            .changeUserProfilePicture(defaultFoto)
+            .subscribe(
+              (res) => {
+                console.log(res);
+              },
+              (error) => {
+                console.log(error);
+              }
+            );
           console.log('Call api to delete photo');
         }
       });
     }
+  }
+
+  async readDefaultPhoto(): Promise<File> {
+    const response = await fetch(this.profilePhotoPlaceholder);
+    const blob = await response.blob();
+
+    // Create a File object from the Blob
+    const file = new File([blob], 'profile-placeholder.jpg', {
+      type: blob.type,
+    });
+    return file;
   }
 }
