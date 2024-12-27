@@ -2,7 +2,7 @@
   "routes": [
     {
       "route": "/login",
-      "redirect": "/"
+      "redirect": "/login"
     },
     {
       "route": "/*",
