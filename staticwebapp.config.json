@@ -1,16 +1,6 @@
-<<<<<<< HEAD
 {
-  "routes": [
-    {
-      "route": "/test",
-      "redirect": "/"
-    }
-  ],
   "navigationFallback": {
       "rewrite": "index.html",
       "exclude": ["/images/*.{png,jpg,gif,ico}", "/*.{css,scss,js}"]
     }
 }
-=======
-{}
->>>>>>> bef91755c7cf36986d50b50f024cda18773e3df1
