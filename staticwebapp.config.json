@@ -3,6 +3,10 @@
     {
       "route": "/login",
       "redirect": "/"
+    },
+    {
+      "route": "/*",
+      "redirect": "/"
     }
   ]
 }
