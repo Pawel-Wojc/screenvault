@@ -169,7 +169,7 @@ export class WallItemComponent {
       },
       error: (error) => {
        // console.log(error);
-       this.openSnackBar(error.statusText);
+       this.openSnackBar("Sorry, we can't perform this action right now.");
       },
     });
     
