@@ -115,11 +115,12 @@ export class CommentSectionComponent {
   }
 
   async reportPost() {
+    /*
     if (!(await this.getRoleService.ifUserLogged())) {
       this.openSnackBar('Hey! Sign in to perform this action');
       return;
     }
-
+    */
     this.reportService
       .reportPost(this.route.snapshot.paramMap.get('id') as string)
       .subscribe({
@@ -136,11 +137,12 @@ export class CommentSectionComponent {
   }
 
   async reportComment(commentId: string) {
+   /*
     if (!(await this.getRoleService.ifUserLogged())) {
       this.openSnackBar('Hey! Sign in to perform this action');
       return;
     }
-
+    */
     this.reportService.reportComment(commentId).subscribe({
       next: (resp) => {
         this.openSnackBar('The report has been sent successfully.');
