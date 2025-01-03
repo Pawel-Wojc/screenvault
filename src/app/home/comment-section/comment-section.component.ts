@@ -185,7 +185,7 @@ export class CommentSectionComponent {
             if (response.success) {
               this.openSnackBar('Comment posted.');
 
-              this.comments = [...this.comments, response.comment];
+              this.comments = [response.comment, ...this.comments];
             }
           },
           error: (err) => {
