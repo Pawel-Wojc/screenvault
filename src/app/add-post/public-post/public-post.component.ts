@@ -81,7 +81,7 @@ export class PublicPostComponent {
     console.log(request);
     if(request.flagged === true){
       this.openSnackBar("Your image violates terms of use!"); 
-      await this.sleep(2000);
+      await this.sleep(3000);
       this.router.navigate(['']);
     }
     this.pictureTags = request.tags
