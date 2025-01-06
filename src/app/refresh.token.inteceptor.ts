@@ -17,6 +17,7 @@ export function RefreshTokenInterceptor(
   return next(req).pipe(
     catchError((error: HttpErrorResponse) => {
       if (error.status === 403) {
+        console.log('refreshing');
         return refreshToken(req, next, httpClient);
       }
       return throwError(() => error);
