@@ -25,6 +25,8 @@ export class CollectionsService {
   private httpClient = inject(HttpClient);
 
   private postCollectionUrl = myGlobals.apiLink + '/collection/postCollection';
+  private renameCollectionUrl =
+    myGlobals.apiLink + '/collection/renameCollection';
   private addPostToMyCollectionUrl =
     myGlobals.apiLink + '/collection/addPostToMyCollection';
   private getMyCollectionsUrl =
@@ -135,5 +137,13 @@ export class CollectionsService {
     return this.httpClient.delete(this.deletePostUrl, {
       body: data,
     });
+  }
+
+  public renameCollection(
+    collectionId: string,
+    newName: string
+  ): Observable<any> {
+    const data = { collectionId: collectionId, newName: newName };
+    return this.httpClient.patch(this.renameCollectionUrl, data);
   }
 }

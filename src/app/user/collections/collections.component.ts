@@ -145,7 +145,6 @@ export class CollectionsComponent {
     });
   }
   renameFolder(id: string) {
-    //api call
     const collection = this.userCollections.find((c) => c.id === id);
     if (collection) {
       const dialogRef = this.dialog.open(InputDialog, {
@@ -159,8 +158,9 @@ export class CollectionsComponent {
         },
       });
       dialogRef.afterClosed().subscribe((result) => {
-        if (result) {
+        if (/\S/.test(result) && result.length < 15) {
           collection.name = result;
+          this.collectionsService.renameCollection(id, result).subscribe();
         }
       });
     }
