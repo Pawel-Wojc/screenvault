@@ -94,6 +94,7 @@
               src="{{ item.imageUrl }}"
               alt="photo"
               class=""
+              (click)="openPost(item.id)"
               [ngClass]="{
                 'border-solid border-[1px] border-red-700': item.isPublic
               }"

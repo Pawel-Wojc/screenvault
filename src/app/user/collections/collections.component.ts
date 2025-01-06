@@ -10,6 +10,7 @@ import {
   moveItemInArray,
   transferArrayItem,
 } from '@angular/cdk/drag-drop';
+import { Router } from '@angular/router';
 
 interface CollectionForProfile {
   id: string;
@@ -34,6 +35,7 @@ export class CollectionsComponent {
   private dialog = inject(MatDialog);
   openedFolders: CollectionForProfile[] = [];
   userCollections: CollectionForProfile[] = [];
+  private router = inject(Router);
 
   ngOnInit() {
     this.getUsersCollections();
@@ -41,7 +43,12 @@ export class CollectionsComponent {
   getUsersCollections() {
     this.collectionsService.getUsersCollectionsForProfile().subscribe((res) => {
       this.userCollections = res;
+      console.log(this.userCollections);
     });
+  }
+
+  openPost(imageId: string) {
+    this.router.navigate(['/commentSection/', { id: imageId }]);
   }
 
   deletePost(postID: string) {
